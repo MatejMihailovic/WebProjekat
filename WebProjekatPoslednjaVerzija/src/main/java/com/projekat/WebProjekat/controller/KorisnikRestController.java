@@ -21,14 +21,18 @@ public class KorisnikRestController {
 
     @PostMapping("api/register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
-        if(registerDto.getKorisnickoIme().isEmpty() || registerDto.getLozinka().isEmpty() || registerDto.getIme().isEmpty() || registerDto.getPrezime().isEmpty()){
+        if(registerDto.getKorisnickoIme().isEmpty() || registerDto.getLozinka().isEmpty() || registerDto.getIme().isEmpty() || registerDto.getPrezime().isEmpty()
+        || registerDto.getIme().length() > 20 || registerDto.getPrezime().length() > 20 || registerDto.getKorisnickoIme().length() > 20){
             return new ResponseEntity("Invalid register information!", HttpStatus.BAD_REQUEST);
         }
 
         Korisnik registeredKorisnik = korisnikService.register(registerDto.getKorisnickoIme(),registerDto.getLozinka(), registerDto.getIme(), registerDto.getPrezime(), registerDto.getPol(), registerDto.getDatumRodjenja());
 
-        //Provera da li postoji vec takav korisnik
+        if(registeredKorisnik == null){
+            return new ResponseEntity("That username already exists!", HttpStatus.BAD_REQUEST);
+        }
         return ResponseEntity.ok("Succesfully registered!");
+
     }
 
     @PostMapping("api/login")

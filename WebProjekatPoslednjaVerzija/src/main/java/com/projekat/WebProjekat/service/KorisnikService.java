@@ -9,12 +9,13 @@ import com.projekat.WebProjekat.repository.KorisnikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class KorisnikService {
+public class KorisnikService{
     @Autowired
     private KorisnikRepository korisnikRepository;
 
@@ -29,10 +30,23 @@ public class KorisnikService {
 
     public List<Korisnik> findAll() { return korisnikRepository.findAll(); }
 
+    public boolean containsKorisnickoIme(String korisnickoIme) {
+        List<Korisnik> korisnici = this.findAll();
+
+        for(Korisnik k : korisnici){
+            if(k.getKorisnickoIme().equals(korisnickoIme)){
+                return true;
+            }
+        }
+        return false;
+    }
     public Korisnik register(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datumRodjenja){
         Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
-        //Dodati ogranicenje za broj znakova, lozinka
         korisnik.setUloga(Uloga.Kupac);
+
+        if(this.containsKorisnickoIme(korisnickoIme)){
+            return null;
+        }
         return this.save(korisnik);
     }
 
