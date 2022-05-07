@@ -10,11 +10,11 @@ public class Komentar implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "kupac_id")
     private Kupac kupacKomentar;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "restoran_id")
     private Restoran restoranKomentar;
 
