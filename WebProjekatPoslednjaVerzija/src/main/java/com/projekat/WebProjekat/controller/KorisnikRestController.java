@@ -5,6 +5,7 @@ import com.projekat.WebProjekat.dto.LoginDto;
 import com.projekat.WebProjekat.dto.RegisterDto;
 import com.projekat.WebProjekat.entity.Korisnik;
 import com.projekat.WebProjekat.service.KorisnikService;
+import com.projekat.WebProjekat.dto.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,17 @@ public class KorisnikRestController {
         return ResponseEntity.ok("Uspesno logovanje!");
     }
 
+    @PostMapping("api/logout")
+    public ResponseEntity Logout(HttpSession session){
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null)
+            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
+
+        session.invalidate();
+        return new ResponseEntity("Successfully logged out", HttpStatus.OK);
+    }
+
     @GetMapping("/api/korisnici")
     public ResponseEntity<List<KorisnikDto>> getKorisnici(){
         List<Korisnik> korisnici = this.korisnikService.findAll();
@@ -61,4 +73,40 @@ public class KorisnikRestController {
         return ResponseEntity.ok(dtos);
 
     }
+
+    @GetMapping("/api/korisnici/{id}")
+    public Korisnik getKorisnik(@PathVariable(name = "id") Long id, HttpSession session){
+
+        Korisnik korisnik = (Korisnik) session.getAttribute("user");
+        KorisnikDto dto = new KorisnikDto(korisnik);
+        System.out.println(dto);
+        session.invalidate();
+        return korisnikService.findOne(id);
+    }
+
+
+
+    @PutMapping("/api/korisnici/{id}/izmeniKIme")
+    public ResponseEntity izmeniKIme(HttpSession session, String kIme){
+        Korisnik korisnik = (Korisnik) session.getAttribute("user");
+        korisnik.setKorisnickoIme(kIme);
+
+        return ResponseEntity.ok("Uspesna promena podataka");
+    }
+
+    @PutMapping("/api/korisnici/{id}/izmeniLozinku")
+    public ResponseEntity izmeniLozinku(HttpSession session, String lozinka){
+        Korisnik korisnik = (Korisnik) session.getAttribute("user");
+        korisnik.setKorisnickoIme(lozinka);
+
+        return ResponseEntity.ok("Uspesna promena podataka");
+    }
+
+
+
+
+
+
+
+
 }

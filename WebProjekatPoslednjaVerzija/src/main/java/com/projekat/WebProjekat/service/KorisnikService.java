@@ -1,7 +1,6 @@
 package com.projekat.WebProjekat.service;
 
 import com.projekat.WebProjekat.dto.LoginDto;
-import com.projekat.WebProjekat.dto.RegisterDto;
 import com.projekat.WebProjekat.entity.Korisnik;
 import com.projekat.WebProjekat.entity.Pol;
 import com.projekat.WebProjekat.entity.Uloga;

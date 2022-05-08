@@ -1,4 +1,4 @@
-package com.projekat.WebProjekat;
+package main.java.com.projekat.WebProjekat;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
