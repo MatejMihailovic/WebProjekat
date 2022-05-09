@@ -1,10 +1,10 @@
-package com.projekat.WebProjekat.service;
+package main.java.com.projekat.WebProjekat.service;
 
-import com.projekat.WebProjekat.dto.LoginDto;
-import com.projekat.WebProjekat.entity.Korisnik;
-import com.projekat.WebProjekat.entity.Pol;
-import com.projekat.WebProjekat.entity.Uloga;
-import com.projekat.WebProjekat.repository.KorisnikRepository;
+import main.java.com.projekat.WebProjekat.dto.LoginDto;
+import main.java.com.projekat.WebProjekat.entity.Korisnik;
+import main.java.com.projekat.WebProjekat.entity.Pol;
+import main.java.com.projekat.WebProjekat.entity.Uloga;
+import main.java.com.projekat.WebProjekat.repository.KorisnikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

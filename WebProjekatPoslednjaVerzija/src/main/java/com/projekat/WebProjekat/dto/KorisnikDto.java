@@ -1,7 +1,7 @@
-package com.projekat.WebProjekat.dto;
+package main.java.com.projekat.WebProjekat.dto;
 
-import com.projekat.WebProjekat.entity.Korisnik;
-import com.projekat.WebProjekat.entity.Pol;
+import main.java.com.projekat.WebProjekat.entity.Korisnik;
+import main.java.com.projekat.WebProjekat.entity.Pol;
 
 import java.util.Date;
 

@@ -1,6 +1,6 @@
-package com.projekat.WebProjekat.repository;
+package main.java.com.projekat.WebProjekat.repository;
 
-import com.projekat.WebProjekat.entity.Lokacija;
+import main.java.com.projekat.WebProjekat.entity.Lokacija;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

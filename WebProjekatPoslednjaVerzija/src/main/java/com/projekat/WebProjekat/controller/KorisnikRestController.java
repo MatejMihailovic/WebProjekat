@@ -5,6 +5,7 @@ import main.java.com.projekat.WebProjekat.dto.LoginDto;
 import main.java.com.projekat.WebProjekat.dto.RegisterDto;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
+import main.java.com.projekat.WebProjekat.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,6 +86,12 @@ public class KorisnikRestController {
 
 
 
+    //pravimo dto, setujemo preko servisa njegovu sifur ili username i vratimo
+    //ga u bazu
+
+    //DODATI polje za status radnog vremena u Restoran entity
+
+
     @PutMapping("/api/korisnici/izmeniKIme")
     public ResponseEntity izmeniKIme(HttpSession session,@RequestBody String kIme){
         Korisnik korisnik = (Korisnik) session.getAttribute("user");
@@ -96,15 +103,10 @@ public class KorisnikRestController {
     @PutMapping("/api/korisnici/izmeniLozinku")
     public ResponseEntity izmeniLozinku(HttpSession session,@RequestBody String lozinka){
         Korisnik korisnik = (Korisnik) session.getAttribute("user");
-        korisnik.setKorisnickoIme(lozinka);
+        korisnik.setLozinka(lozinka);
 
         return ResponseEntity.ok("Uspesna promena podataka");
     }
-
-
-
-
-
 
 
 

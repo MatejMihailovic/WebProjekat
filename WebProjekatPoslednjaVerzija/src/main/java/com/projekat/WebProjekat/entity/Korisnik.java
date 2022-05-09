@@ -1,6 +1,6 @@
-package com.projekat.WebProjekat.entity;
+package main.java.com.projekat.WebProjekat.entity;
 
-import com.projekat.WebProjekat.repository.KorisnikRepository;
+import main.java.com.projekat.WebProjekat.repository.KorisnikRepository;
 
 import javax.persistence.*;
 import java.io.Serializable;

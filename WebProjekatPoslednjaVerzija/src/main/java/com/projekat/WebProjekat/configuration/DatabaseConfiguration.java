@@ -1,7 +1,7 @@
-package com.projekat.WebProjekat.configuration;
+package main.java.com.projekat.WebProjekat.configuration;
 
-import com.projekat.WebProjekat.entity.*;
-import com.projekat.WebProjekat.repository.*;
+import main.java.com.projekat.WebProjekat.entity.*;
+import main.java.com.projekat.WebProjekat.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

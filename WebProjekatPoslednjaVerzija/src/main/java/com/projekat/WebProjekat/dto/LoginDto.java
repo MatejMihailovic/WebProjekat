@@ -1,4 +1,4 @@
-package com.projekat.WebProjekat.dto;
+package main.java.com.projekat.WebProjekat.dto;
 
 public class LoginDto {
     private String korisnickoIme;

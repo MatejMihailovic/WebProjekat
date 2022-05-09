@@ -1,4 +1,4 @@
-package com.projekat.WebProjekat.entity;
+package main.java.com.projekat.WebProjekat.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;

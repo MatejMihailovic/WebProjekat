@@ -1,4 +1,4 @@
-package com.projekat.WebProjekat.entity;
+package main.java.com.projekat.WebProjekat.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;

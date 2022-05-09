@@ -1,8 +1,9 @@
-package com.projekat.WebProjekat.entity;
+package main.java.com.projekat.WebProjekat.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import main.java.com.projekat.WebProjekat.entity.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
