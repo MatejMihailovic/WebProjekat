@@ -1,11 +1,10 @@
-package com.projekat.WebProjekat.controller;
+package main.java.com.projekat.WebProjekat.controller;
 
-import com.projekat.WebProjekat.dto.KorisnikDto;
-import com.projekat.WebProjekat.dto.LoginDto;
-import com.projekat.WebProjekat.dto.RegisterDto;
-import com.projekat.WebProjekat.entity.Korisnik;
-import com.projekat.WebProjekat.service.KorisnikService;
-import com.projekat.WebProjekat.dto.RegisterDto;
+import main.java.com.projekat.WebProjekat.dto.KorisnikDto;
+import main.java.com.projekat.WebProjekat.dto.LoginDto;
+import main.java.com.projekat.WebProjekat.dto.RegisterDto;
+import main.java.com.projekat.WebProjekat.entity.Korisnik;
+import main.java.com.projekat.WebProjekat.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +45,7 @@ public class KorisnikRestController {
         if (ulogovanKorisnik == null)
             return new ResponseEntity<>("User doesn't exist!", HttpStatus.NOT_FOUND);
 
-        session.setAttribute("korisnik", ulogovanKorisnik);
+        session.setAttribute("user", ulogovanKorisnik);
         return ResponseEntity.ok("Succesfully login!");
     }
 
