@@ -44,10 +44,10 @@ public class KorisnikRestController {
 
         Korisnik ulogovanKorisnik = korisnikService.login(loginDto.getKorisnickoIme(), loginDto.getLozinka());
         if (ulogovanKorisnik == null)
-            return new ResponseEntity<>("Korisnik ne postoji!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("User doesn't exist!", HttpStatus.NOT_FOUND);
 
         session.setAttribute("korisnik", ulogovanKorisnik);
-        return ResponseEntity.ok("Uspesno logovanje!");
+        return ResponseEntity.ok("Succesfully login!");
     }
 
     @PostMapping("api/logout")
@@ -86,16 +86,16 @@ public class KorisnikRestController {
 
 
 
-    @PutMapping("/api/korisnici/{id}/izmeniKIme")
-    public ResponseEntity izmeniKIme(HttpSession session, String kIme){
+    @PutMapping("/api/korisnici/izmeniKIme")
+    public ResponseEntity izmeniKIme(HttpSession session,@RequestBody String kIme){
         Korisnik korisnik = (Korisnik) session.getAttribute("user");
         korisnik.setKorisnickoIme(kIme);
 
         return ResponseEntity.ok("Uspesna promena podataka");
     }
 
-    @PutMapping("/api/korisnici/{id}/izmeniLozinku")
-    public ResponseEntity izmeniLozinku(HttpSession session, String lozinka){
+    @PutMapping("/api/korisnici/izmeniLozinku")
+    public ResponseEntity izmeniLozinku(HttpSession session,@RequestBody String lozinka){
         Korisnik korisnik = (Korisnik) session.getAttribute("user");
         korisnik.setKorisnickoIme(lozinka);
 
