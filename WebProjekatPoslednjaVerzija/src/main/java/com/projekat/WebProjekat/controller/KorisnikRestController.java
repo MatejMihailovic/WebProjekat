@@ -5,8 +5,10 @@ import main.java.com.projekat.WebProjekat.dto.LoginDto;
 import main.java.com.projekat.WebProjekat.dto.RegisterDto;
 import main.java.com.projekat.WebProjekat.dto.UpdateDto;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
+import main.java.com.projekat.WebProjekat.entity.Menadzer;
+import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
-import main.java.com.projekat.WebProjekat.service.KorisnikService;
+import main.java.com.projekat.WebProjekat.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ import java.util.List;
 public class KorisnikRestController {
     @Autowired
     private KorisnikService korisnikService;
+
+    @Autowired
+    private SessionService sessionService;
 
     @PostMapping("api/register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
@@ -47,15 +52,16 @@ public class KorisnikRestController {
         if (ulogovanKorisnik == null)
             return new ResponseEntity<>("User doesn't exist!", HttpStatus.NOT_FOUND);
 
+        session.setAttribute("role", ulogovanKorisnik.getUloga());
         session.setAttribute("user", ulogovanKorisnik);
         return ResponseEntity.ok("Succesfully login!");
     }
 
     @PostMapping("api/logout")
     public ResponseEntity Logout(HttpSession session){
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+        Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
 
-        if (loggedKorisnik == null)
+        if (ulogovanKorisnik == null)
             return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
 
         session.invalidate();
@@ -63,7 +69,12 @@ public class KorisnikRestController {
     }
 
     @GetMapping("/api/korisnici")
-    public ResponseEntity<List<KorisnikDto>> getKorisnici(){
+    public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession sesija){
+        Boolean provera = sessionService.validateRole(sesija, "Admin");
+
+        if(!provera){
+            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
+        }
         List<Korisnik> korisnici = this.korisnikService.findAll();
 
         List<KorisnikDto> dtos = new ArrayList<>();
@@ -75,25 +86,20 @@ public class KorisnikRestController {
 
     }
 
-    @GetMapping("/api/korisnici/{id}")
-    public Korisnik getKorisnik(@PathVariable(name = "id") Long id, HttpSession session){
+    @GetMapping("/api/korisnici/ulogovanKorisnik")
+    public ResponseEntity getUlogovan(HttpSession session){
+        Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
 
-        Korisnik korisnik = (Korisnik) session.getAttribute("user");
-        KorisnikDto dto = new KorisnikDto(korisnik);
-        System.out.println(dto);
-        session.invalidate();
-        return korisnikService.findOne(id);
+        if(ulogovanKorisnik == null){
+            return new ResponseEntity("invalid", HttpStatus.FORBIDDEN);
+        }
+
+        KorisnikDto korisnikdto = new KorisnikDto(ulogovanKorisnik);
+
+        return ResponseEntity.ok(korisnikdto);
     }
 
-
-
-    //pravimo dto, setujemo preko servisa njegovu sifur ili username i vratimo
-    //ga u bazu
-
-    //DODATI polje za status radnog vremena u Restoran entity
-
-
-    @PutMapping("/api/korisnici/update")
+    @PutMapping("/api/ulogovanKorisnik/update")
     public ResponseEntity updateProfile(HttpSession session,@RequestBody UpdateDto updateDto){
         Korisnik korisnik = (Korisnik) session.getAttribute("user");
 
@@ -102,6 +108,19 @@ public class KorisnikRestController {
 
 
         return new ResponseEntity(korisnikService.save(korisnik), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/korisnici/menadzer")
+    public ResponseEntity<Restoran> pregledRestorana(HttpSession sesija){
+        Boolean provera = sessionService.validateRole(sesija, "Menadzer");
+
+        if(!provera){
+            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
+        }
+
+        Menadzer menadzer = (Menadzer) sesija.getAttribute("user");
+
+        return ResponseEntity.ok(menadzer.getRestoran());
     }
 
 

@@ -43,6 +43,10 @@ public class DatabaseConfiguration {
     @Bean
     public boolean instantiate(){
 
+        Korisnik admin = new Korisnik("admin", "admin123", "Mika", "Mikic", Pol.Musko,new Date(101, Calendar.JULY, 4));
+        admin.setUloga(Uloga.Admin);
+        korisnikRepository.save(admin);
+
         Dostavljac dostavljac1 = new Dostavljac("mare123","ftn", "Marko", "Markovic", Pol.Musko, new Date(101, Calendar.JULY, 4));
         dostavljacRepository.save(dostavljac1);
 

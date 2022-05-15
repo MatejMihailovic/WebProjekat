@@ -54,9 +54,6 @@ public class KorisnikService{
         if(korisnik == null || !korisnik.getLozinka().equals(lozinka))
             return null;
         return korisnik;
-
-
-
     }
 
 }
