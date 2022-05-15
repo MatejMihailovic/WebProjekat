@@ -3,6 +3,7 @@ package main.java.com.projekat.WebProjekat.controller;
 import main.java.com.projekat.WebProjekat.dto.KorisnikDto;
 import main.java.com.projekat.WebProjekat.dto.LoginDto;
 import main.java.com.projekat.WebProjekat.dto.RegisterDto;
+import main.java.com.projekat.WebProjekat.dto.UpdateDto;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
@@ -92,21 +93,17 @@ public class KorisnikRestController {
     //DODATI polje za status radnog vremena u Restoran entity
 
 
-    @PutMapping("/api/korisnici/izmeniKIme")
-    public ResponseEntity izmeniKIme(HttpSession session,@RequestBody String kIme){
+    @PutMapping("/api/korisnici/update")
+    public ResponseEntity updateProfile(HttpSession session,@RequestBody UpdateDto updateDto){
         Korisnik korisnik = (Korisnik) session.getAttribute("user");
-        korisnik.setKorisnickoIme(kIme);
 
-        return ResponseEntity.ok("Uspesna promena podataka");
+        korisnik.setKorisnickoIme(updateDto.getKorisnickoIme());
+        korisnik.setLozinka(updateDto.getLozinka());
+
+
+        return new ResponseEntity(korisnikService.save(korisnik), HttpStatus.OK);
     }
 
-    @PutMapping("/api/korisnici/izmeniLozinku")
-    public ResponseEntity izmeniLozinku(HttpSession session,@RequestBody String lozinka){
-        Korisnik korisnik = (Korisnik) session.getAttribute("user");
-        korisnik.setLozinka(lozinka);
-
-        return ResponseEntity.ok("Uspesna promena podataka");
-    }
 
 
 

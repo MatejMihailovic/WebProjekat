@@ -1,0 +1,27 @@
+package main.java.com.projekat.WebProjekat.dto;
+
+public class UpdateDto {
+    String korisnickoIme;
+    String lozinka;
+
+    public UpdateDto(String korisnickoIme, String lozinka) {
+        this.korisnickoIme = korisnickoIme;
+        this.lozinka = lozinka;
+    }
+
+    public String getKorisnickoIme() {
+        return korisnickoIme;
+    }
+
+    public void setKorisnickoIme(String korisnickoIme) {
+        this.korisnickoIme = korisnickoIme;
+    }
+
+    public String getLozinka() {
+        return lozinka;
+    }
+
+    public void setLozinka(String lozinka) {
+        this.lozinka = lozinka;
+    }
+}

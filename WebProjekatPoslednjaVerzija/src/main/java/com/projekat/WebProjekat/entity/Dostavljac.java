@@ -1,5 +1,7 @@
 package main.java.com.projekat.WebProjekat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +12,7 @@ import java.util.Set;
 public class Dostavljac extends Korisnik implements Serializable{
 
     @OneToMany
+    @JsonIgnore
     @JoinColumn(name = "porudzbina_id")
     private Set<Porudzbina> porudzbine = new HashSet<>();
 
