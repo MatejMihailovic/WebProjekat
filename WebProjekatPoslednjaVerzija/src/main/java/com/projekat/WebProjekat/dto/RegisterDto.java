@@ -1,5 +1,6 @@
 package main.java.com.projekat.WebProjekat.dto;
 
+import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Pol;
 
 import java.util.Date;
@@ -67,5 +68,9 @@ public class RegisterDto {
 
     public void setDatumRodjenja(Date datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
+    }
+
+    public Korisnik ToKorisnik(){
+        return new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
     }
 }

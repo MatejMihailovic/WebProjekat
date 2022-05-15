@@ -2,7 +2,6 @@ package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.KorisnikDto;
 import main.java.com.projekat.WebProjekat.dto.LoginDto;
-import main.java.com.projekat.WebProjekat.dto.RegisterDto;
 import main.java.com.projekat.WebProjekat.dto.UpdateDto;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
@@ -25,22 +24,6 @@ public class KorisnikRestController {
 
     @Autowired
     private SessionService sessionService;
-
-    @PostMapping("api/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
-        if(registerDto.getKorisnickoIme().isEmpty() || registerDto.getLozinka().isEmpty() || registerDto.getIme().isEmpty() || registerDto.getPrezime().isEmpty()
-        || registerDto.getIme().length() > 20 || registerDto.getPrezime().length() > 20 || registerDto.getKorisnickoIme().length() > 20){
-            return new ResponseEntity("Invalid register information!", HttpStatus.BAD_REQUEST);
-        }
-
-        Korisnik registeredKorisnik = korisnikService.register(registerDto.getKorisnickoIme(),registerDto.getLozinka(), registerDto.getIme(), registerDto.getPrezime(), registerDto.getPol(), registerDto.getDatumRodjenja());
-
-        if(registeredKorisnik == null){
-            return new ResponseEntity("That username already exists!", HttpStatus.BAD_REQUEST);
-        }
-        return ResponseEntity.ok("Succesfully registered!");
-
-    }
 
     @PostMapping("api/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpSession session){

@@ -39,7 +39,7 @@ public class KorisnikService{
         }
         return false;
     }
-    public Korisnik register(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datumRodjenja){
+    /*public Korisnik register(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datumRodjenja){
         Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
         korisnik.setUloga(Uloga.Kupac);
 
@@ -48,7 +48,7 @@ public class KorisnikService{
         }
         return this.save(korisnik);
     }
-
+*/
     public Korisnik login(String korisnickoIme, String lozinka){
         Korisnik korisnik = korisnikRepository.getByKorisnickoIme(korisnickoIme);
         if(korisnik == null || !korisnik.getLozinka().equals(lozinka))
