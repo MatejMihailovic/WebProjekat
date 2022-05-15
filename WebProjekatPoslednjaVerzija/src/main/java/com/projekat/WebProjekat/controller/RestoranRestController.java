@@ -1,15 +1,17 @@
-package com.projekat.WebProjekat.controller;
+package main.java.com.projekat.WebProjekat.controller;
 
-import com.projekat.WebProjekat.dto.KorisnikDto;
-import com.projekat.WebProjekat.dto.RestoranDto;
-import com.projekat.WebProjekat.entity.Korisnik;
-import com.projekat.WebProjekat.entity.Lokacija;
-import com.projekat.WebProjekat.entity.Restoran;
-import com.projekat.WebProjekat.service.RestoranService;
+import main.java.com.projekat.WebProjekat.dto.KorisnikDto;
+import main.java.com.projekat.WebProjekat.dto.RestoranDto;
+import main.java.com.projekat.WebProjekat.entity.Korisnik;
+import main.java.com.projekat.WebProjekat.entity.Lokacija;
+import main.java.com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.service.RestoranService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -35,31 +37,31 @@ public class RestoranRestController {
 
     }
 
-    @GetMapping("/api/restorani/{lokacija}")
-    public Restoran getRestoranByLokacija(@PathVariable(name = "lokacija") Lokacija lokacija, HttpSession session){
+    @GetMapping("/api/restorani/pretrazi")
+    public ResponseEntity<List<RestoranDto>> getRestoran(@RequestBody RestoranDto dto, HttpSession session){
+        List<RestoranDto> restorani = new ArrayList<>();
 
-        Restoran restoran = (Restoran) session.getAttribute("user");
-        RestoranDto dto = new RestoranDto(restoran);
-        System.out.println(dto);
-        session.invalidate();
-        return restoranService.findOneByLokacija(lokacija);
-    }
-    @GetMapping("/api/restorani/{tip}")
-    public Restoran getRestoranByTip(@PathVariable(name = "tip") String tip, HttpSession session){
+        if(dto.getNaziv().isEmpty() && dto.getLokacija() == null && dto.getTipRestorana().isEmpty()){
+            return new ResponseEntity("Invalid search information!", HttpStatus.BAD_REQUEST);
+        }
 
-        Restoran restoran = (Restoran) session.getAttribute("user");
-        RestoranDto dto = new RestoranDto(restoran);
-        System.out.println(dto);
-        session.invalidate();
-        return restoranService.findOneByTipRestorana(tip);
-    }
-    @GetMapping("/api/restorani/{naziv}")
-    public Restoran getRestoranByNaziv(@PathVariable(name = "naziv") String naziv, HttpSession session){
+        if(!dto.getNaziv().isEmpty()) {
+            restorani.add(new RestoranDto(restoranService.findOneByNaziv(dto.getNaziv())));
+        }
 
-        Restoran restoran = (Restoran) session.getAttribute("user");
-        RestoranDto dto = new RestoranDto(restoran);
-        System.out.println(dto);
+        if(dto.getLokacija() != null && !restorani.contains(new RestoranDto(restoranService.findOneByLokacija(dto.getLokacija())))) {
+            restorani.add(new RestoranDto(restoranService.findOneByLokacija(dto.getLokacija())));
+        }
+
+        if(!dto.getTipRestorana().isEmpty()) {
+            for (RestoranDto rdto : (restoranService.findByTipRestorana(dto.getTipRestorana()))) {
+                if (!(restorani.contains(rdto))) {
+                    restorani.add(rdto);
+                }
+            }
+        }
+
         session.invalidate();
-        return restoranService.findOneByNaziv(naziv);
+        return ResponseEntity.ok(restorani);
     }
 }

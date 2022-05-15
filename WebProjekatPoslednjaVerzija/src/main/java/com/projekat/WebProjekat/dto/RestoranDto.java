@@ -1,25 +1,25 @@
-package com.projekat.WebProjekat.dto;
+package main.java.com.projekat.WebProjekat.dto;
 
-import com.projekat.WebProjekat.entity.Lokacija;
-import com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.entity.Lokacija;
+import main.java.com.projekat.WebProjekat.entity.Restoran;
 
 public class RestoranDto {
     private String naziv;
 
     private String tipRestorana;
 
-    private Lokacija lokacija;
+   private Lokacija lokacija;
 
     public RestoranDto(String naziv, String tipRestorana, Lokacija lokacija) {
         this.naziv = naziv;
         this.tipRestorana = tipRestorana;
-        this.lokacija = lokacija;
+       this.lokacija = lokacija;
     }
 
     public RestoranDto(Restoran restoran) {
-        this.naziv = naziv;
-        this.tipRestorana = tipRestorana;
-        this.lokacija = lokacija;
+        this.naziv = restoran.getNaziv();
+        this.tipRestorana = restoran.getTipRestorana();
+        this.lokacija = restoran.getLokacija();
     }
 
     public String getNaziv() {
@@ -39,7 +39,7 @@ public class RestoranDto {
     }
 
     public Lokacija getLokacija() {
-        return lokacija;
+       return lokacija;
     }
 
     public void setLokacija(Lokacija lokacija) {

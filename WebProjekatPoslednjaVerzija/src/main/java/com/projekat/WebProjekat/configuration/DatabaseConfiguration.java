@@ -52,8 +52,14 @@ public class DatabaseConfiguration {
         Lokacija lokacija1 = new Lokacija(200, 100, "Laze Teleckog");
         lokacijaRepository.save(lokacija1);
 
+        Lokacija lokacija2 = new Lokacija(100, 150, "Knez Mihajlova");
+        lokacijaRepository.save(lokacija2);
+
         Restoran restoran1 = new Restoran("Hajduk Veljkov Raj", "kafana", lokacija1);
         restoranRepository.save(restoran1);
+
+        Restoran restoran2 = new Restoran("Podrum 202", "kafana", lokacija2);
+        restoranRepository.save(restoran2);
 
         Kupac kupac1 = new Kupac("pera123", "1234", "Pera", "Peric", Pol.Musko, new Date(99, Calendar.JULY, 4), tip1,20);
         kupacRepository.save(kupac1);

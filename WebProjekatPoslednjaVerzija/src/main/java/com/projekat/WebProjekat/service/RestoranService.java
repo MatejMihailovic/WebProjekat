@@ -1,12 +1,14 @@
-package com.projekat.WebProjekat.service;
+package main.java.com.projekat.WebProjekat.service;
 
-import com.projekat.WebProjekat.entity.Korisnik;
-import com.projekat.WebProjekat.entity.Lokacija;
-import com.projekat.WebProjekat.entity.Restoran;
-import com.projekat.WebProjekat.repository.RestoranRepository;
+import main.java.com.projekat.WebProjekat.dto.RestoranDto;
+import main.java.com.projekat.WebProjekat.entity.Korisnik;
+import main.java.com.projekat.WebProjekat.entity.Lokacija;
+import main.java.com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,15 @@ import java.util.Optional;
 public class RestoranService {
     @Autowired
     private RestoranRepository restoranRepository;
+
+    public Restoran save(Restoran restoran) { return restoranRepository.save(restoran); }
+
+    public Restoran findOne(Long id){
+        Optional<Restoran> pronadjenRestoran = restoranRepository.findById(id);
+        if (pronadjenRestoran.isPresent())
+            return pronadjenRestoran.get();
+        return null;
+    }
 
     public List<Restoran> findAll() { return restoranRepository.findAll(); }
 
@@ -24,12 +35,17 @@ public class RestoranService {
             return pronadjenRestoran.get();
         return null;
     }
-    public Restoran findOneByTipRestorana(String tipRestorana){
-        Optional<Restoran> pronadjenRestoran = restoranRepository.findByTipRestorana(tipRestorana);
+    public List<RestoranDto> findByTipRestorana(String tipRestorana){
+        List<Restoran> restorani = this.findAll();
 
-        if (pronadjenRestoran.isPresent())
-            return pronadjenRestoran.get();
-        return null;
+        List<RestoranDto> restoranidto = new ArrayList<>();
+        for(Restoran r : restorani){
+            if(r.getTipRestorana().equals(tipRestorana)){
+                restoranidto.add(new RestoranDto(r));
+            }
+        }
+
+        return restoranidto;
     }
     public Restoran findOneByNaziv(String naziv){
         Optional<Restoran> pronadjenRestoran = restoranRepository.findByNaziv(naziv);
