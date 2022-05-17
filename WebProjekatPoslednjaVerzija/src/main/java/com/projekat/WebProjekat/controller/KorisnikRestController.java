@@ -25,7 +25,7 @@ public class KorisnikRestController {
     @Autowired
     private SessionService sessionService;
 
-    @PostMapping("api/login")
+    /*@PostMapping("api/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpSession session){
 
         if(loginDto.getKorisnickoIme().isEmpty() || loginDto.getLozinka().isEmpty())
@@ -38,9 +38,9 @@ public class KorisnikRestController {
         session.setAttribute("role", ulogovanKorisnik.getUloga());
         session.setAttribute("user", ulogovanKorisnik);
         return ResponseEntity.ok("Succesfully login!");
-    }
+    }*/
 
-    @PostMapping("api/logout")
+    /*@PostMapping("api/logout")
     public ResponseEntity Logout(HttpSession session){
         Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
 
@@ -49,7 +49,7 @@ public class KorisnikRestController {
 
         session.invalidate();
         return new ResponseEntity("Successfully logged out", HttpStatus.OK);
-    }
+    }*/
 
     @GetMapping("/api/korisnici")
     public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession sesija){

@@ -49,11 +49,11 @@ public class KorisnikService{
         return this.save(korisnik);
     }
 */
-    public Korisnik login(String korisnickoIme, String lozinka){
+    /*public Korisnik login(String korisnickoIme, String lozinka){
         Korisnik korisnik = korisnikRepository.getByKorisnickoIme(korisnickoIme);
         if(korisnik == null || !korisnik.getLozinka().equals(lozinka))
             return null;
         return korisnik;
-    }
+    }*/
 
 }
