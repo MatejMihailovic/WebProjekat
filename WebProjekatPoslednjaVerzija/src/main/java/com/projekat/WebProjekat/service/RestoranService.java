@@ -1,9 +1,8 @@
 package main.java.com.projekat.WebProjekat.service;
 
+import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto;
-import main.java.com.projekat.WebProjekat.entity.Korisnik;
-import main.java.com.projekat.WebProjekat.entity.Lokacija;
-import main.java.com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.entity.*;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,5 +52,13 @@ public class RestoranService {
         if (pronadjenRestoran.isPresent())
             return pronadjenRestoran.get();
         return null;
+    }
+
+    public Restoran dodajArtikal(ArtikalDto dto, Menadzer menadzer){
+        Artikal artikal = new Artikal(dto.getNaziv(), dto.getCena(), dto.getTip(), dto.getKolicina(), dto.getOpis(), menadzer.getRestoran());
+
+        menadzer.getRestoran().getArtikliUPonudi().add(artikal);
+
+        return restoranRepository.save(menadzer.getRestoran());
     }
 }
