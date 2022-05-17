@@ -82,13 +82,22 @@ public class KorisnikRestController {
         return ResponseEntity.ok(korisnikdto);
     }
 
-    @PutMapping("/api/ulogovanKorisnik/update")
+    @PutMapping("/api/korisnici/ulogovanKorisnik/update")
     public ResponseEntity updateProfile(HttpSession session,@RequestBody UpdateDto updateDto){
         Korisnik korisnik = (Korisnik) session.getAttribute("user");
 
-        korisnik.setKorisnickoIme(updateDto.getKorisnickoIme());
-        korisnik.setLozinka(updateDto.getLozinka());
-
+        if(updateDto.getKorisnickoIme() != null)
+            korisnik.setKorisnickoIme(updateDto.getKorisnickoIme());
+        if(updateDto.getLozinka() != null)
+            korisnik.setLozinka(updateDto.getLozinka());
+        if(updateDto.getIme() != null)
+            korisnik.setIme(updateDto.getIme());
+        if(updateDto.getPrezime() != null)
+            korisnik.setPrezime(updateDto.getPrezime());
+        if(updateDto.getPol() != null)
+            korisnik.setPol(updateDto.getPol());
+        if(updateDto.getDatumRodjenja() != null)
+            korisnik.setDatumRodjenja(updateDto.getDatumRodjenja());
 
         return new ResponseEntity(korisnikService.save(korisnik), HttpStatus.OK);
     }

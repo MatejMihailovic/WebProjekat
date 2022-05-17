@@ -61,14 +61,7 @@ public class LoginRestController {
 
     @PostMapping("api/logout")
     public ResponseEntity Logout(HttpSession session){
-        /*String korisnickoIme = sessionService.getUsername(session);
-        String uloga = sessionService.getRole(session);
 
-        if (korisnickoIme.isEmpty() || uloga.isEmpty())
-            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
-
-        session.invalidate();
-        return new ResponseEntity("Successfully logged out!", HttpStatus.OK);*/
         Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
 
         if (ulogovanKorisnik == null)
