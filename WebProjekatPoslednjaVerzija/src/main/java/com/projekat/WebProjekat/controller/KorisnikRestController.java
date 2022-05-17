@@ -25,32 +25,6 @@ public class KorisnikRestController {
     @Autowired
     private SessionService sessionService;
 
-    /*@PostMapping("api/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpSession session){
-
-        if(loginDto.getKorisnickoIme().isEmpty() || loginDto.getLozinka().isEmpty())
-            return new ResponseEntity("Invalid login data", HttpStatus.BAD_REQUEST);
-
-        Korisnik ulogovanKorisnik = korisnikService.login(loginDto.getKorisnickoIme(), loginDto.getLozinka());
-        if (ulogovanKorisnik == null)
-            return new ResponseEntity<>("User doesn't exist!", HttpStatus.NOT_FOUND);
-
-        session.setAttribute("role", ulogovanKorisnik.getUloga());
-        session.setAttribute("user", ulogovanKorisnik);
-        return ResponseEntity.ok("Succesfully login!");
-    }*/
-
-    /*@PostMapping("api/logout")
-    public ResponseEntity Logout(HttpSession session){
-        Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
-
-        if (ulogovanKorisnik == null)
-            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
-
-        session.invalidate();
-        return new ResponseEntity("Successfully logged out", HttpStatus.OK);
-    }*/
-
     @GetMapping("/api/korisnici")
     public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession sesija){
         Boolean provera = sessionService.validateRole(sesija, "Admin");

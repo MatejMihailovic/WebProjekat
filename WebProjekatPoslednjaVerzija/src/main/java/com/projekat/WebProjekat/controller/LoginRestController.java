@@ -51,7 +51,7 @@ public class LoginRestController {
         if(!errorDic.isEmpty() || korisnik==null)
             return new ResponseEntity(errorDic,HttpStatus.BAD_REQUEST);
 
-        session.setAttribute("uloga",korisnik.getUloga());
+        session.setAttribute("role",korisnik.getUloga());
         session.setAttribute("user", korisnik);
 
         return new ResponseEntity("Successfully login!",HttpStatus.OK);
