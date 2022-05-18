@@ -2,17 +2,17 @@ package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto;
+import main.java.com.projekat.WebProjekat.dto.RestoranPrikazDto;
+import main.java.com.projekat.WebProjekat.entity.Komentar;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.service.KomentarService;
 import main.java.com.projekat.WebProjekat.service.RestoranService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -23,6 +23,9 @@ public class RestoranRestController {
 
     @Autowired
     private RestoranService restoranService;
+
+    @Autowired
+    private KomentarService komentarService;
 
     @Autowired
     private SessionService sessionService;
@@ -52,7 +55,7 @@ public class RestoranRestController {
             restorani.add(new RestoranDto(restoranService.findOneByNaziv(dto.getNaziv())));
         }
 
-        if(dto.getLokacija() != null && !restorani.contains(dto)) {
+        if(dto.getLokacija() != null) {
             restorani.add(new RestoranDto(restoranService.findOneByLokacija(dto.getLokacija())));
         }
 
@@ -73,6 +76,22 @@ public class RestoranRestController {
 
         session.invalidate();
         return ResponseEntity.ok(restorani);
+    }
+
+    @GetMapping("/api/restorani/pretrazi/izbor/{id}")
+    public ResponseEntity<RestoranPrikazDto> izborRestorana(@PathVariable(name = "id") Long id){
+
+        Restoran restoran = restoranService.findOne(id);
+
+        List<Komentar> listaKomentara = komentarService.findAll(restoran);
+
+        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran);
+
+        prikazDto.setKomentari(listaKomentara);
+
+        prikazDto.setProsek(komentarService.prosecnaOcena(listaKomentara));
+
+        return ResponseEntity.ok(prikazDto);
     }
 
     @PutMapping("/api/restorani/dodajArtikal")

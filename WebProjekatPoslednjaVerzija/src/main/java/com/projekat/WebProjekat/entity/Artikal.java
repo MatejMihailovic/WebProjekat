@@ -27,10 +27,12 @@ public class Artikal implements Serializable {
     private String opis;
 
     @ManyToMany(mappedBy = "poruceniArtikli")
+    @JsonIgnore
     private Set<Porudzbina> porudzbine = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "restoran_id")
+    @JsonIgnore
     private Restoran restoran;
 
     public Set<Porudzbina> getPorudzbine() {

@@ -68,6 +68,9 @@ public class DatabaseConfiguration {
         Kupac kupac1 = new Kupac("pera123", "1234", "Pera", "Peric", Pol.Musko, new Date(99, Calendar.JULY, 4), tip1,20);
         kupacRepository.save(kupac1);
 
+        Kupac kupac2 = new Kupac("mika123", "3004", "Mikac", "Mikic", Pol.Musko, new Date(89, Calendar.SEPTEMBER, 27), tip1,20);
+        kupacRepository.save(kupac2);
+
         Porudzbina porudzbina1 = new Porudzbina(restoran1,new Date(93, Calendar.JULY, 4), 150, Status.ceka, kupac1.getKorisnickoIme());
         porudzbinaRepository.save(porudzbina1);
 
@@ -91,6 +94,15 @@ public class DatabaseConfiguration {
 
         Komentar komentar1 = new Komentar(restoran1, kupac1, "Odlicna hrana!", 10);
         komentarRepository.save(komentar1);
+
+        Komentar komentar2 = new Komentar(restoran1, kupac2, "Odlicna usluga!", 9);
+        komentarRepository.save(komentar2);
+
+        Komentar komentar3 = new Komentar(restoran2, kupac1, "Fuj!", 3);
+        komentarRepository.save(komentar3);
+
+        Komentar komentar4 = new Komentar(restoran2, kupac2, "Neadekvatna higijena!", 1);
+        komentarRepository.save(komentar4);
 
         return true;
     }

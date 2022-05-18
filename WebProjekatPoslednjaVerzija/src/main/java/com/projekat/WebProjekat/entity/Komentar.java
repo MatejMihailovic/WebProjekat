@@ -1,5 +1,7 @@
 package main.java.com.projekat.WebProjekat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,12 +12,14 @@ public class Komentar implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "kupac_id")
+    @JsonIgnore
     private Kupac kupacKomentar;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "restoran_id")
+    @JsonIgnore
     private Restoran restoranKomentar;
 
     @Column
