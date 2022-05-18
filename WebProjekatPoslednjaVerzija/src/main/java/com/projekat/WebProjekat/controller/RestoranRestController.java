@@ -6,6 +6,7 @@ import main.java.com.projekat.WebProjekat.dto.RestoranPrikazDto;
 import main.java.com.projekat.WebProjekat.entity.Komentar;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.service.ArtikalService;
 import main.java.com.projekat.WebProjekat.service.KomentarService;
 import main.java.com.projekat.WebProjekat.service.RestoranService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
@@ -23,6 +24,9 @@ public class RestoranRestController {
 
     @Autowired
     private RestoranService restoranService;
+
+    @Autowired
+    private ArtikalService artikalService;
 
     @Autowired
     private KomentarService komentarService;
@@ -95,8 +99,8 @@ public class RestoranRestController {
     }
 
     @PutMapping("/api/restorani/dodajArtikal")
-    public ResponseEntity<Restoran> dodavanjeArtikla(@RequestBody ArtikalDto artikalDto, HttpSession sesija){
-        boolean proveraSesije = sessionService.validateRole(sesija, "Menadzer");
+    public ResponseEntity dodavanjeArtikla(@RequestBody ArtikalDto artikalDto, HttpSession session){
+        Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 
         if(!proveraSesije){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
@@ -106,8 +110,28 @@ public class RestoranRestController {
             return new ResponseEntity("Ova polja ne smeju biti prazna!", HttpStatus.BAD_REQUEST);
         }
 
-        Menadzer menadzer = (Menadzer) sesija.getAttribute("user");
+        Menadzer menadzer = (Menadzer) session.getAttribute("user");
 
-        return ResponseEntity.ok(restoranService.dodajArtikal(artikalDto, menadzer));
+        restoranService.dodajArtikal(artikalDto, menadzer);
+
+        return ResponseEntity.ok("Uspesno dodat artikal!");
     }
+    //Ne radi
+    /*
+    @DeleteMapping("/api/restorani/obrisiArtikal/{id}")
+    public ResponseEntity obrisiArtikal(@PathVariable(name = "id") Long id, HttpSession session){
+        Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
+
+        if(!proveraSesije){
+            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
+        }
+
+        if(artikalService.obrisiArtikal(id)){
+            restoranService.obrisiArtikal(id,(Menadzer) session.getAttribute("user"));
+            return ResponseEntity.ok("Uspesno obrisan artikal!");
+        }else{
+            return ResponseEntity.ok("Neuspesan zahtev!");
+        }
+    }
+     */
 }

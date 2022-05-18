@@ -3,6 +3,7 @@ package main.java.com.projekat.WebProjekat.service;
 import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto;
 import main.java.com.projekat.WebProjekat.entity.*;
+import main.java.com.projekat.WebProjekat.repository.ArtikalRepository;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,13 @@ public class RestoranService {
 
         menadzer.getRestoran().getArtikliUPonudi().add(artikal);
 
-        return restoranRepository.save(menadzer.getRestoran());
+        return this.save(menadzer.getRestoran());
     }
+
+    /*
+    public void obrisiArtikal(Long id, Menadzer menadzer){
+        menadzer.getRestoran().getArtikliUPonudi().remove(this.findOne(id));
+        restoranRepository.save(menadzer.getRestoran());
+    }
+     */
 }
