@@ -2,7 +2,9 @@ package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.KorisnikDto;
 import main.java.com.projekat.WebProjekat.dto.LoginDto;
+import main.java.com.projekat.WebProjekat.dto.MenadzerDto;
 import main.java.com.projekat.WebProjekat.dto.UpdateDto;
+import main.java.com.projekat.WebProjekat.entity.Dostavljac;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
@@ -26,8 +28,8 @@ public class KorisnikRestController {
     private SessionService sessionService;
 
     @GetMapping("/api/korisnici")
-    public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession sesija){
-        Boolean provera = sessionService.validateRole(sesija, "Admin");
+    public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession session){
+        Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
@@ -77,19 +79,47 @@ public class KorisnikRestController {
     }
 
     @GetMapping("/api/korisnici/menadzer")
-    public ResponseEntity<Restoran> pregledRestorana(HttpSession sesija){
-        Boolean provera = sessionService.validateRole(sesija, "Menadzer");
+    public ResponseEntity<Restoran> pregledRestorana(HttpSession session){
+        Boolean provera = sessionService.validateRole(session, "Menadzer");
 
         if(!provera){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 
-        Menadzer menadzer = (Menadzer) sesija.getAttribute("user");
+        Menadzer menadzer = (Menadzer) session.getAttribute("user");
 
         return ResponseEntity.ok(menadzer.getRestoran());
     }
 
+    @PostMapping("/api/korisnici/dodaj/menadzer")
+    public ResponseEntity dodajMenadzera(HttpSession session,@RequestBody Menadzer menadzer){
+        Boolean provera = sessionService.validateRole(session, "Admin");
 
+        if(!provera){
+            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
+        }
+
+        if(korisnikService.containsKorisnickoIme(menadzer.getKorisnickoIme())){
+            return new ResponseEntity("Uneto korisnicko ime vec postoji.",HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity(korisnikService.save(menadzer), HttpStatus.OK);
+    }
+
+    @PostMapping("/api/korisnici/dodaj/dostavljac")
+    public ResponseEntity dodajDostavljaca(HttpSession session,@RequestBody Dostavljac dostavljac){
+        Boolean provera = sessionService.validateRole(session, "Admin");
+
+        if(!provera){
+            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
+        }
+
+        if(korisnikService.containsKorisnickoIme(dostavljac.getKorisnickoIme())){
+            return new ResponseEntity("Uneto korisnicko ime vec postoji.",HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity(korisnikService.save(dostavljac), HttpStatus.OK);
+    }
 
 
 }

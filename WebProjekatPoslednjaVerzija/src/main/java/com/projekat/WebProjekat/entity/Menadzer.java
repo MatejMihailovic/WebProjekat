@@ -1,5 +1,7 @@
 package main.java.com.projekat.WebProjekat.entity;
 
+import main.java.com.projekat.WebProjekat.dto.MenadzerDto;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -18,7 +20,6 @@ public class Menadzer extends Korisnik implements Serializable {
         this.restoran = restoran;
         super.setUloga(Uloga.Menadzer);
     }
-
     public Menadzer() {
         super();
     }

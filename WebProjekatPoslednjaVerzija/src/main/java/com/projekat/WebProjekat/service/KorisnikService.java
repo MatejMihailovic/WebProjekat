@@ -1,7 +1,9 @@
 package main.java.com.projekat.WebProjekat.service;
 
 import main.java.com.projekat.WebProjekat.dto.LoginDto;
+import main.java.com.projekat.WebProjekat.dto.MenadzerDto;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
+import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Pol;
 import main.java.com.projekat.WebProjekat.entity.Uloga;
 import main.java.com.projekat.WebProjekat.repository.KorisnikRepository;
@@ -39,21 +41,5 @@ public class KorisnikService{
         }
         return false;
     }
-    /*public Korisnik register(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datumRodjenja){
-        Korisnik korisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
-        korisnik.setUloga(Uloga.Kupac);
-
-        if(this.containsKorisnickoIme(korisnickoIme)){
-            return null;
-        }
-        return this.save(korisnik);
-    }
-*/
-    /*public Korisnik login(String korisnickoIme, String lozinka){
-        Korisnik korisnik = korisnikRepository.getByKorisnickoIme(korisnickoIme);
-        if(korisnik == null || !korisnik.getLozinka().equals(lozinka))
-            return null;
-        return korisnik;
-    }*/
 
 }
