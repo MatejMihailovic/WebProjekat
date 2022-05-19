@@ -29,6 +29,13 @@ public class KorisnikService{
         return null;
     }
 
+    public Korisnik findOne(String korisnickoIme){
+        Optional<Korisnik> pronadjenKorisnik = korisnikRepository.getByKorisnickoIme(korisnickoIme);
+        if (pronadjenKorisnik.isPresent())
+            return pronadjenKorisnik.get();
+        return null;
+    }
+
     public List<Korisnik> findAll() { return korisnikRepository.findAll(); }
 
     public boolean containsKorisnickoIme(String korisnickoIme) {

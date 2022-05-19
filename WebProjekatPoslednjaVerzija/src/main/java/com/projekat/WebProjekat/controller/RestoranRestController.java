@@ -1,11 +1,16 @@
 package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
+import main.java.com.projekat.WebProjekat.dto.NoviRestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
+<<<<<<< Updated upstream
 import main.java.com.projekat.WebProjekat.service.RestoranService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
+=======
+import main.java.com.projekat.WebProjekat.service.*;
+>>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +30,15 @@ public class RestoranRestController {
     private RestoranService restoranService;
 
     @Autowired
+<<<<<<< Updated upstream
+=======
+    private KorisnikService korisnikServicee;
+
+    @Autowired
+    private KomentarService komentarService;
+
+    @Autowired
+>>>>>>> Stashed changes
     private SessionService sessionService;
 
     @GetMapping("/api/restorani")
@@ -38,6 +52,25 @@ public class RestoranRestController {
         }
         return ResponseEntity.ok(dtos);
 
+    }
+
+    @PostMapping("/api/restorani/kreiraj")
+    public ResponseEntity createRestoran(@RequestBody NoviRestoranDto dto, HttpSession session){
+        Boolean provera = sessionService.validateRole(session, "Admin");
+
+        if(!provera){
+            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
+        }
+
+        Restoran noviRestoran = new Restoran(dto.getNaziv(), dto.getTipRestorana(), dto.getLokacija());
+        Menadzer menadzer = (Menadzer) korisnikServicee.findOne(dto.getKorisnickoImeMenadzera());
+
+        menadzer.setRestoran(noviRestoran);
+
+        restoranService.save(noviRestoran);
+        korisnikServicee.save(menadzer);
+
+        return ResponseEntity.ok("Uspesno kreiran restoran!");
     }
 
     @GetMapping("/api/restorani/pretrazi")

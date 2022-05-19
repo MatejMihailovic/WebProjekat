@@ -1,6 +1,7 @@
 package main.java.com.projekat.WebProjekat.service;
 
 import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
+import main.java.com.projekat.WebProjekat.dto.NoviRestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto;
 import main.java.com.projekat.WebProjekat.entity.*;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
@@ -60,5 +61,10 @@ public class RestoranService {
         menadzer.getRestoran().getArtikliUPonudi().add(artikal);
 
         return restoranRepository.save(menadzer.getRestoran());
+    }
+
+    public void kreirajRestoran(NoviRestoranDto dto){
+        Restoran restoran = new Restoran(dto.getNaziv(), dto.getTipRestorana(), dto.getLokacija());
+
     }
 }
