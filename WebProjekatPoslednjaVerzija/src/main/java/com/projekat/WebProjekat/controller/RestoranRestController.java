@@ -3,6 +3,7 @@ package main.java.com.projekat.WebProjekat.controller;
 import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranPrikazDto;
+import main.java.com.projekat.WebProjekat.entity.Artikal;
 import main.java.com.projekat.WebProjekat.entity.Komentar;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
@@ -97,41 +98,4 @@ public class RestoranRestController {
 
         return ResponseEntity.ok(prikazDto);
     }
-
-    @PutMapping("/api/restorani/dodajArtikal")
-    public ResponseEntity dodavanjeArtikla(@RequestBody ArtikalDto artikalDto, HttpSession session){
-        Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
-
-        if(!proveraSesije){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
-
-        if(artikalDto.getNaziv().isEmpty() || artikalDto.getCena() <= 0 || artikalDto.getTip() == null){
-            return new ResponseEntity("Ova polja ne smeju biti prazna!", HttpStatus.BAD_REQUEST);
-        }
-
-        Menadzer menadzer = (Menadzer) session.getAttribute("user");
-
-        restoranService.dodajArtikal(artikalDto, menadzer);
-
-        return ResponseEntity.ok("Uspesno dodat artikal!");
-    }
-    //Ne radi
-    /*
-    @DeleteMapping("/api/restorani/obrisiArtikal/{id}")
-    public ResponseEntity obrisiArtikal(@PathVariable(name = "id") Long id, HttpSession session){
-        Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
-
-        if(!proveraSesije){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
-
-        if(artikalService.obrisiArtikal(id)){
-            restoranService.obrisiArtikal(id,(Menadzer) session.getAttribute("user"));
-            return ResponseEntity.ok("Uspesno obrisan artikal!");
-        }else{
-            return ResponseEntity.ok("Neuspesan zahtev!");
-        }
-    }
-     */
 }

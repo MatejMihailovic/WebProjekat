@@ -63,10 +63,12 @@ public class RestoranService {
         return this.save(menadzer.getRestoran());
     }
 
-    /*
-    public void obrisiArtikal(Long id, Menadzer menadzer){
-        menadzer.getRestoran().getArtikliUPonudi().remove(this.findOne(id));
-        restoranRepository.save(menadzer.getRestoran());
+    public boolean obrisiArtikalURestoranu(Long id, Restoran restoran){
+        restoran.getArtikliUPonudi().remove(id);
+        if(!restoran.getArtikliUPonudi().contains(id)) {
+            restoranRepository.save(restoran);
+            return true;
+        }
+        return false;
     }
-     */
 }

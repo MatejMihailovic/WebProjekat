@@ -25,7 +25,6 @@ public class ArtikalService {
 
     public List<Artikal> findAll() { return artikalRepository.findAll(); }
 
-    /*
     public boolean obrisiArtikal(Long id) {
         if(this.findOne(id) != null){
             artikalRepository.deleteById(id);
@@ -33,5 +32,12 @@ public class ArtikalService {
         }
         return false;
     }
-     */
+
+    public boolean updateArtikal(Long id) {
+        if(this.findOne(id) != null){
+            artikalRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

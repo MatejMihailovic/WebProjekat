@@ -3,19 +3,34 @@ package main.java.com.projekat.WebProjekat.dto;
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 
 public class ArtikalPrikazDto {
+    Long id;
+
     String naziv;
+
     String opis;
+
     double cena;
 
-    public ArtikalPrikazDto(String naziv, String opis, double cena) {
+    public ArtikalPrikazDto(Long id, String naziv, String opis, double cena) {
+        this.id = id;
+        this.naziv = naziv;
         this.opis = opis;
         this.cena = cena;
     }
 
     public ArtikalPrikazDto(Artikal artikal) {
+        this.id = artikal.getId();
         this.naziv = artikal.getNaziv();
         this.opis = artikal.getOpis();
         this.cena = artikal.getCena();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNaziv() {
