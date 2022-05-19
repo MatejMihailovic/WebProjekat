@@ -4,6 +4,7 @@ import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
 import main.java.com.projekat.WebProjekat.dto.NoviRestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto;
 import main.java.com.projekat.WebProjekat.entity.*;
+import main.java.com.projekat.WebProjekat.repository.ArtikalRepository;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,16 @@ public class RestoranService {
 
         menadzer.getRestoran().getArtikliUPonudi().add(artikal);
 
-        return restoranRepository.save(menadzer.getRestoran());
+        return this.save(menadzer.getRestoran());
+    }
+
+    public boolean obrisiArtikalURestoranu(Long id, Restoran restoran){
+        restoran.getArtikliUPonudi().remove(id);
+        if(!restoran.getArtikliUPonudi().contains(id)) {
+            restoranRepository.save(restoran);
+            return true;
+        }
+        return false;
     }
 
     public void kreirajRestoran(NoviRestoranDto dto){

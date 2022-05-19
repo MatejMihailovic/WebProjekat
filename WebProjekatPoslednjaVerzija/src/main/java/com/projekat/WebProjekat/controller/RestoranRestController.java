@@ -1,23 +1,20 @@
 package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
-import main.java.com.projekat.WebProjekat.dto.NoviRestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto;
+import main.java.com.projekat.WebProjekat.dto.RestoranPrikazDto;
+import main.java.com.projekat.WebProjekat.entity.Artikal;
+import main.java.com.projekat.WebProjekat.entity.Komentar;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
-<<<<<<< Updated upstream
+import main.java.com.projekat.WebProjekat.service.ArtikalService;
+import main.java.com.projekat.WebProjekat.service.KomentarService;
 import main.java.com.projekat.WebProjekat.service.RestoranService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
-=======
-import main.java.com.projekat.WebProjekat.service.*;
->>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -30,15 +27,12 @@ public class RestoranRestController {
     private RestoranService restoranService;
 
     @Autowired
-<<<<<<< Updated upstream
-=======
-    private KorisnikService korisnikServicee;
+    private ArtikalService artikalService;
 
     @Autowired
     private KomentarService komentarService;
 
     @Autowired
->>>>>>> Stashed changes
     private SessionService sessionService;
 
     @GetMapping("/api/restorani")
@@ -54,25 +48,6 @@ public class RestoranRestController {
 
     }
 
-    @PostMapping("/api/restorani/kreiraj")
-    public ResponseEntity createRestoran(@RequestBody NoviRestoranDto dto, HttpSession session){
-        Boolean provera = sessionService.validateRole(session, "Admin");
-
-        if(!provera){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
-
-        Restoran noviRestoran = new Restoran(dto.getNaziv(), dto.getTipRestorana(), dto.getLokacija());
-        Menadzer menadzer = (Menadzer) korisnikServicee.findOne(dto.getKorisnickoImeMenadzera());
-
-        menadzer.setRestoran(noviRestoran);
-
-        restoranService.save(noviRestoran);
-        korisnikServicee.save(menadzer);
-
-        return ResponseEntity.ok("Uspesno kreiran restoran!");
-    }
-
     @GetMapping("/api/restorani/pretrazi")
     public ResponseEntity<List<RestoranDto>> getRestoran(@RequestBody RestoranDto dto, HttpSession session){
         List<RestoranDto> restorani = new ArrayList<>();
@@ -85,7 +60,7 @@ public class RestoranRestController {
             restorani.add(new RestoranDto(restoranService.findOneByNaziv(dto.getNaziv())));
         }
 
-        if(dto.getLokacija() != null && !restorani.contains(dto)) {
+        if(dto.getLokacija() != null) {
             restorani.add(new RestoranDto(restoranService.findOneByLokacija(dto.getLokacija())));
         }
 
@@ -108,20 +83,19 @@ public class RestoranRestController {
         return ResponseEntity.ok(restorani);
     }
 
-    @PutMapping("/api/restorani/dodajArtikal")
-    public ResponseEntity<Restoran> dodavanjeArtikla(@RequestBody ArtikalDto artikalDto, HttpSession sesija){
-        boolean proveraSesije = sessionService.validateRole(sesija, "Menadzer");
+    @GetMapping("/api/restorani/pretrazi/izbor/{id}")
+    public ResponseEntity<RestoranPrikazDto> izborRestorana(@PathVariable(name = "id") Long id){
 
-        if(!proveraSesije){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
+        Restoran restoran = restoranService.findOne(id);
 
-        if(artikalDto.getNaziv().isEmpty() || artikalDto.getCena() <= 0 || artikalDto.getTip() == null){
-            return new ResponseEntity("Ova polja ne smeju biti prazna!", HttpStatus.BAD_REQUEST);
-        }
+        List<Komentar> listaKomentara = komentarService.findAll(restoran);
 
-        Menadzer menadzer = (Menadzer) sesija.getAttribute("user");
+        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran);
 
-        return ResponseEntity.ok(restoranService.dodajArtikal(artikalDto, menadzer));
+        prikazDto.setKomentari(listaKomentara);
+
+        prikazDto.setProsek(komentarService.prosecnaOcena(listaKomentara));
+
+        return ResponseEntity.ok(prikazDto);
     }
 }
