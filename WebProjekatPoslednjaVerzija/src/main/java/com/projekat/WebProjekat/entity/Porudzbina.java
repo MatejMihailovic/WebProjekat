@@ -37,7 +37,7 @@ public class Porudzbina implements Serializable{
     private Restoran restoran;
 
     @Column
-    private Date datumIVreme;
+    public Date datumIVreme;
     @Column
     private double cena;
     @Column
