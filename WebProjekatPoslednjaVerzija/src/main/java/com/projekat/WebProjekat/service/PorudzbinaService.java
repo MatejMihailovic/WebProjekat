@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,8 +28,10 @@ public class PorudzbinaService {
     @Autowired
     private RestoranRepository restoranRepository;
 
+    public List<Porudzbina> findAll() { return porudzbinaRepository.findAll(); }
+
     public void savePorudzbina(PorudzbinaDto porudzbina, String korisnickoIme) throws Exception{
-        Kupac kupac = kupacRepository.findByKorisnickoIme(korisnickoIme);
+        /*Kupac kupac = kupacRepository.findByKorisnickoIme(korisnickoIme);
         Optional<Restoran> restoran = restoranRepository.findById(porudzbina.getRestoran().getId());
 
 
@@ -46,7 +49,7 @@ public class PorudzbinaService {
         }
 
         novaPorudzbina.setPoruceniArtikli(artikli);
-        porudzbinaRepository.save(novaPorudzbina);
+        porudzbinaRepository.save(novaPorudzbina);*/
 
     }
 }
