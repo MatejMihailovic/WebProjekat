@@ -24,7 +24,7 @@ public class ArtikalRestController {
     @Autowired
     private SessionService sessionService;
 
-    @PutMapping("/api/artikli/dodajArtikal")
+    @PostMapping("/api/artikli/dodajArtikal")
     public ResponseEntity dodavanjeArtikla(@RequestBody ArtikalDto artikalDto, HttpSession session){
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 
@@ -82,8 +82,8 @@ public class ArtikalRestController {
         }
 
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
-
-        if(restoranService.obrisiArtikalURestoranu(id, menadzer.getRestoran()) && artikalService.obrisiArtikal(id)){
+        restoranService.obrisiArtikalURestoranu(artikalService.findOne(id), menadzer.getRestoran());
+        if(artikalService.obrisiArtikal(id)){
             return ResponseEntity.ok("Uspesno obrisan artikal!");
         }else{
             return ResponseEntity.ok("Neuspesan zahtev!");

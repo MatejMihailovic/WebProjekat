@@ -64,17 +64,8 @@ public class RestoranService {
         return this.save(menadzer.getRestoran());
     }
 
-    public boolean obrisiArtikalURestoranu(Long id, Restoran restoran){
-        restoran.getArtikliUPonudi().remove(id);
-        if(!restoran.getArtikliUPonudi().contains(id)) {
-            restoranRepository.save(restoran);
-            return true;
-        }
-        return false;
-    }
-
-    public void kreirajRestoran(NoviRestoranDto dto){
-        Restoran restoran = new Restoran(dto.getNaziv(), dto.getTipRestorana(), dto.getLokacija());
-
+    public void obrisiArtikalURestoranu(Artikal artikal, Restoran restoran){
+        restoran.getArtikliUPonudi().remove(artikal);
+        restoranRepository.save(restoran);
     }
 }
