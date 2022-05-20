@@ -75,7 +75,7 @@ public class KorisnikRestController {
         if(updateDto.getDatumRodjenja() != null)
             korisnik.setDatumRodjenja(updateDto.getDatumRodjenja());
 
-        return new ResponseEntity(korisnikService.save(korisnik), HttpStatus.OK);
+        return new ResponseEntity(korisnikService.save(korisnik, korisnik.getUloga()), HttpStatus.OK);
     }
 
     @GetMapping("/api/korisnici/menadzer")
@@ -103,7 +103,7 @@ public class KorisnikRestController {
             return new ResponseEntity("Uneto korisnicko ime vec postoji.",HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(korisnikService.save(menadzer), HttpStatus.OK);
+        return new ResponseEntity(korisnikService.save(menadzer, menadzer.getUloga()), HttpStatus.OK);
     }
 
     @PostMapping("/api/korisnici/dodaj/dostavljac")
@@ -118,7 +118,7 @@ public class KorisnikRestController {
             return new ResponseEntity("Uneto korisnicko ime vec postoji.",HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(korisnikService.save(dostavljac), HttpStatus.OK);
+        return new ResponseEntity(korisnikService.save(dostavljac, dostavljac.getUloga()), HttpStatus.OK);
     }
 
 

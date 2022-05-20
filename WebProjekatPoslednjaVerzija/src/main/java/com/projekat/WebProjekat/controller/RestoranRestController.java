@@ -1,17 +1,16 @@
 package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
+import main.java.com.projekat.WebProjekat.dto.KreirajRestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranPrikazDto;
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 import main.java.com.projekat.WebProjekat.entity.Komentar;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
-import main.java.com.projekat.WebProjekat.service.ArtikalService;
-import main.java.com.projekat.WebProjekat.service.KomentarService;
-import main.java.com.projekat.WebProjekat.service.RestoranService;
-import main.java.com.projekat.WebProjekat.service.SessionService;
+import main.java.com.projekat.WebProjekat.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +24,9 @@ public class RestoranRestController {
 
     @Autowired
     private RestoranService restoranService;
+
+    @Autowired
+    private KorisnikService korisnikService;
 
     @Autowired
     private ArtikalService artikalService;
@@ -46,6 +48,26 @@ public class RestoranRestController {
         }
         return ResponseEntity.ok(dtos);
 
+    }
+    @PostMapping("/api/restorani/kreiraj")
+    public ResponseEntity kreirajRestoran(@RequestBody KreirajRestoranDto dto, HttpSession session){
+        Boolean provera = sessionService.validateRole(session, "Admin");
+
+        if(!provera){
+            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
+        }
+
+        if(dto.getNaziv().isEmpty() || dto.getTipRestorana().isEmpty() || dto.getLokacija() == null || dto.getkImeMenadzera().isEmpty()){
+            return new ResponseEntity("Ova polja ne smeju biti prazna!",HttpStatus.BAD_REQUEST);
+        }
+        Restoran novi = new Restoran(dto.getNaziv(), dto.getTipRestorana(), dto.getLokacija());
+        Menadzer menadzer = (Menadzer) korisnikService.findOne(dto.getkImeMenadzera());
+
+        menadzer.setRestoran(novi);
+        restoranService.save(novi);
+        korisnikService.save(menadzer, menadzer.getUloga());
+
+        return ResponseEntity.ok("Uspesno kreiran restoran.");
     }
 
     @GetMapping("/api/restorani/pretrazi")

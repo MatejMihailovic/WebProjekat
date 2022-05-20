@@ -1,6 +1,7 @@
 package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.PorudzbinaDto;
+import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Kupac;
 import main.java.com.projekat.WebProjekat.entity.Porudzbina;
 import main.java.com.projekat.WebProjekat.repository.KupacRepository;
@@ -31,24 +32,23 @@ public class PorudzbinaRestController {
     private PorudzbinaService porudzbinaService;
 
     @GetMapping("api/porudzbine")
-    public ResponseEntity getPorudzbine(HttpSession session){
-        if(!sessionService.validateSession(session))
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
+    public ResponseEntity<List<PorudzbinaDto>> getPorudzbine(HttpSession session){
+        Kupac kupac = (Kupac) session.getAttribute("user");
+        List<Porudzbina> porudzbine = this.porudzbinaService.findAll();
+        List<PorudzbinaDto> dtos = new ArrayList<>();
 
-        Kupac trenutniKupac = kupacRepository.findByKorisnickoIme(sessionService.getUsername(session));
-        List<Porudzbina> svePorudzbine = this.porudzbinaRepository.findAll();
-        List<PorudzbinaDto> trenutniKupacPorudzbine = new ArrayList<>();
-        for(Porudzbina p : svePorudzbine){
-            if(p.getKorisnickoIme().equals(trenutniKupac.getKorisnickoIme())){
-                PorudzbinaDto pDto = new PorudzbinaDto(p);
-                trenutniKupacPorudzbine.add(pDto);
+        for(Porudzbina p : porudzbine){
+            if(p.getKorisnickoIme().equals(kupac.getKorisnickoIme())){
+                PorudzbinaDto dto = new PorudzbinaDto(p);
+                dtos.add(dto);
             }
+
         }
 
-        if(trenutniKupacPorudzbine.isEmpty())
-            return new ResponseEntity("Nemate nijednu porudzbinu.",HttpStatus.OK);
-        else
-            return new ResponseEntity(trenutniKupacPorudzbine,HttpStatus.OK);
+        return ResponseEntity.ok(dtos);
+
+        
+
     }
 
 }
