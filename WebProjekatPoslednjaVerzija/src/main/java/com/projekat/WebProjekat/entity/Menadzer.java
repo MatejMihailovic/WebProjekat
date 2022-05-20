@@ -20,6 +20,12 @@ public class Menadzer extends Korisnik implements Serializable {
         this.restoran = restoran;
         super.setUloga(Uloga.Menadzer);
     }
+    public Menadzer(Korisnik k, Restoran restoran) {
+        super(k.getKorisnickoIme(), k.getLozinka(), k.getIme(), k.getPrezime(), k.getPol(), k.getDatumRodjenja());
+        this.restoran = restoran;
+        super.setUloga(Uloga.Menadzer);
+    }
+
     public Menadzer() {
         super();
     }
