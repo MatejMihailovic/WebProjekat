@@ -1,9 +1,7 @@
 package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.PorudzbinaDto;
-import main.java.com.projekat.WebProjekat.entity.Korisnik;
-import main.java.com.projekat.WebProjekat.entity.Kupac;
-import main.java.com.projekat.WebProjekat.entity.Porudzbina;
+import main.java.com.projekat.WebProjekat.entity.*;
 import main.java.com.projekat.WebProjekat.repository.KupacRepository;
 import main.java.com.projekat.WebProjekat.repository.PorudzbinaRepository;
 import main.java.com.projekat.WebProjekat.service.PorudzbinaService;
@@ -47,8 +45,27 @@ public class PorudzbinaRestController {
 
         return ResponseEntity.ok(dtos);
 
-        
-
     }
+
+    @GetMapping("api/porudzbine-menadzer")
+    public ResponseEntity<List<PorudzbinaDto>> getPorudzbineMenadzer(HttpSession session){
+        Menadzer menadzer = (Menadzer) session.getAttribute("user");
+        Restoran restoran = menadzer.getRestoran();
+        List<Porudzbina> porudzbine = this.porudzbinaService.findAll();
+        List<PorudzbinaDto> dtos = new ArrayList<>();
+
+        for(Porudzbina p : porudzbine){
+            if(p.getRestoran().getId() == restoran.getId()){
+                PorudzbinaDto dto = new PorudzbinaDto(p);
+                dtos.add(dto);
+            }
+        }
+
+
+        return ResponseEntity.ok(dtos);
+    }
+
+    
+
 
 }
