@@ -1,10 +1,8 @@
 package main.java.com.projekat.WebProjekat.service;
 
 import main.java.com.projekat.WebProjekat.dto.PorudzbinaDto;
-import main.java.com.projekat.WebProjekat.entity.Artikal;
-import main.java.com.projekat.WebProjekat.entity.Kupac;
-import main.java.com.projekat.WebProjekat.entity.Porudzbina;
-import main.java.com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.entity.*;
+import main.java.com.projekat.WebProjekat.repository.DostavljacRepository;
 import main.java.com.projekat.WebProjekat.repository.KupacRepository;
 import main.java.com.projekat.WebProjekat.repository.PorudzbinaRepository;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
@@ -26,11 +24,21 @@ public class PorudzbinaService {
     private KupacRepository kupacRepository;
 
     @Autowired
+    private DostavljacRepository dostavljacRepository;
+
+    @Autowired
     private RestoranRepository restoranRepository;
 
     public List<Porudzbina> findAll() { return porudzbinaRepository.findAll(); }
 
-    public void savePorudzbina(PorudzbinaDto porudzbina, String korisnickoIme) throws Exception{
+    public Set<Porudzbina> findAllForDostavljac(Dostavljac dostavljac){
+        Set<Porudzbina> porudzbine = dostavljac.getPorudzbine();
+        return porudzbine;
+    }
+
+
+
+    //public void savePorudzbina(PorudzbinaDto porudzbina, String korisnickoIme) throws Exception{
         /*Kupac kupac = kupacRepository.findByKorisnickoIme(korisnickoIme);
         Optional<Restoran> restoran = restoranRepository.findById(porudzbina.getRestoran().getId());
 
@@ -51,5 +59,5 @@ public class PorudzbinaService {
         novaPorudzbina.setPoruceniArtikli(artikli);
         porudzbinaRepository.save(novaPorudzbina);*/
 
-    }
+    //}
 }
