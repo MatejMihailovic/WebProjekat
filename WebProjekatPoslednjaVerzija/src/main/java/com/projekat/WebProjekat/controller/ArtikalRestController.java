@@ -3,6 +3,7 @@ package main.java.com.projekat.WebProjekat.controller;
 import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
+import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.service.ArtikalService;
 import main.java.com.projekat.WebProjekat.service.RestoranService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
@@ -72,7 +73,6 @@ public class ArtikalRestController {
         return ResponseEntity.ok("Uspesno promenjen artikal!");
     }
 
-    //Ne radi
     @DeleteMapping("/api/artikli/obrisiArtikal/{id}")
     public ResponseEntity obrisiArtikal(@PathVariable(name = "id") Long id, HttpSession session){
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
@@ -82,11 +82,16 @@ public class ArtikalRestController {
         }
 
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
-        restoranService.obrisiArtikalURestoranu(artikalService.findOne(id), menadzer.getRestoran());
-        if(artikalService.obrisiArtikal(id)){
-            return ResponseEntity.ok("Uspesno obrisan artikal!");
-        }else{
-            return ResponseEntity.ok("Neuspesan zahtev!");
+        Restoran restoran = menadzer.getRestoran();
+
+        for(Artikal artikal : restoran.getArtikliUPonudi()){
+            if (artikal.getId() == id){
+                restoran.getArtikliUPonudi().remove(artikal);
+                restoranService.deleteArtikal(artikal);
+                restoranService.save(restoran);
+                return ResponseEntity.ok("Uspesno obrisan artikal!");
+            }
         }
+        return ResponseEntity.ok("Neuspesno obrisan artikal!");
     }
 }

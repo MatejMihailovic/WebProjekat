@@ -68,7 +68,7 @@ public class RestoranRestController {
     }
 
     @GetMapping("/api/restorani/pretrazi")
-    public ResponseEntity<List<RestoranDto>> getRestoran(@RequestBody RestoranDto dto, HttpSession session){
+    public ResponseEntity<List<RestoranDto>> getRestoran(@RequestBody RestoranDto dto){
         List<RestoranDto> restorani = new ArrayList<>();
 
         if(dto.getNaziv().isEmpty() && dto.getLokacija() == null && dto.getTipRestorana().isEmpty()){
@@ -98,7 +98,6 @@ public class RestoranRestController {
             }
         }
 
-        session.invalidate();
         return ResponseEntity.ok(restorani);
     }
 

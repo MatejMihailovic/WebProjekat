@@ -18,6 +18,9 @@ public class RestoranService {
     @Autowired
     private RestoranRepository restoranRepository;
 
+    @Autowired
+    private ArtikalService artikalService;
+
     public Restoran save(Restoran restoran) { return restoranRepository.save(restoran); }
 
     public Restoran findOne(Long id){
@@ -64,8 +67,5 @@ public class RestoranService {
         return this.save(menadzer.getRestoran());
     }
 
-    public void obrisiArtikalURestoranu(Artikal artikal, Restoran restoran){
-        restoran.getArtikliUPonudi().remove(artikal);
-        restoranRepository.save(restoran);
-    }
+    public void deleteArtikal(Artikal artikal){ artikalService.delete(artikal);}
 }

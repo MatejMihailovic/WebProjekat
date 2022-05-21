@@ -36,7 +36,8 @@ public class RestoranPrikazDto {
         this.naziv = restoran.getNaziv();
         this.tipRestorana = restoran.getTipRestorana();
         for(Artikal artikal : restoran.getArtikliUPonudi()){
-            artikliUPonudi.add(new ArtikalPrikazDto(artikal));
+            ArtikalPrikazDto prikazDto = new ArtikalPrikazDto(artikal);
+            artikliUPonudi.add(prikazDto);
         }
         this.lokacija = restoran.getLokacija();
         this.status = Status.RADI;
