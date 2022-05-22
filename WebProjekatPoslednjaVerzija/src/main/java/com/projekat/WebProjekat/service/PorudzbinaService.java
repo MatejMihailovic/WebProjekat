@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class PorudzbinaService {
@@ -31,8 +28,11 @@ public class PorudzbinaService {
 
     public List<Porudzbina> findAll() { return porudzbinaRepository.findAll(); }
 
-    public Set<Porudzbina> findAllForDostavljac(Dostavljac dostavljac){
-        Set<Porudzbina> porudzbine = dostavljac.getPorudzbine();
+    public List<Porudzbina> findAllForDostavljac(Dostavljac dostavljac){
+        List<Porudzbina> porudzbine = new ArrayList<>();
+        for(Porudzbina porudzbina : dostavljac.getPorudzbine()){
+            porudzbine.add(porudzbina);
+        }
         return porudzbine;
     }
 

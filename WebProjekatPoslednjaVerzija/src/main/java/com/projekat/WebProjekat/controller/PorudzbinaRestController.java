@@ -7,6 +7,7 @@ import main.java.com.projekat.WebProjekat.repository.PorudzbinaRepository;
 import main.java.com.projekat.WebProjekat.service.PorudzbinaService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,12 @@ public class PorudzbinaRestController {
 
     @GetMapping("api/porudzbine-kupac")
     public ResponseEntity<List<PorudzbinaDto>> getPorudzbineKupac(HttpSession session){
+        Boolean proveraSesije = sessionService.validateRole(session, "Kupac");
+
+        if(!proveraSesije){
+            return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
+        }
+
         Kupac kupac = (Kupac) session.getAttribute("user");
         List<Porudzbina> porudzbine = this.porudzbinaService.findAll();
         List<PorudzbinaDto> dtos = new ArrayList<>();
@@ -50,6 +57,11 @@ public class PorudzbinaRestController {
 
     @GetMapping("api/porudzbine-menadzer")
     public ResponseEntity<List<PorudzbinaDto>> getPorudzbineMenadzer(HttpSession session){
+        Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
+
+        if(!proveraSesije){
+            return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
+        }
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
         Restoran restoran = menadzer.getRestoran();
         List<Porudzbina> porudzbine = this.porudzbinaService.findAll();
@@ -69,7 +81,11 @@ public class PorudzbinaRestController {
 
     @GetMapping("api/porudzbine-cekaDostavljaca")
     public ResponseEntity<List<PorudzbinaDto>> getPorudzbineCekaDostavljaca(HttpSession session){
-        Dostavljac dostavljac = (Dostavljac) session.getAttribute("user");
+        Boolean proveraSesije = sessionService.validateRole(session, "Dostavljac");
+
+        if(!proveraSesije){
+            return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
+        }
 
 
         List<Porudzbina> porudzbine = this.porudzbinaService.findAll();
@@ -86,14 +102,15 @@ public class PorudzbinaRestController {
 
     }
     @GetMapping("api/porudzbine-dostavljac")
-    public ResponseEntity<Set<Porudzbina>> getPorudzbineDostavljac(HttpSession session){
-        Dostavljac dostavljac = (Dostavljac) session.getAttribute("user");
-        Set<Porudzbina> njegovePorudzbine = this.porudzbinaService.findAllForDostavljac(dostavljac);
-        Set<Porudzbina> porudzbine = new HashSet<>();
+    public ResponseEntity<List<Porudzbina>> getPorudzbineDostavljac(HttpSession session){
+        Boolean proveraSesije = sessionService.validateRole(session, "Dostavljac");
 
-        for(Porudzbina p : njegovePorudzbine){
-            porudzbine.add(p);
+        if(!proveraSesije){
+            return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
         }
+        Dostavljac dostavljac = (Dostavljac) session.getAttribute("user");
+
+        List<Porudzbina> njegovePorudzbine = this.porudzbinaService.findAllForDostavljac(dostavljac);
 
         return ResponseEntity.ok(njegovePorudzbine);
 

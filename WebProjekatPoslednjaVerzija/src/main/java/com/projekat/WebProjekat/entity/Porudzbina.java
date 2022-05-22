@@ -20,15 +20,10 @@ public class Porudzbina implements Serializable{
     @ManyToMany(cascade = {
         CascadeType.PERSIST,
         CascadeType.MERGE
-    })
+    }, fetch = FetchType.EAGER)
     @JoinTable( name = "porudzbina_artikli",
                 joinColumns = { @JoinColumn(name = "porudzbina_id") },
-                inverseJoinColumns = { @JoinColumn(name = "artikal_id") },
-            uniqueConstraints = {
-                @UniqueConstraint(
-                        columnNames = { "porudzbina_id","artikal_id"}
-                )
-            }
+                inverseJoinColumns = { @JoinColumn(name = "artikal_id") }
     )
     private Set<Artikal> poruceniArtikli = new HashSet<>();
 

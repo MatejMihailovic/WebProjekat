@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 public class Dostavljac extends Korisnik implements Serializable{
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinColumn(name = "porudzbina_id")
     private Set<Porudzbina> porudzbine = new HashSet<>();
