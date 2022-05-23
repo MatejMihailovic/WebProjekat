@@ -3,6 +3,7 @@ package main.java.com.projekat.WebProjekat.dto;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Pol;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class KorisnikDto {
@@ -14,14 +15,15 @@ public class KorisnikDto {
 
     private Pol pol;
 
-    private Date datumRodjenja;
+    private String datumRodjenja;
 
     public KorisnikDto(String korisnickoIme, String ime, String prezime, Pol pol, Date datumRodjenja) {
         this.korisnickoIme = korisnickoIme;
         this.ime = ime;
         this.prezime = prezime;
         this.pol = pol;
-        this.datumRodjenja = datumRodjenja;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.datumRodjenja = dateFormat.format(datumRodjenja);
     }
 
     public KorisnikDto(Korisnik korisnik) {
@@ -29,7 +31,8 @@ public class KorisnikDto {
         this.ime = korisnik.getIme();
         this.prezime = korisnik.getPrezime();
         this.pol = korisnik.getPol();
-        this.datumRodjenja = korisnik.getDatumRodjenja();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.datumRodjenja = dateFormat.format(korisnik.getDatumRodjenja());
     }
 
     public String getKorisnickoIme() {
@@ -64,11 +67,12 @@ public class KorisnikDto {
         this.pol = pol;
     }
 
-    public Date getDatumRodjenja() {
+    public String getDatumRodjenja() {
         return datumRodjenja;
     }
 
     public void setDatumRodjenja(Date datumRodjenja) {
-        this.datumRodjenja = datumRodjenja;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.datumRodjenja = dateFormat.format(datumRodjenja);
     }
 }
