@@ -10,7 +10,9 @@ import main.java.com.projekat.WebProjekat.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,7 +28,7 @@ public class ArtikalRestController {
     private SessionService sessionService;
 
     @PostMapping("/api/artikli/dodajArtikal")
-    public ResponseEntity dodavanjeArtikla(@RequestBody ArtikalDto artikalDto, HttpSession session){
+    public ResponseEntity dodavanjeArtikla(@RequestBody ArtikalDto artikalDto, @RequestParam("image") MultipartFile multipartFile, HttpSession session){
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 
         if(!proveraSesije){
@@ -37,9 +39,11 @@ public class ArtikalRestController {
             return new ResponseEntity("Ova polja ne smeju biti prazna!", HttpStatus.BAD_REQUEST);
         }
 
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
 
-        restoranService.dodajArtikal(artikalDto, menadzer);
+        restoranService.dodajArtikal(artikalDto, menadzer, fileName);
 
         return ResponseEntity.ok("Uspesno dodat artikal!");
     }

@@ -59,10 +59,13 @@ public class RestoranService {
         return null;
     }
 
-    public Restoran dodajArtikal(ArtikalDto dto, Menadzer menadzer){
+    public Restoran dodajArtikal(ArtikalDto dto, Menadzer menadzer, String fileName){
         Artikal artikal = new Artikal(dto.getNaziv(), dto.getCena(), dto.getTip(), dto.getKolicina(), dto.getOpis(), menadzer.getRestoran());
+        artikal.setPhotos(fileName);
 
         menadzer.getRestoran().getArtikliUPonudi().add(artikal);
+
+        this.artikalService.save(artikal);
 
         return this.save(menadzer.getRestoran());
     }
