@@ -26,9 +26,6 @@ public class RestoranRestController {
     private KorisnikService korisnikService;
 
     @Autowired
-    private ArtikalService artikalService;
-
-    @Autowired
     private KomentarService komentarService;
 
     @Autowired

@@ -85,7 +85,7 @@ public class ArtikalRestController {
         Restoran restoran = menadzer.getRestoran();
 
         for(Artikal artikal : restoran.getArtikliUPonudi()){
-            if (artikal.getId() == id){
+            if (artikal.getId().equals(id)){
                 restoran.getArtikliUPonudi().remove(artikal);
                 restoranService.deleteArtikal(artikal);
                 restoranService.save(restoran);
