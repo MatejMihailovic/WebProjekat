@@ -87,6 +87,7 @@ public class ArtikalRestController {
         for(Artikal artikal : restoran.getArtikliUPonudi()){
             if (artikal.getId().equals(id)){
                 restoran.getArtikliUPonudi().remove(artikal);
+                artikal.setRestoran(null);
                 restoranService.deleteArtikal(artikal);
                 restoranService.save(restoran);
                 return ResponseEntity.ok("Uspesno obrisan artikal!");
