@@ -35,6 +35,17 @@ public class Artikal implements Serializable {
     @JsonIgnore
     private Restoran restoran;
 
+    @Column(nullable = true, length = 64)
+    private String photos;
+
+    public String getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
+
     public Set<Porudzbina> getPorudzbine() {
         return porudzbine;
     }
