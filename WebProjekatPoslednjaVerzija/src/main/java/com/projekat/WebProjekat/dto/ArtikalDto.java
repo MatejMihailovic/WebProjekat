@@ -16,7 +16,8 @@ public class ArtikalDto {
 
     private String opis;
 
-    //private String slika;
+    public ArtikalDto() {
+    }
 
     public ArtikalDto(String naziv, double cena, Tip tip, double kolicina, String opis) {
         this.naziv = naziv;

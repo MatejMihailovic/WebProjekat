@@ -1,10 +1,7 @@
 package main.java.com.projekat.WebProjekat.service;
 
-import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
-import main.java.com.projekat.WebProjekat.dto.NoviRestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto;
 import main.java.com.projekat.WebProjekat.entity.*;
-import main.java.com.projekat.WebProjekat.repository.ArtikalRepository;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,16 +56,4 @@ public class RestoranService {
         return null;
     }
 
-    public Restoran dodajArtikal(ArtikalDto dto, Menadzer menadzer, String fileName){
-        Artikal artikal = new Artikal(dto.getNaziv(), dto.getCena(), dto.getTip(), dto.getKolicina(), dto.getOpis(), menadzer.getRestoran());
-        artikal.setPhotos(fileName);
-
-        menadzer.getRestoran().getArtikliUPonudi().add(artikal);
-
-        this.artikalService.save(artikal);
-
-        return this.save(menadzer.getRestoran());
-    }
-
-    public void deleteArtikal(Artikal artikal){ artikalService.delete(artikal);}
 }

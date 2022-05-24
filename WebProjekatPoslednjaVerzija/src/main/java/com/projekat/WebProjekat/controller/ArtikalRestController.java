@@ -1,5 +1,7 @@
 package main.java.com.projekat.WebProjekat.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
@@ -28,12 +30,14 @@ public class ArtikalRestController {
     private SessionService sessionService;
 
     @PostMapping("/api/artikli/dodajArtikal")
-    public ResponseEntity dodavanjeArtikla(@RequestBody ArtikalDto artikalDto, @RequestParam("image") MultipartFile multipartFile, HttpSession session){
+    public ResponseEntity<Artikal> dodavanjeArtikla(@RequestParam("image") MultipartFile multipartFile,@RequestParam("json") String jsonData,HttpSession session) throws JsonProcessingException {
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 
         if(!proveraSesije){
             return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
         }
+
+        ArtikalDto artikalDto = new ObjectMapper().readValue(jsonData, ArtikalDto.class);
 
         if(artikalDto.getNaziv().isEmpty() || artikalDto.getCena() <= 0 || artikalDto.getTip() == null){
             return new ResponseEntity("Ova polja ne smeju biti prazna!", HttpStatus.BAD_REQUEST);
@@ -43,9 +47,7 @@ public class ArtikalRestController {
 
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
 
-        restoranService.dodajArtikal(artikalDto, menadzer, fileName);
-
-        return ResponseEntity.ok("Uspesno dodat artikal!");
+        return new ResponseEntity(artikalService.dodajArtikal(artikalDto, menadzer, fileName), HttpStatus.OK);
     }
 
     @PutMapping("/api/artikli/updateArtikal/{id}")
@@ -91,7 +93,7 @@ public class ArtikalRestController {
         for(Artikal artikal : restoran.getArtikliUPonudi()){
             if (artikal.getId().equals(id)){
                 restoran.getArtikliUPonudi().remove(artikal);
-                restoranService.deleteArtikal(artikal);
+                artikalService.delete(artikal);
                 restoranService.save(restoran);
                 return ResponseEntity.ok("Uspesno obrisan artikal!");
             }
