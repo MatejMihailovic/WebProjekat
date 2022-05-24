@@ -35,11 +35,13 @@ public class ArtikalService {
         Artikal artikal = new Artikal(dto.getNaziv(), dto.getCena(), dto.getTip(), dto.getKolicina(), dto.getOpis(), menadzer.getRestoran());
         artikal.setPhotos(fileName);
 
+        this.save(artikal);
+
         menadzer.getRestoran().getArtikliUPonudi().add(artikal);
 
         restoranRepository.save(menadzer.getRestoran());
 
-        return this.save(artikal);
+        return artikal;
     }
 
     public void delete(Artikal artikal) {
