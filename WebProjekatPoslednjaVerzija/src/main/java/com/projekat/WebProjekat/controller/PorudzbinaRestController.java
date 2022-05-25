@@ -163,17 +163,7 @@ public class PorudzbinaRestController {
 
         Porudzbina porudzbina = porudzbinaService.findByStatus(kupac, Status.u_korpi);
 
-        Artikal artikal = artikalService.findOne(id);
-
-        porudzbina.getPoruceniArtikli().remove(artikal);
-
-        artikal.getPorudzbine().remove(porudzbina);
-
-        artikalService.save(artikal);
-
-        porudzbinaService.save(porudzbina);
-
-        korisnikService.save(kupac, Uloga.Kupac);
+        porudzbinaService.ukloniArtikal(porudzbina, kupac, id);
         
         return new ResponseEntity("Uspesno obrisan artikal", HttpStatus.OK);
     }

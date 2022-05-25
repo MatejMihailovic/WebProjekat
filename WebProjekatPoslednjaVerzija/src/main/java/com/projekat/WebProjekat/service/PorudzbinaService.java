@@ -1,21 +1,23 @@
 package main.java.com.projekat.WebProjekat.service;
 
-import main.java.com.projekat.WebProjekat.dto.PorudzbinaDto;
+
 import main.java.com.projekat.WebProjekat.entity.*;
-import main.java.com.projekat.WebProjekat.repository.DostavljacRepository;
-import main.java.com.projekat.WebProjekat.repository.KupacRepository;
-import main.java.com.projekat.WebProjekat.repository.PorudzbinaRepository;
-import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
+import main.java.com.projekat.WebProjekat.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 
 @Service
 public class PorudzbinaService {
     @Autowired
     private PorudzbinaRepository porudzbinaRepository;
+
+    @Autowired
+    private ArtikalRepository artikalRepository;
+
+    @Autowired
+    private KorisnikService korisnikService;
 
     public Porudzbina save(Porudzbina porudzbina) { return porudzbinaRepository.save(porudzbina);}
     public List<Porudzbina> findAll() { return porudzbinaRepository.findAll(); }
@@ -35,5 +37,25 @@ public class PorudzbinaService {
             }
         }
         return new Porudzbina();
+    }
+
+    public void ukloniArtikal(Porudzbina porudzbina, Kupac kupac, Long id){
+        Artikal artikal = new Artikal();
+        for(Artikal a : porudzbina.getPoruceniArtikli()){
+                if(a.getId().equals(id)){
+                    artikal = a;
+                    break;
+                }
+        }
+
+        porudzbina.getPoruceniArtikli().remove(artikal);
+
+        artikal.getPorudzbine().remove(porudzbina);
+
+        artikalRepository.save(artikal);
+
+        porudzbinaRepository.save(porudzbina);
+
+        korisnikService.save(kupac, Uloga.Kupac);
     }
 }
