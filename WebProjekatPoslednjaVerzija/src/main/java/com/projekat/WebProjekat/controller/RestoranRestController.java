@@ -31,7 +31,7 @@ public class RestoranRestController {
     @Autowired
     private SessionService sessionService;
 
-    @GetMapping("/api/restorani")
+    @GetMapping("api/restorani")
     public ResponseEntity<List<RestoranDto>> getRestorani(){
         List<Restoran> restorani = this.restoranService.findAll();
 
@@ -43,7 +43,7 @@ public class RestoranRestController {
         return ResponseEntity.ok(dtos);
 
     }
-    @PostMapping("/api/restorani/kreiraj")
+    @PostMapping("api/restorani/kreiraj")
     public ResponseEntity kreirajRestoran(@RequestBody KreirajRestoranDto dto, HttpSession session){
         Boolean provera = sessionService.validateRole(session, "Admin");
 
@@ -98,7 +98,7 @@ public class RestoranRestController {
         return ResponseEntity.ok(restorani);
     }
 
-    @GetMapping("/api/restorani/pretrazi/izbor/{id}")
+    @GetMapping("/api/restorani/pretrazi-izbor/{id}")
     public ResponseEntity<RestoranPrikazDto> izborRestorana(@PathVariable(name = "id") Long id){
 
         Restoran restoran = restoranService.findOne(id);
