@@ -1,6 +1,7 @@
 package main.java.com.projekat.WebProjekat.entity;
 
 public enum Status {
+    u_korpi("U korpi"),
     obrada("Obrada"),
     priprema("Priprema"),
     ceka("Ceka"),
