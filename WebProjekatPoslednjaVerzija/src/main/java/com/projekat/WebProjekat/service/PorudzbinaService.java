@@ -28,28 +28,12 @@ public class PorudzbinaService {
         return porudzbine;
     }
 
-
-
-    //public void savePorudzbina(PorudzbinaDto porudzbina, String korisnickoIme) throws Exception{
-        /*Kupac kupac = kupacRepository.findByKorisnickoIme(korisnickoIme);
-        Optional<Restoran> restoran = restoranRepository.findById(porudzbina.getRestoran().getId());
-
-
-        Porudzbina novaPorudzbina = new Porudzbina();
-        Set<Artikal> artikli = new HashSet<>();
-
-        for(Artikal art : porudzbina.getPoruceniArtikli()){
-            Artikal trazeniArtikal = null;
-            for(Artikal a : restoran.get().getArtikliUPonudi()){
-                if(a.getId().equals(art.getId())){
-                    trazeniArtikal = a;
-                    break;
-                }
+    public Porudzbina findByStatus(Kupac kupac, Status status) {
+        for(Porudzbina p : kupac.getPorudzbine()){
+            if(p.getStatus() == status){
+                return p;
             }
         }
-
-        novaPorudzbina.setPoruceniArtikli(artikli);
-        porudzbinaRepository.save(novaPorudzbina);*/
-
-    //}
+        return new Porudzbina();
+    }
 }
