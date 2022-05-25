@@ -71,23 +71,8 @@ public class DatabaseConfiguration {
         Kupac kupac2 = new Kupac("mika123", "3004", "Mikac", "Mikic", Pol.Musko, new Date(89, Calendar.SEPTEMBER, 27), tip1,20);
         kupacRepository.save(kupac2);
 
-        Porudzbina porudzbina1 = new Porudzbina(restoran1,new Date(93, Calendar.JULY, 4), 150, Status.ceka, kupac1.getKorisnickoIme());
-        porudzbinaRepository.save(porudzbina1);
-
         Artikal artikal1 = new Artikal("Coca-cola", 70, Tip.pice, 20, "gazirani sok", restoran1);
         artikalRepository.save(artikal1);
-
-        porudzbina1.addArtikal(artikal1);
-        porudzbinaRepository.save(porudzbina1);
-
-        artikal1.addPorudzbina(porudzbina1);
-        artikalRepository.save(artikal1);
-
-        kupac1.getPorudzbine().add(porudzbina1);
-        kupacRepository.save(kupac1);
-
-        dostavljac1.getPorudzbine().add(porudzbina1);
-        dostavljacRepository.save(dostavljac1);
 
         Menadzer menadzer1 = new Menadzer("milena123", "1111", "Milena", "Milenovic", Pol.Zenski, new Date(93, Calendar.FEBRUARY, 16), restoran1);
         menadzerRepository.save(menadzer1);

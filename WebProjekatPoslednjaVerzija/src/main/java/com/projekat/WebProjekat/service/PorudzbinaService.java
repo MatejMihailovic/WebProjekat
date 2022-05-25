@@ -17,15 +17,7 @@ public class PorudzbinaService {
     @Autowired
     private PorudzbinaRepository porudzbinaRepository;
 
-    @Autowired
-    private KupacRepository kupacRepository;
-
-    @Autowired
-    private DostavljacRepository dostavljacRepository;
-
-    @Autowired
-    private RestoranRepository restoranRepository;
-
+    public Porudzbina save(Porudzbina porudzbina) { return porudzbinaRepository.save(porudzbina);}
     public List<Porudzbina> findAll() { return porudzbinaRepository.findAll(); }
 
     public List<Porudzbina> findAllForDostavljac(Dostavljac dostavljac){

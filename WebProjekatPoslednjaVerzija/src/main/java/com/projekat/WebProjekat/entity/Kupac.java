@@ -9,7 +9,7 @@ import java.util.Set;
 @Entity
 public class Kupac extends Korisnik implements Serializable{
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "porudzbina_id")
     private Set<Porudzbina> porudzbine = new HashSet<>();
 
