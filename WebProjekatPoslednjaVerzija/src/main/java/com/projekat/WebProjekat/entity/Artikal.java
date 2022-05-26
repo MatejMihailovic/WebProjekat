@@ -26,7 +26,7 @@ public class Artikal implements Serializable {
     @Column
     private String opis;
 
-    @ManyToMany(mappedBy = "poruceniArtikli")
+    @ManyToMany(mappedBy = "poruceniArtikli", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Porudzbina> porudzbine = new HashSet<>();
 

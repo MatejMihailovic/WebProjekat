@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.UUID;
 
 public class PorudzbinaDto {
-    UUID id;
     Set<Artikal> poruceniArtikli = new HashSet<>();
     Restoran restoran;
     Date datumIVreme;
@@ -19,8 +18,7 @@ public class PorudzbinaDto {
     Status status;
     String korisnickoIme;
 
-    public PorudzbinaDto(UUID id, Set<Artikal> poruceniArtikli, Restoran restoran, Date datumIVreme, double cena, Status status, String korisnickoIme) {
-        this.id = id;
+    public PorudzbinaDto(Set<Artikal> poruceniArtikli, Restoran restoran, Date datumIVreme, double cena, Status status, String korisnickoIme) {
         this.poruceniArtikli = poruceniArtikli;
         this.restoran = restoran;
         this.datumIVreme = datumIVreme;
@@ -30,21 +28,12 @@ public class PorudzbinaDto {
     }
 
     public PorudzbinaDto(Porudzbina porudzbina){
-        this.id = porudzbina.getId();
         this.poruceniArtikli = porudzbina.getPoruceniArtikli();
         this.restoran = porudzbina.getRestoran();
         this.datumIVreme = porudzbina.datumIVreme;
         this.cena = porudzbina.getCena();
         this.status = porudzbina.getStatus();
         this.korisnickoIme = porudzbina.getKorisnickoIme();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public Set<Artikal> getPoruceniArtikli() {
