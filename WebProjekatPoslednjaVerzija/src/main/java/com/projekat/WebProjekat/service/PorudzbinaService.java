@@ -50,6 +50,7 @@ public class PorudzbinaService {
 
         porudzbina.getPoruceniArtikli().remove(artikal);
 
+
         artikal.getPorudzbine().remove(porudzbina);
 
         artikalRepository.save(artikal);

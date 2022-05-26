@@ -151,7 +151,7 @@ public class PorudzbinaRestController {
         return new ResponseEntity("Dodat artikal", HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/porudzbine-ukloniArtikal/{id}")
+    @PutMapping("/api/porudzbine-ukloniArtikal/{id}")
     public ResponseEntity izbaciIzKorpe(@PathVariable Long id, HttpSession session){
         Boolean proveraSesije = sessionService.validateRole(session,"Kupac");
 
