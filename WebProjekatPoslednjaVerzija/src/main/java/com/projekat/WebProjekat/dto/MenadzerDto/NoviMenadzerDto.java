@@ -16,11 +16,11 @@ public class NoviMenadzerDto {
 
     private Pol pol;
 
-    private Date datumRodjenja;
+    private String datumRodjenja;
 
     private String nazivRestorana;
 
-    public NoviMenadzerDto(String korisnickoIme, String lozinka ,String ime, String prezime, Pol pol, Date datumRodjenja, String nazivRestorana) {
+    public NoviMenadzerDto(String korisnickoIme, String lozinka ,String ime, String prezime, Pol pol, String datumRodjenja, String nazivRestorana) {
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
         this.ime = ime;
@@ -28,16 +28,6 @@ public class NoviMenadzerDto {
         this.pol = pol;
         this.datumRodjenja = datumRodjenja;
         this.nazivRestorana = nazivRestorana;
-    }
-
-    public NoviMenadzerDto(Menadzer menadzer) {
-        this.korisnickoIme = menadzer.getKorisnickoIme();
-        this.lozinka = menadzer.getLozinka();
-        this.ime = menadzer.getIme();
-        this.prezime = menadzer.getPrezime();
-        this.pol = menadzer.getPol();
-        this.datumRodjenja = menadzer.getDatumRodjenja();
-        this.nazivRestorana = menadzer.getRestoran().getNaziv();
     }
 
     public String getLozinka() {
@@ -80,11 +70,11 @@ public class NoviMenadzerDto {
         this.pol = pol;
     }
 
-    public Date getDatumRodjenja() {
+    public String getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(String datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 

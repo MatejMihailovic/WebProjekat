@@ -15,9 +15,9 @@ public class NoviDostavljacDto {
 
     private Pol pol;
 
-    private Date datumRodjenja;
+    private String datumRodjenja;
 
-    public NoviDostavljacDto(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datumRodjenja) {
+    public NoviDostavljacDto(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, String datumRodjenja) {
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
         this.ime = ime;
@@ -66,11 +66,11 @@ public class NoviDostavljacDto {
         this.pol = pol;
     }
 
-    public Date getDatumRodjenja() {
+    public String getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(String datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 }

@@ -2,6 +2,7 @@ package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.*;
 import main.java.com.projekat.WebProjekat.dto.MenadzerDto.NoviMenadzerDto;
+import main.java.com.projekat.WebProjekat.dto.MenadzerDto.PrikazMenadzerDto;
 import main.java.com.projekat.WebProjekat.entity.Dostavljac;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
@@ -15,7 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -94,7 +98,7 @@ public class KorisnikRestController {
     }
 
     @PostMapping("/api/korisnici/dodaj/menadzer")
-    public ResponseEntity dodajMenadzera(HttpSession session,@RequestBody NoviMenadzerDto dto){
+    public ResponseEntity dodajMenadzera(HttpSession session,@RequestBody NoviMenadzerDto dto) throws ParseException {
         Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
@@ -105,12 +109,16 @@ public class KorisnikRestController {
             return new ResponseEntity("Uneto korisnicko ime vec postoji.",HttpStatus.BAD_REQUEST);
         }
 
-        Menadzer menadzer = new Menadzer(dto.getKorisnickoIme(), dto.getLozinka(), dto.getIme(), dto.getPrezime(), dto.getPol(), dto.getDatumRodjenja(), restoranService.findOneByNaziv(dto.getNazivRestorana()));
-        return new ResponseEntity(korisnikService.save(menadzer, menadzer.getUloga()), HttpStatus.OK);
+        Date datum = new SimpleDateFormat("dd/MM/yyyy").parse(dto.getDatumRodjenja());
+        Menadzer menadzer = new Menadzer(dto.getKorisnickoIme(), dto.getLozinka(), dto.getIme(), dto.getPrezime(), dto.getPol(), datum, restoranService.findOneByNaziv(dto.getNazivRestorana()));
+
+        korisnikService.save(menadzer, menadzer.getUloga());
+
+        return new ResponseEntity("Uspesno dodat menadzer!" , HttpStatus.OK);
     }
 
     @PostMapping("/api/korisnici/dodaj/dostavljac")
-    public ResponseEntity dodajDostavljaca(HttpSession session,@RequestBody NoviDostavljacDto dto){
+    public ResponseEntity dodajDostavljaca(HttpSession session,@RequestBody NoviDostavljacDto dto) throws ParseException {
         Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
@@ -121,8 +129,12 @@ public class KorisnikRestController {
             return new ResponseEntity("Uneto korisnicko ime vec postoji.",HttpStatus.BAD_REQUEST);
         }
 
-        Dostavljac dostavljac = new Dostavljac(dto.getKorisnickoIme(), dto.getLozinka(), dto.getIme(), dto.getPrezime(), dto.getPol(), dto.getDatumRodjenja());
-        return new ResponseEntity(korisnikService.save(dostavljac, dostavljac.getUloga()), HttpStatus.OK);
+        Date datum = new SimpleDateFormat("dd/MM/yyyy").parse(dto.getDatumRodjenja());
+        Dostavljac dostavljac = new Dostavljac(dto.getKorisnickoIme(), dto.getLozinka(), dto.getIme(), dto.getPrezime(), dto.getPol(), datum);
+
+        korisnikService.save(dostavljac, dostavljac.getUloga());
+
+        return new ResponseEntity("Uspesno dodat dostavljac!" , HttpStatus.OK);
     }
 
 

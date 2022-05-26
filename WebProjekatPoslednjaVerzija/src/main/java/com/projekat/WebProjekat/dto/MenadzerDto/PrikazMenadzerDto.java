@@ -4,9 +4,11 @@ import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Pol;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MenadzerDto {
+public class PrikazMenadzerDto {
     private String korisnickoIme;
 
     private String ime;
@@ -15,11 +17,11 @@ public class MenadzerDto {
 
     private Pol pol;
 
-    private Date datumRodjenja;
+    private String datumRodjenja;
 
     private Restoran restoran;
 
-    public MenadzerDto(String korisnickoIme, String ime, String prezime, Pol pol, Date datumRodjenja, Restoran restoran) {
+    public PrikazMenadzerDto(String korisnickoIme, String ime, String prezime, Pol pol, String datumRodjenja, Restoran restoran) {
         this.korisnickoIme = korisnickoIme;
         this.ime = ime;
         this.prezime = prezime;
@@ -28,12 +30,14 @@ public class MenadzerDto {
         this.restoran = restoran;
     }
 
-    public MenadzerDto(Menadzer menadzer) {
+    public PrikazMenadzerDto(Menadzer menadzer) {
         this.korisnickoIme = menadzer.getKorisnickoIme();
         this.ime = menadzer.getIme();
         this.prezime = menadzer.getPrezime();
         this.pol = menadzer.getPol();
-        this.datumRodjenja = menadzer.getDatumRodjenja();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        String datumRodjenja = dateFormat.format(menadzer.getDatumRodjenja());
+        this.datumRodjenja = datumRodjenja;
         this.restoran = menadzer.getRestoran();
     }
 
@@ -69,11 +73,11 @@ public class MenadzerDto {
         this.pol = pol;
     }
 
-    public Date getDatumRodjenja() {
+    public String getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(String datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 
