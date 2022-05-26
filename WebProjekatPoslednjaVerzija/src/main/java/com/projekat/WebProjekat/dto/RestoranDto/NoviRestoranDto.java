@@ -1,29 +1,21 @@
-package main.java.com.projekat.WebProjekat.dto;
+package main.java.com.projekat.WebProjekat.dto.RestoranDto;
 
 import main.java.com.projekat.WebProjekat.entity.Lokacija;
 
-public class KreirajRestoranDto {
-    private String kImeMenadzera;
-
+public class NoviRestoranDto {
     private String naziv;
 
     private String tipRestorana;
 
     private Lokacija lokacija;
 
-    public KreirajRestoranDto(String kImeMenadzera, String naziv, String tipRestorana, Lokacija lokacija) {
-        this.kImeMenadzera = kImeMenadzera;
+    private String korisnickoImeMenadzera;
+
+    public NoviRestoranDto(String naziv, String tipRestorana, Lokacija lokacija, String korisnickoImeMenadzera) {
         this.naziv = naziv;
         this.tipRestorana = tipRestorana;
         this.lokacija = lokacija;
-    }
-
-    public String getkImeMenadzera() {
-        return kImeMenadzera;
-    }
-
-    public void setkImeMenadzera(String kImeMenadzera) {
-        this.kImeMenadzera = kImeMenadzera;
+        this.korisnickoImeMenadzera = korisnickoImeMenadzera;
     }
 
     public String getNaziv() {
@@ -48,5 +40,13 @@ public class KreirajRestoranDto {
 
     public void setLokacija(Lokacija lokacija) {
         this.lokacija = lokacija;
+    }
+
+    public String getKorisnickoImeMenadzera() {
+        return korisnickoImeMenadzera;
+    }
+
+    public void setKorisnickoImeMenadzera(String korisnickoImeMenadzera) {
+        this.korisnickoImeMenadzera = korisnickoImeMenadzera;
     }
 }

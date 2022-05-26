@@ -1,7 +1,5 @@
 package main.java.com.projekat.WebProjekat.service;
 
-import main.java.com.projekat.WebProjekat.dto.LoginDto;
-import main.java.com.projekat.WebProjekat.dto.MenadzerDto;
 import main.java.com.projekat.WebProjekat.entity.*;
 import main.java.com.projekat.WebProjekat.repository.DostavljacRepository;
 import main.java.com.projekat.WebProjekat.repository.KorisnikRepository;
@@ -10,8 +8,6 @@ import main.java.com.projekat.WebProjekat.repository.MenadzerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

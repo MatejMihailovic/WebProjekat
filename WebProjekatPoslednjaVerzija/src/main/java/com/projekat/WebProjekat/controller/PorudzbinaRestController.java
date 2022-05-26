@@ -1,23 +1,19 @@
 package main.java.com.projekat.WebProjekat.controller;
 
-import main.java.com.projekat.WebProjekat.dto.ArtikalPrikazDto;
-import main.java.com.projekat.WebProjekat.dto.PorudzbinaDto;
-import main.java.com.projekat.WebProjekat.dto.PorudzbinaKorpaDto;
+import main.java.com.projekat.WebProjekat.dto.PorudzbinaDto.PorudzbinaDto;
+import main.java.com.projekat.WebProjekat.dto.PorudzbinaDto.PorudzbinaKorpaDto;
 import main.java.com.projekat.WebProjekat.entity.*;
-import main.java.com.projekat.WebProjekat.repository.KupacRepository;
 import main.java.com.projekat.WebProjekat.repository.PorudzbinaRepository;
 import main.java.com.projekat.WebProjekat.service.ArtikalService;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
 import main.java.com.projekat.WebProjekat.service.PorudzbinaService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController

@@ -1,4 +1,4 @@
-package main.java.com.projekat.WebProjekat.dto;
+package main.java.com.projekat.WebProjekat.dto.ArtikalDto;
 
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 

@@ -1,4 +1,4 @@
-package main.java.com.projekat.WebProjekat.dto;
+package main.java.com.projekat.WebProjekat.dto.PorudzbinaDto;
 
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 import main.java.com.projekat.WebProjekat.entity.Porudzbina;
@@ -8,7 +8,6 @@ import main.java.com.projekat.WebProjekat.entity.Status;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 public class PorudzbinaDto {
     Set<Artikal> poruceniArtikli = new HashSet<>();

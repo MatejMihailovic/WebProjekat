@@ -1,5 +1,6 @@
-package main.java.com.projekat.WebProjekat.dto;
+package main.java.com.projekat.WebProjekat.dto.RestoranDto;
 
+import main.java.com.projekat.WebProjekat.dto.ArtikalDto.ArtikalPrikazDto;
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 import main.java.com.projekat.WebProjekat.entity.Komentar;
 import main.java.com.projekat.WebProjekat.entity.Lokacija;

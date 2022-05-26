@@ -1,6 +1,6 @@
 package main.java.com.projekat.WebProjekat.service;
 
-import main.java.com.projekat.WebProjekat.dto.RestoranDto;
+import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranDto;
 import main.java.com.projekat.WebProjekat.entity.*;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;

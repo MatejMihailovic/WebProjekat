@@ -1,4 +1,4 @@
-package main.java.com.projekat.WebProjekat.dto;
+package main.java.com.projekat.WebProjekat.dto.MenadzerDto;
 
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Pol;

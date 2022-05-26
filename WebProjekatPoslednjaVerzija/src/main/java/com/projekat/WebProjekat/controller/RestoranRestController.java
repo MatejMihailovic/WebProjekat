@@ -1,8 +1,8 @@
 package main.java.com.projekat.WebProjekat.controller;
 
-import main.java.com.projekat.WebProjekat.dto.KreirajRestoranDto;
-import main.java.com.projekat.WebProjekat.dto.RestoranDto;
-import main.java.com.projekat.WebProjekat.dto.RestoranPrikazDto;
+import main.java.com.projekat.WebProjekat.dto.RestoranDto.KreirajRestoranDto;
+import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranDto;
+import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranPrikazDto;
 import main.java.com.projekat.WebProjekat.entity.Komentar;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;

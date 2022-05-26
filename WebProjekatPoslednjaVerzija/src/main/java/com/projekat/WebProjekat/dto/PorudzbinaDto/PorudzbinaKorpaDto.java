@@ -1,5 +1,6 @@
-package main.java.com.projekat.WebProjekat.dto;
+package main.java.com.projekat.WebProjekat.dto.PorudzbinaDto;
 
+import main.java.com.projekat.WebProjekat.dto.ArtikalDto.ArtikalKorpaDto;
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 import main.java.com.projekat.WebProjekat.entity.Porudzbina;
 

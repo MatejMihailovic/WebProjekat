@@ -1,6 +1,6 @@
 package main.java.com.projekat.WebProjekat.service;
 
-import main.java.com.projekat.WebProjekat.dto.ArtikalDto;
+import main.java.com.projekat.WebProjekat.dto.ArtikalDto.ArtikalDto;
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.repository.ArtikalRepository;

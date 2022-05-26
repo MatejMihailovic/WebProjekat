@@ -1,12 +1,8 @@
 package main.java.com.projekat.WebProjekat.entity;
 
-import main.java.com.projekat.WebProjekat.dto.MenadzerDto;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Menadzer extends Korisnik implements Serializable {

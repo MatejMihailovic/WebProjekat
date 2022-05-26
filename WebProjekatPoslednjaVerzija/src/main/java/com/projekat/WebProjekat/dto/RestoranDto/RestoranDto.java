@@ -1,4 +1,4 @@
-package main.java.com.projekat.WebProjekat.dto;
+package main.java.com.projekat.WebProjekat.dto.RestoranDto;
 
 import main.java.com.projekat.WebProjekat.entity.Lokacija;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
