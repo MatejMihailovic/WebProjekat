@@ -26,8 +26,8 @@ public class ArtikalRestController {
     @Autowired
     private SessionService sessionService;
 
-    @PostMapping("/api/artikli/dodajArtikal")
-    public ResponseEntity<Artikal> dodavanjeArtikla(@RequestParam("image") MultipartFile multipartFile, @RequestParam("json") String jsonData, HttpSession session) throws JsonProcessingException {
+    @PostMapping("/api/artikli/addArtikal")
+    public ResponseEntity<Artikal> addArtikal(@RequestParam("image") MultipartFile multipartFile, @RequestParam("json") String jsonData, HttpSession session) throws JsonProcessingException {
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 
         if(!proveraSesije){
@@ -44,7 +44,7 @@ public class ArtikalRestController {
 
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
 
-        return new ResponseEntity(artikalService.dodajArtikal(artikalDto, menadzer, fileName), HttpStatus.OK);
+        return new ResponseEntity(artikalService.addArtikal(artikalDto, menadzer, fileName), HttpStatus.OK);
     }
 
     @PutMapping("/api/artikli/updateArtikal/{id}")
@@ -55,13 +55,15 @@ public class ArtikalRestController {
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 
-        artikalService.update(id, artikalDto);
+        Menadzer menadzer = (Menadzer) session.getAttribute("user");
+
+        artikalService.update(id, artikalDto, menadzer);
 
         return ResponseEntity.ok("Uspesno updated!");
     }
 
-    @DeleteMapping("/api/artikli/obrisiArtikal/{id}")
-    public ResponseEntity obrisiArtikal(@PathVariable(name = "id") Long id, HttpSession session){
+    @DeleteMapping("/api/artikli/deleteArtikal/{id}")
+    public ResponseEntity deleteArtikal(@PathVariable(name = "id") Long id, HttpSession session){
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 
         if(!proveraSesije){

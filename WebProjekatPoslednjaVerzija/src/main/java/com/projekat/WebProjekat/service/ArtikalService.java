@@ -5,6 +5,7 @@ import main.java.com.projekat.WebProjekat.entity.Artikal;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.repository.ArtikalRepository;
+import main.java.com.projekat.WebProjekat.repository.MenadzerRepository;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class ArtikalService {
     @Autowired
     private RestoranRepository restoranRepository;
 
+    @Autowired
+    private MenadzerRepository menadzerRepository;
+
     public Artikal save(Artikal artikal) { return artikalRepository.save(artikal); }
 
     public Artikal findOne(Long id){
@@ -35,7 +39,8 @@ public class ArtikalService {
     public Restoran saveRestoran(Restoran restoran){
         return restoranRepository.save(restoran);
     }
-    public Artikal dodajArtikal(ArtikalDto dto, Menadzer menadzer, String fileName){
+
+    public Artikal addArtikal(ArtikalDto dto, Menadzer menadzer, String fileName){
         Artikal artikal = new Artikal(dto.getNaziv(), dto.getCena(), dto.getTip(), dto.getKolicina(), dto.getOpis(), menadzer.getRestoran());
         artikal.setPhotos(fileName);
 
@@ -45,11 +50,16 @@ public class ArtikalService {
 
         restoranRepository.save(menadzer.getRestoran());
 
+        menadzerRepository.save(menadzer);
+
         return artikal;
     }
 
-    public Artikal update(Long id, ArtikalDto artikalDto){
+    public void update(Long id, ArtikalDto artikalDto, Menadzer menadzer){
         Artikal artikal = this.findOne(id);
+
+        menadzer.getRestoran().getArtikliUPonudi().remove(artikal);
+
         if(!artikalDto.getNaziv().isEmpty()){
             artikal.setNaziv(artikalDto.getNaziv());
         }
@@ -65,7 +75,14 @@ public class ArtikalService {
         if(!artikalDto.getOpis().isEmpty()){
             artikal.setOpis(artikalDto.getOpis());
         }
-        return this.save(artikal);
+
+        this.save(artikal);
+
+        menadzer.getRestoran().getArtikliUPonudi().add(artikal);
+
+        restoranRepository.save(menadzer.getRestoran());
+
+        menadzerRepository.save(menadzer);
     }
 
     public void delete(Long id, Restoran restoran) {

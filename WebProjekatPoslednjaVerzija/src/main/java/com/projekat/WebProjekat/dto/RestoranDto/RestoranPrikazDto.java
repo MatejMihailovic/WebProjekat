@@ -33,7 +33,7 @@ public class RestoranPrikazDto {
     public RestoranPrikazDto() {
     }
 
-    public RestoranPrikazDto(Restoran restoran) {
+    public RestoranPrikazDto(Restoran restoran, List<Komentar> komentari) {
         this.naziv = restoran.getNaziv();
         this.tipRestorana = restoran.getTipRestorana();
         for(Artikal artikal : restoran.getArtikliUPonudi()){
@@ -42,8 +42,12 @@ public class RestoranPrikazDto {
         }
         this.lokacija = restoran.getLokacija();
         this.status = Status.RADI;
-        this.prosek = 0;
-        this.komentari = null;
+        double prosek = 0;
+        for(Komentar k : komentari){
+            prosek += k.getOcena();
+        }
+        this.prosek = prosek / komentari.size();
+        this.komentari = komentari;
     }
 
     public String getNaziv() {

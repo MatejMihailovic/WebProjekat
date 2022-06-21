@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,7 +54,7 @@ public class RestoranRestController {
     }
     @RequestMapping(method = RequestMethod.GET, value = "api/restorani")
     @ResponseBody
-    public List<Restoran> search(@RequestParam(value = "search") String search) {
+    public List<RestoranPrikazDto> search(@RequestParam(value = "search") String search) {
         List<SearchCriteria> params = new ArrayList<SearchCriteria>();
         if (search != null) {
             Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
@@ -63,8 +65,8 @@ public class RestoranRestController {
         }
         return service.search(params);
     }
-    @PostMapping("api/restorani/kreiraj")
-    public ResponseEntity kreirajRestoran(@RequestBody KreirajRestoranDto dto, HttpSession session){
+    @PostMapping("api/restorani/create")
+    public ResponseEntity createRestoran(@RequestBody KreirajRestoranDto dto, HttpSession session){
         Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
@@ -83,18 +85,20 @@ public class RestoranRestController {
 
         return ResponseEntity.ok("Uspesno kreiran restoran.");
     }
-    @GetMapping("/api/restorani/pretrazi-izbor/{id}")
+    @GetMapping("/api/restorani/{id}")
     public ResponseEntity<RestoranPrikazDto> izborRestorana(@PathVariable(name = "id") Long id){
 
         Restoran restoran = restoranService.findOne(id);
 
         List<Komentar> listaKomentara = komentarService.findAll(restoran);
 
-        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran);
+        List<Komentar> komentari = new ArrayList<>();
 
-        prikazDto.setKomentari(listaKomentara);
+        for(Komentar komentar : listaKomentara){
+            komentari.add(komentar);
+        }
 
-        prikazDto.setProsek(komentarService.prosecnaOcena(listaKomentara));
+        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran, komentari);
 
         return ResponseEntity.ok(prikazDto);
     }
