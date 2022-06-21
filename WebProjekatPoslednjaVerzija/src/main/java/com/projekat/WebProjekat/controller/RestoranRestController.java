@@ -66,36 +66,12 @@ public class RestoranRestController {
 
     @GetMapping("/api/restorani/pretrazi")
     public ResponseEntity<List<RestoranDto>> getRestoran(@RequestBody RestoranDto dto){
-        List<RestoranDto> restorani = new ArrayList<>();
 
         if(dto.getNaziv().isEmpty() && dto.getLokacija() == null && dto.getTipRestorana().isEmpty()){
             return new ResponseEntity("Invalid search information!", HttpStatus.BAD_REQUEST);
         }
 
-        if(!dto.getNaziv().isEmpty()) {
-            restorani.add(new RestoranDto(restoranService.findOneByNaziv(dto.getNaziv())));
-        }
-
-        if(dto.getLokacija() != null) {
-            restorani.add(new RestoranDto(restoranService.findOneByLokacija(dto.getLokacija())));
-        }
-
-        if(!dto.getTipRestorana().isEmpty()) {
-            for (RestoranDto rdto : (restoranService.findByTipRestorana(dto.getTipRestorana()))) {
-                    restorani.add(rdto);
-            }
-        }
-        //Uklanjamo duplikate
-        for(int i = 0; i < restorani.size(); i++){
-            for(int j = i + 1; j < restorani.size(); j++){
-                if(restorani.get(i).getNaziv().equals(restorani.get(j).getNaziv()) || restorani.get(i).getLokacija() == restorani.get(j).getLokacija()){
-                    restorani.remove(j);
-                    j--;
-                }
-            }
-        }
-
-        return ResponseEntity.ok(restorani);
+        return ResponseEntity.ok(restoranService.getRestorani(dto));
     }
 
     @GetMapping("/api/restorani/pretrazi-izbor/{id}")

@@ -48,6 +48,32 @@ public class RestoranService {
 
         return restoranidto;
     }
+    public List<RestoranDto> getRestorani(RestoranDto dto){
+        List<RestoranDto> restorani = new ArrayList<>();
+        if(!dto.getNaziv().isEmpty()) {
+            restorani.add(new RestoranDto(this.findOneByNaziv(dto.getNaziv())));
+        }
+
+        if(dto.getLokacija() != null) {
+            restorani.add(new RestoranDto(this.findOneByLokacija(dto.getLokacija())));
+        }
+
+        if(!dto.getTipRestorana().isEmpty()) {
+            for (RestoranDto rdto : (this.findByTipRestorana(dto.getTipRestorana()))) {
+                restorani.add(rdto);
+            }
+        }
+        //Uklanjamo duplikate
+        for(int i = 0; i < restorani.size(); i++){
+            for(int j = i + 1; j < restorani.size(); j++){
+                if(restorani.get(i).getNaziv().equals(restorani.get(j).getNaziv()) || restorani.get(i).getLokacija() == restorani.get(j).getLokacija()){
+                    restorani.remove(j);
+                    j--;
+                }
+            }
+        }
+        return restorani;
+    }
     public Restoran findOneByNaziv(String naziv){
         Optional<Restoran> pronadjenRestoran = restoranRepository.findByNaziv(naziv);
 

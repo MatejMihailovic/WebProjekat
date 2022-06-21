@@ -24,9 +24,6 @@ public class ArtikalRestController {
     private ArtikalService artikalService;
 
     @Autowired
-    private RestoranService restoranService;
-
-    @Autowired
     private SessionService sessionService;
 
     @PostMapping("/api/artikli/dodajArtikal")
@@ -58,25 +55,9 @@ public class ArtikalRestController {
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 
-        Artikal artikal = artikalService.findOne(id);
-        if(!artikalDto.getNaziv().isEmpty()){
-            artikal.setNaziv(artikalDto.getNaziv());
-        }
-        if(artikalDto.getCena() > 0){
-            artikal.setCena(artikalDto.getCena());
-        }
-        if(artikalDto.getTip() != null){
-            artikal.setTip(artikalDto.getTip());
-        }
-        if(artikalDto.getKolicina() > 0){
-            artikal.setKolicina(artikalDto.getKolicina());
-        }
-        if(!artikalDto.getOpis().isEmpty()){
-            artikal.setOpis(artikalDto.getOpis());
-        }
-        artikalService.save(artikal);
+        artikalService.update(id, artikalDto);
 
-        return ResponseEntity.ok("Uspesno promenjen artikal!");
+        return ResponseEntity.ok("Uspesno updated!");
     }
 
     @DeleteMapping("/api/artikli/obrisiArtikal/{id}")
@@ -90,15 +71,8 @@ public class ArtikalRestController {
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
         Restoran restoran = menadzer.getRestoran();
 
-        for(Artikal artikal : restoran.getArtikliUPonudi()){
-            if (artikal.getId().equals(id)){
-                restoran.getArtikliUPonudi().remove(artikal);
-                artikal.setRestoran(null);
-                artikalService.delete(artikal);
-                restoranService.save(restoran);
-                return ResponseEntity.ok("Uspesno obrisan artikal!");
-            }
-        }
-        return ResponseEntity.ok("Neuspesno obrisan artikal!");
+        artikalService.delete(id, restoran);
+
+        return ResponseEntity.ok("Successfully deleted!");
     }
 }
