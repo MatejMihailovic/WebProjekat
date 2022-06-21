@@ -4,6 +4,7 @@ import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranDto;
 import main.java.com.projekat.WebProjekat.entity.*;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,10 +14,7 @@ import java.util.Optional;
 @Service
 public class RestoranService {
     @Autowired
-    private RestoranRepository restoranRepository;
-
-    @Autowired
-    private ArtikalService artikalService;
+    private RestoranRepository restoranRepository;;
 
     public Restoran save(Restoran restoran) { return restoranRepository.save(restoran); }
 
@@ -28,6 +26,8 @@ public class RestoranService {
     }
 
     public List<Restoran> findAll() { return restoranRepository.findAll(); }
+
+    public List<Restoran> findAll(Specification<Restoran> spec) { return restoranRepository.findAll(spec); }
 
     public Restoran findOneByLokacija(Lokacija lokacija){
         Optional<Restoran> pronadjenRestoran = restoranRepository.findByLokacija(lokacija);
