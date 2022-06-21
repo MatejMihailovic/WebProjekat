@@ -7,6 +7,8 @@ import main.java.com.projekat.WebProjekat.entity.Komentar;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.service.*;
+import main.java.com.projekat.WebProjekat.dao.IRestaurantDAO;
+import main.java.com.projekat.WebProjekat.util.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class RestoranRestController {
@@ -26,12 +32,15 @@ public class RestoranRestController {
     private KorisnikService korisnikService;
 
     @Autowired
+    private IRestaurantDAO service;
+
+    @Autowired
     private KomentarService komentarService;
 
     @Autowired
     private SessionService sessionService;
 
-    @GetMapping("api/restorani")
+    @GetMapping("api/svi-restorani")
     public ResponseEntity<List<RestoranDto>> getRestorani(){
         List<Restoran> restorani = this.restoranService.findAll();
 
@@ -43,8 +52,21 @@ public class RestoranRestController {
         return ResponseEntity.ok(dtos);
 
     }
-    @PostMapping("api/restorani/kreiraj")
-    public ResponseEntity kreirajRestoran(@RequestBody KreirajRestoranDto dto, HttpSession session){
+    @RequestMapping(method = RequestMethod.GET, value = "api/restorani")
+    @ResponseBody
+    public List<RestoranPrikazDto> search(@RequestParam(value = "search") String search) {
+        List<SearchCriteria> params = new ArrayList<SearchCriteria>();
+        if (search != null) {
+            Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+            Matcher matcher = pattern.matcher(search + ",");
+            while (matcher.find()) {
+                params.add(new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3)));
+            }
+        }
+        return service.search(params);
+    }
+    @PostMapping("api/restorani/create")
+    public ResponseEntity createRestoran(@RequestBody KreirajRestoranDto dto, HttpSession session){
         Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
@@ -63,53 +85,20 @@ public class RestoranRestController {
 
         return ResponseEntity.ok("Uspesno kreiran restoran.");
     }
-
-    @GetMapping("/api/restorani/pretrazi")
-    public ResponseEntity<List<RestoranDto>> getRestoran(@RequestBody RestoranDto dto){
-        List<RestoranDto> restorani = new ArrayList<>();
-
-        if(dto.getNaziv().isEmpty() && dto.getLokacija() == null && dto.getTipRestorana().isEmpty()){
-            return new ResponseEntity("Invalid search information!", HttpStatus.BAD_REQUEST);
-        }
-
-        if(!dto.getNaziv().isEmpty()) {
-            restorani.add(new RestoranDto(restoranService.findOneByNaziv(dto.getNaziv())));
-        }
-
-        if(dto.getLokacija() != null) {
-            restorani.add(new RestoranDto(restoranService.findOneByLokacija(dto.getLokacija())));
-        }
-
-        if(!dto.getTipRestorana().isEmpty()) {
-            for (RestoranDto rdto : (restoranService.findByTipRestorana(dto.getTipRestorana()))) {
-                    restorani.add(rdto);
-            }
-        }
-        //Uklanjamo duplikate
-        for(int i = 0; i < restorani.size(); i++){
-            for(int j = i + 1; j < restorani.size(); j++){
-                if(restorani.get(i).getNaziv().equals(restorani.get(j).getNaziv()) || restorani.get(i).getLokacija() == restorani.get(j).getLokacija()){
-                    restorani.remove(j);
-                    j--;
-                }
-            }
-        }
-
-        return ResponseEntity.ok(restorani);
-    }
-
-    @GetMapping("/api/restorani/pretrazi-izbor/{id}")
+    @GetMapping("/api/restorani/{id}")
     public ResponseEntity<RestoranPrikazDto> izborRestorana(@PathVariable(name = "id") Long id){
 
         Restoran restoran = restoranService.findOne(id);
 
         List<Komentar> listaKomentara = komentarService.findAll(restoran);
 
-        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran);
+        List<Komentar> komentari = new ArrayList<>();
 
-        prikazDto.setKomentari(listaKomentara);
+        for(Komentar komentar : listaKomentara){
+            komentari.add(komentar);
+        }
 
-        prikazDto.setProsek(komentarService.prosecnaOcena(listaKomentara));
+        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran, komentari);
 
         return ResponseEntity.ok(prikazDto);
     }

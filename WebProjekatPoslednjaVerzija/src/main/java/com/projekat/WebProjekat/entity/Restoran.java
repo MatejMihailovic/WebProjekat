@@ -21,7 +21,7 @@ public class Restoran implements Serializable {
     @Column
     private String tipRestorana;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restoran", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restoran")
     @JsonIgnore
     private Set<Artikal> artikliUPonudi = new HashSet<>();
 

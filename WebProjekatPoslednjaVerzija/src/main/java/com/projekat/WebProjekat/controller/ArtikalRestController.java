@@ -24,13 +24,10 @@ public class ArtikalRestController {
     private ArtikalService artikalService;
 
     @Autowired
-    private RestoranService restoranService;
-
-    @Autowired
     private SessionService sessionService;
 
-    @PostMapping("/api/artikli/dodajArtikal")
-    public ResponseEntity<Artikal> dodavanjeArtikla(@RequestParam("image") MultipartFile multipartFile, @RequestParam("json") String jsonData, HttpSession session) throws JsonProcessingException {
+    @PostMapping("/api/artikli/addArtikal")
+    public ResponseEntity<Artikal> addArtikal(@RequestParam("image") MultipartFile multipartFile, @RequestParam("json") String jsonData, HttpSession session) throws JsonProcessingException {
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 
         if(!proveraSesije){
@@ -47,7 +44,7 @@ public class ArtikalRestController {
 
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
 
-        return new ResponseEntity(artikalService.dodajArtikal(artikalDto, menadzer, fileName), HttpStatus.OK);
+        return new ResponseEntity(artikalService.addArtikal(artikalDto, menadzer, fileName), HttpStatus.OK);
     }
 
     @PutMapping("/api/artikli/updateArtikal/{id}")
@@ -58,29 +55,15 @@ public class ArtikalRestController {
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 
-        Artikal artikal = artikalService.findOne(id);
-        if(!artikalDto.getNaziv().isEmpty()){
-            artikal.setNaziv(artikalDto.getNaziv());
-        }
-        if(artikalDto.getCena() > 0){
-            artikal.setCena(artikalDto.getCena());
-        }
-        if(artikalDto.getTip() != null){
-            artikal.setTip(artikalDto.getTip());
-        }
-        if(artikalDto.getKolicina() > 0){
-            artikal.setKolicina(artikalDto.getKolicina());
-        }
-        if(!artikalDto.getOpis().isEmpty()){
-            artikal.setOpis(artikalDto.getOpis());
-        }
-        artikalService.save(artikal);
+        Menadzer menadzer = (Menadzer) session.getAttribute("user");
 
-        return ResponseEntity.ok("Uspesno promenjen artikal!");
+        artikalService.update(id, artikalDto, menadzer);
+
+        return ResponseEntity.ok("Uspesno updated!");
     }
 
-    @DeleteMapping("/api/artikli/obrisiArtikal/{id}")
-    public ResponseEntity obrisiArtikal(@PathVariable(name = "id") Long id, HttpSession session){
+    @DeleteMapping("/api/artikli/deleteArtikal/{id}")
+    public ResponseEntity deleteArtikal(@PathVariable(name = "id") Long id, HttpSession session){
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 
         if(!proveraSesije){
@@ -90,15 +73,8 @@ public class ArtikalRestController {
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
         Restoran restoran = menadzer.getRestoran();
 
-        for(Artikal artikal : restoran.getArtikliUPonudi()){
-            if (artikal.getId().equals(id)){
-                restoran.getArtikliUPonudi().remove(artikal);
-                artikal.setRestoran(null);
-                artikalService.delete(artikal);
-                restoranService.save(restoran);
-                return ResponseEntity.ok("Uspesno obrisan artikal!");
-            }
-        }
-        return ResponseEntity.ok("Neuspesno obrisan artikal!");
+        artikalService.delete(id, restoran);
+
+        return ResponseEntity.ok("Successfully deleted!");
     }
 }
