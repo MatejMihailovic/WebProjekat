@@ -1,7 +1,10 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="logoVeliki">
+        <p class="white-text">dostava<span class="orange-span">019</span></p>
+
+    </div>
+    <a type="button" href="/login">Prijavite se</a>
   </div>
 </template>
 
@@ -16,3 +19,29 @@ export default {
   }
 }
 </script>
+
+
+<style scoped>
+.logoVeliki{
+    font-size:50px;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.logoMali{
+    font-size: 20px;
+    text-align: left;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.white-text{
+    color: cornflowerblue;
+}
+
+.orange-span{
+    color: orangered;
+}
+a{
+  text-decoration: none;
+}
+</style>
