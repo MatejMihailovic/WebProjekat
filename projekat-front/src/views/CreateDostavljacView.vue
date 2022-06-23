@@ -1,15 +1,15 @@
 <template>
-<form>
+  <form>
   <label for="korisnickoIme">Korisnicko ime:</label>
-  <input v-model="menadzer.korisnickoIme" /><br />
+  <input v-model="dostavljac.korisnickoIme" /><br />
   <label for="lozinka">Lozinka:</label>
-  <input v-model="menadzer.lozinka" type = "password"/><br />
+  <input v-model="dostavljac.lozinka" type = "password"/><br />
   <label for="ime">Ime:</label>
-  <input v-model="menadzer.ime" maxlength = "20"/><br />
+  <input v-model="dostavljac.ime" maxlength = "20"/><br />
   <label for="prezime">Prezime:</label>
-  <input v-model="menadzer.prezime" maxlength = "20"/><br />
+  <input v-model="dostavljac.prezime" maxlength = "20"/><br />
   <div>Pol: 
-  <select v-model="menadzer.pol">
+  <select v-model="dostavljac.pol">
     <option disabled>Odaberite pol</option>
     <option value = 0>Muski</option>
     <option value = 1>Zenski</option>
@@ -17,7 +17,7 @@
   </div>
   <br />
   <label for="datumRodjenja">Datum rodjenja:</label>
-  <input type="text" v-model="menadzer.datumRodjenja" placeholder="dd/mm/yyyy" pattern="[0-9/]{10}" required/><br />
+  <input type="text" v-model="dostavljac.datumRodjenja" placeholder="dd/mm/yyyy" pattern="[0-9/]{10}" required/><br />
   <button v-on:click="submit()">submit</button>
   </form>
 </template>

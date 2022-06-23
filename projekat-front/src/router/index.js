@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import AdminView from '../views/AdminView.vue'
 import CreateMenadzerView from '../views/CreateMenadzerView.vue'
+import CreateDostavljacView from '../views/CreateDostavljacView.vue'
 
 const routes = [
   {
