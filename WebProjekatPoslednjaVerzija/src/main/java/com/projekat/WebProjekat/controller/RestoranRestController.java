@@ -65,26 +65,7 @@ public class RestoranRestController {
         }
         return service.search(params);
     }
-    @PostMapping("api/restorani/create")
-    public ResponseEntity createRestoran(@RequestBody KreirajRestoranDto dto, HttpSession session){
-        Boolean provera = sessionService.validateRole(session, "Admin");
 
-        if(!provera){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
-
-        if(dto.getNaziv().isEmpty() || dto.getTipRestorana().isEmpty() || dto.getLokacija() == null || dto.getkImeMenadzera().isEmpty()){
-            return new ResponseEntity("Ova polja ne smeju biti prazna!",HttpStatus.BAD_REQUEST);
-        }
-        Restoran novi = new Restoran(dto.getNaziv(), dto.getTipRestorana(), dto.getLokacija());
-        Menadzer menadzer = (Menadzer) korisnikService.findOne(dto.getkImeMenadzera());
-
-        menadzer.setRestoran(novi);
-        restoranService.save(novi);
-        korisnikService.save(menadzer, menadzer.getUloga());
-
-        return ResponseEntity.ok("Uspesno kreiran restoran.");
-    }
     @GetMapping("/api/restorani/{id}")
     public ResponseEntity<RestoranPrikazDto> izborRestorana(@PathVariable(name = "id") Long id){
 

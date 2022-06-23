@@ -28,9 +28,6 @@ public class KorisnikRestController {
     private KorisnikService korisnikService;
 
     @Autowired
-    private RestoranService restoranService;
-
-    @Autowired
     private SessionService sessionService;
 
     @GetMapping("/api/korisnici")
@@ -97,45 +94,6 @@ public class KorisnikRestController {
         return ResponseEntity.ok(menadzer.getRestoran());
     }
 
-    @PostMapping("/api/korisnici/dodaj/menadzer")
-    public ResponseEntity dodajMenadzera(HttpSession session,@RequestBody NoviMenadzerDto dto) throws ParseException {
-        Boolean provera = sessionService.validateRole(session, "Admin");
-
-        if(!provera){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
-
-        if(korisnikService.containsKorisnickoIme(dto.getKorisnickoIme())){
-            return new ResponseEntity("Uneto korisnicko ime vec postoji.",HttpStatus.BAD_REQUEST);
-        }
-
-        Date datum = new SimpleDateFormat("dd/MM/yyyy").parse(dto.getDatumRodjenja());
-        Menadzer menadzer = new Menadzer(dto.getKorisnickoIme(), dto.getLozinka(), dto.getIme(), dto.getPrezime(), dto.getPol(), datum, restoranService.findOneByNaziv(dto.getNazivRestorana()));
-
-        korisnikService.save(menadzer, menadzer.getUloga());
-
-        return new ResponseEntity("Uspesno dodat menadzer!" , HttpStatus.OK);
-    }
-
-    @PostMapping("/api/korisnici/dodaj/dostavljac")
-    public ResponseEntity dodajDostavljaca(HttpSession session,@RequestBody NoviDostavljacDto dto) throws ParseException {
-        Boolean provera = sessionService.validateRole(session, "Admin");
-
-        if(!provera){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
-
-        if(korisnikService.containsKorisnickoIme(dto.getKorisnickoIme())){
-            return new ResponseEntity("Uneto korisnicko ime vec postoji.",HttpStatus.BAD_REQUEST);
-        }
-
-        Date datum = new SimpleDateFormat("dd/MM/yyyy").parse(dto.getDatumRodjenja());
-        Dostavljac dostavljac = new Dostavljac(dto.getKorisnickoIme(), dto.getLozinka(), dto.getIme(), dto.getPrezime(), dto.getPol(), datum);
-
-        korisnikService.save(dostavljac, dostavljac.getUloga());
-
-        return new ResponseEntity("Uspesno dodat dostavljac!" , HttpStatus.OK);
-    }
 
 
 }
