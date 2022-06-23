@@ -18,8 +18,6 @@
   <br />
   <label for="datumRodjenja">Datum rodjenja:</label>
   <input type="text" v-model="menadzer.datumRodjenja" placeholder="dd/mm/yyyy" pattern="[0-9/]{10}" required/><br />
-  <label for="nazivRestorana">Naziv restorana:</label>
-  <input v-model="menadzer.nazivRestorana" /><br />
   <button v-on:click="submit()">submit</button>
   </form>
 </template>
@@ -27,17 +25,16 @@
 <script>
 import axios from "axios"
 export default {
-  name: "CreateMenadzerView",
+  name: "CreateDostavljacView",
   data: function () {
     return {
-      menadzer: {
+      dostavljac: {
         korisnickoIme : "",
         lozinka : "",
         ime : "",
         prezime : "",
         pol : null,
-        datumRodjenja : "",
-        nazivRestorana : ""
+        datumRodjenja : ""
       },
     };
   },
@@ -45,7 +42,7 @@ export default {
     submit: function () {
 
       axios
-        .post("http://localhost:8083/api/admin/create-menadzer", this.menadzer, {withCredentials: true})
+        .post("http://localhost:8083/api/admin/create-dostavljac", this.dostavljac, {withCredentials: true})
         .then((res) => {
           console.log(res);
           this.$router.push("/admin");

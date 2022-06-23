@@ -24,6 +24,11 @@ const routes = [
     path: '/create-menadzer',
     name: 'create-menadzer',
     component: CreateMenadzerView
+  },
+  {
+    path: '/create-dostavljac',
+    name: 'create-dostavljac',
+    component: CreateDostavljacView
   }
 ]
 
