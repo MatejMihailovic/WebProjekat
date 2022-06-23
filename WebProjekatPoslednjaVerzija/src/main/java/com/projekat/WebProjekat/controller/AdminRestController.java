@@ -11,6 +11,7 @@ import main.java.com.projekat.WebProjekat.service.RestoranService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,8 +34,11 @@ public class AdminRestController {
     @Autowired
     private SessionService sessionService;
 
-    @PostMapping("api/admin/add-menadzer")
-    public ResponseEntity addMenadzera(HttpSession session, @RequestBody NoviMenadzerDto dto) throws ParseException {
+    @PostMapping(
+            value = "/api/admin/create-menadzer",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<NoviMenadzerDto> createMenadzer(@RequestBody NoviMenadzerDto dto, HttpSession session) throws ParseException {
         Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
@@ -50,11 +54,19 @@ public class AdminRestController {
 
         korisnikService.save(menadzer, menadzer.getUloga());
 
-        return new ResponseEntity("Uspesno dodat menadzer!" , HttpStatus.OK);
+        NoviMenadzerDto noviDto = new NoviMenadzerDto();
+        noviDto.setKorisnickoIme(menadzer.getKorisnickoIme());
+        noviDto.setLozinka(menadzer.getLozinka());
+        noviDto.setIme(menadzer.getIme());
+        noviDto.setPrezime(menadzer.getPrezime());
+        noviDto.setPol(menadzer.getPol());
+        noviDto.setDatumRodjenja(dto.getDatumRodjenja());
+        noviDto.setNazivRestorana(dto.getNazivRestorana());
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PostMapping("api/admin/add-dostavljac")
-    public ResponseEntity addDostavljac(HttpSession session,@RequestBody NoviDostavljacDto dto) throws ParseException {
+    @PostMapping("/api/admin/create-dostavljac")
+    public ResponseEntity createDostavljac(@RequestBody NoviDostavljacDto dto, HttpSession session) throws ParseException {
         Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
@@ -73,7 +85,7 @@ public class AdminRestController {
         return new ResponseEntity("Uspesno dodat dostavljac!" , HttpStatus.OK);
     }
 
-    @PostMapping("api/admin/create-restoran")
+    @PostMapping("/api/admin/create-restoran")
     public ResponseEntity createRestoran(@RequestBody KreirajRestoranDto dto, HttpSession session){
         Boolean provera = sessionService.validateRole(session, "Admin");
 
