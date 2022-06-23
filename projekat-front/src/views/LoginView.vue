@@ -27,25 +27,31 @@ export default {
     name: "LoginView",
     data: function(){
     return {
-        korisnik: {
-            korisnickoIme: "",
-            lozinka: "",
-        }, 
+         korisnik:{
+            korisnickoIme: '',
+            lozinka: '',
+         },
+           
+        
     };
     
     },
     methods: {
         prijaviSe: function(){
             axios
-                .post("http://localhost:8081/api/login", this.user)
+             .post("http://localhost:8080/api/login", this.korisnik,{withCredentials: true})
                 .then((res) => {
                     console.log(res);
+                    
                     this.$router.push("/login");
+                    alert("Uspesno");
                 })
-                .catch((err) => {
-                    console.log(err);
+                .catch((error) => {
+                    console.log(error.response);
                     alert("Neuspesno");
                 });
+               
+            
         },
     },
 };
