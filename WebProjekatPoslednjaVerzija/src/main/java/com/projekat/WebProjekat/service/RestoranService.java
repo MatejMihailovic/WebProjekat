@@ -82,4 +82,11 @@ public class RestoranService {
         return null;
     }
 
+    public void deleteRestoran(Long id){
+        Restoran restoran = this.findOne(id);
+
+        restoranRepository.delete(restoran);
+
+    }
+
 }

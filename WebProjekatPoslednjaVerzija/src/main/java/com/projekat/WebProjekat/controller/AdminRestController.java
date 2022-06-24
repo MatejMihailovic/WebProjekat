@@ -6,6 +6,7 @@ import main.java.com.projekat.WebProjekat.dto.RestoranDto.KreirajRestoranDto;
 import main.java.com.projekat.WebProjekat.entity.Dostavljac;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.service.KomentarService;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
 import main.java.com.projekat.WebProjekat.service.RestoranService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
@@ -13,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -30,6 +29,9 @@ public class AdminRestController {
 
     @Autowired
     private RestoranService restoranService;
+
+    @Autowired
+    private KomentarService komentarService;
 
     @Autowired
     private SessionService sessionService;
@@ -104,5 +106,20 @@ public class AdminRestController {
         korisnikService.save(menadzer, menadzer.getUloga());
 
         return ResponseEntity.ok("Uspesno kreiran restoran.");
+    }
+
+    @DeleteMapping("/api/admin/delete-restoran/{id}")
+    public ResponseEntity deleteRestoran(@PathVariable(name = "id") Long id, HttpSession session){
+        Boolean provera = sessionService.validateRole(session, "Admin");
+
+        if(!provera){
+            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
+        }
+
+        korisnikService.deleteMenadzerRestoran(id);
+        komentarService.deleteKomentarRestoran(id);
+        restoranService.deleteRestoran(id);
+
+        return ResponseEntity.ok("Uspesno obrisan restoran!");
     }
 }
