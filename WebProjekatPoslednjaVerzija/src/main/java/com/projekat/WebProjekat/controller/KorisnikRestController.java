@@ -32,11 +32,11 @@ public class KorisnikRestController {
 
     @GetMapping("/api/korisnici")
     public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession session){
-        Boolean provera = sessionService.validateRole(session, "Admin");
+        /*Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
+        }*/
         List<Korisnik> korisnici = this.korisnikService.findAll();
 
         List<KorisnikDto> dtos = new ArrayList<>();
