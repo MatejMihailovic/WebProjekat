@@ -4,14 +4,13 @@
     <a type="button" href="/create-restoran" class="btn btn-primary">Kreiraj Restoran</a>
 
     <div class="input-group">
-        <select class="form-select" aria-label="Default select example">
+        <select v-model="filter" class="form-select" aria-label="Default select example">
         <option selected>Choose</option>
-        <option value=1>By Username</option>
-        <option value=2>By First Name</option>
-        <option value=3>By Second Name</option>
+        <option value="korisnickoIme">By Username</option>
+        <option value="ime">By First Name</option>
+        <option value="prezime">By Second Name</option>
         </select>
-        <input type="search" id="myInput" onkeyup="myFunction()" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-        <button type="button" class="btn btn-outline-primary">search</button>
+        <input v-model="value" type="search" v-on:keyup="search(filter, value)" id="myInput" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
     </div>
 
     <table class="table">
@@ -47,6 +46,8 @@ export default {
   data: function () {
     return {
       users: [],
+      filter : "",
+      value : ""
     };
   },
    mounted: function () {
@@ -60,7 +61,16 @@ export default {
       })
    },
    methods: {
-    
+    search : function(filter, value){
+      axios
+      .get("http://localhost:8080/api/korisnici?search=" + filter + ":" + value, {withCredentials:true})
+      .then((res) => {
+        this.users = res.data
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
+    }
     },
 };
 </script>

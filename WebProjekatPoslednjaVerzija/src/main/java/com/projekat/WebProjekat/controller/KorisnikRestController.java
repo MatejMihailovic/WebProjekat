@@ -52,12 +52,13 @@ public class KorisnikRestController {
     }
     @RequestMapping(method = RequestMethod.GET, value = "api/korisnici")
     @ResponseBody
-    public List<KorisnikDto> search(@RequestParam(value = "search") String search) {
+    public List<KorisnikDto> search(@RequestParam(value = "search") String search, HttpSession session) {
         /*Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }*/
+        System.out.println(search);
         List<SearchCriteria> params = new ArrayList<SearchCriteria>();
         if (search != null) {
             Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
