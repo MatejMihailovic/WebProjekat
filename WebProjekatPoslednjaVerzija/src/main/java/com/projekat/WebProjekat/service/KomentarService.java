@@ -1,6 +1,7 @@
 package main.java.com.projekat.WebProjekat.service;
 
 import main.java.com.projekat.WebProjekat.entity.Komentar;
+import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.repository.KomentarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,34 +16,48 @@ public class KomentarService {
     @Autowired
     private KomentarRepository komentarRepository;
 
-    public Komentar save(Komentar komentar) { return komentarRepository.save(komentar); }
+    public Komentar save(Komentar komentar) {
+        return komentarRepository.save(komentar);
+    }
 
-    public Komentar findOne(Long id){
+    public Komentar findOne(Long id) {
         Optional<Komentar> pronadjenKomentar = komentarRepository.findById(id);
         if (pronadjenKomentar.isPresent())
             return pronadjenKomentar.get();
         return null;
     }
 
-    public List<Komentar> findAll() { return komentarRepository.findAll(); }
+    public List<Komentar> findAll() {
+        return komentarRepository.findAll();
+    }
 
     public List<Komentar> findAll(Restoran restoran) {
         List<Komentar> listaKomentara = new ArrayList<>();
 
-        for(Komentar k : this.findAll()){
-           if(k.getRestoranKomentar() == restoran){
-               listaKomentara.add(k);
-         }
-      }
+        for (Komentar k : this.findAll()) {
+            if (k.getRestoranKomentar() == restoran) {
+                listaKomentara.add(k);
+            }
+        }
         return listaKomentara;
     }
 
-    public double prosecnaOcena(List<Komentar> listaKomentara){
+    public double prosecnaOcena(List<Komentar> listaKomentara) {
         double rezultat = 0;
-        for(Komentar k : listaKomentara){
+        for (Komentar k : listaKomentara) {
             rezultat += k.getOcena();
         }
 
         return rezultat / listaKomentara.size();
+    }
+
+    public void deleteKomentarRestoran(Long id) {
+        List<Komentar> komentari = this.findAll();
+
+        for (Komentar k : komentari) {
+            if (k.getRestoranKomentar().getId().equals(id)) {
+                k.setRestoranKomentar(null);
+            }
+        }
     }
 }

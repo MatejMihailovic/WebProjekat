@@ -20,6 +20,8 @@ public class NoviMenadzerDto {
 
     private String nazivRestorana;
 
+    public NoviMenadzerDto() {
+    }
     public NoviMenadzerDto(String korisnickoIme, String lozinka ,String ime, String prezime, Pol pol, String datumRodjenja, String nazivRestorana) {
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;

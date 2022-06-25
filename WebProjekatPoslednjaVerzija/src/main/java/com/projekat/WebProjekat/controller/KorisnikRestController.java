@@ -1,15 +1,13 @@
 package main.java.com.projekat.WebProjekat.controller;
 
+import main.java.com.projekat.WebProjekat.dao.IUserDAO;
 import main.java.com.projekat.WebProjekat.dto.*;
-import main.java.com.projekat.WebProjekat.dto.MenadzerDto.NoviMenadzerDto;
-import main.java.com.projekat.WebProjekat.dto.MenadzerDto.PrikazMenadzerDto;
-import main.java.com.projekat.WebProjekat.entity.Dostavljac;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
-import main.java.com.projekat.WebProjekat.service.RestoranService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
+import main.java.com.projekat.WebProjekat.util.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class KorisnikRestController {
@@ -28,15 +28,18 @@ public class KorisnikRestController {
     private KorisnikService korisnikService;
 
     @Autowired
+    private IUserDAO service;
+
+    @Autowired
     private SessionService sessionService;
 
-    @GetMapping("/api/korisnici")
+    @GetMapping("/api/svi-korisnici")
     public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession session){
-        Boolean provera = sessionService.validateRole(session, "Admin");
+        /*Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
+        }*/
         List<Korisnik> korisnici = this.korisnikService.findAll();
 
         List<KorisnikDto> dtos = new ArrayList<>();
@@ -46,6 +49,25 @@ public class KorisnikRestController {
         }
         return ResponseEntity.ok(dtos);
 
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "api/korisnici")
+    @ResponseBody
+    public List<KorisnikDto> search(@RequestParam(value = "search") String search, HttpSession session) {
+        /*Boolean provera = sessionService.validateRole(session, "Admin");
+
+        if(!provera){
+            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
+        }*/
+        System.out.println(search);
+        List<SearchCriteria> params = new ArrayList<SearchCriteria>();
+        if (search != null) {
+            Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+            Matcher matcher = pattern.matcher(search + ",");
+            while (matcher.find()) {
+                params.add(new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3)));
+            }
+        }
+        return service.search(params);
     }
 
     @GetMapping("/api/korisnici/ulogovanKorisnik")

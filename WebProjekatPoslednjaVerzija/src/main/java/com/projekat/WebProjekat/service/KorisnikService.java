@@ -51,6 +51,9 @@ public class KorisnikService{
 
     public List<Korisnik> findAll() { return korisnikRepository.findAll(); }
 
+    public List<Menadzer> findAllMenadzer() { return menadzerRepository.findAll(); }
+
+
     public boolean containsKorisnickoIme(String korisnickoIme) {
         List<Korisnik> korisnici = this.findAll();
 
@@ -60,6 +63,16 @@ public class KorisnikService{
             }
         }
         return false;
+    }
+
+    public void deleteMenadzerRestoran(Long id){
+        List<Menadzer> menadzeri = this.findAllMenadzer();
+
+        for(Menadzer m : menadzeri){
+            if(m.getRestoran().getId().equals(id)){
+                m.setRestoran(null);
+            }
+        }
     }
 
 }

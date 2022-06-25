@@ -67,10 +67,13 @@ public class RestoranRestController {
     }
 
     @GetMapping("/api/restorani/{id}")
-    public ResponseEntity<RestoranPrikazDto> izborRestorana(@PathVariable(name = "id") Long id){
+    public ResponseEntity izborRestorana(@PathVariable(name = "id") Long id){
 
         Restoran restoran = restoranService.findOne(id);
 
+        if(restoran == null){
+            return new ResponseEntity<>("Restoran ne postoji!", HttpStatus.BAD_REQUEST);
+        }
         List<Komentar> listaKomentara = komentarService.findAll(restoran);
 
         List<Komentar> komentari = new ArrayList<>();
