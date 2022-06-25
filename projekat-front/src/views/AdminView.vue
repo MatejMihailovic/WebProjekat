@@ -4,6 +4,12 @@
     <a type="button" href="/create-restoran" class="btn btn-primary">Kreiraj Restoran</a>
 
     <div class="input-group">
+        <select class="form-select" aria-label="Default select example">
+        <option selected>Choose</option>
+        <option value=1>By Username</option>
+        <option value=2>By First Name</option>
+        <option value=3>By Second Name</option>
+        </select>
         <input type="search" id="myInput" onkeyup="myFunction()" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
         <button type="button" class="btn btn-outline-primary">search</button>
     </div>
@@ -45,7 +51,7 @@ export default {
   },
    mounted: function () {
     axios
-      .get("http://localhost:8080/api/korisnici")
+      .get("http://localhost:8080/api/svi-korisnici")
       .then((res) => {
         this.users = res.data
       })
