@@ -35,11 +35,11 @@ public class KorisnikRestController {
 
     @GetMapping("/api/svi-korisnici")
     public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession session){
-        /*Boolean provera = sessionService.validateRole(session, "Admin");
+        Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }*/
+        }
         List<Korisnik> korisnici = this.korisnikService.findAll();
 
         List<KorisnikDto> dtos = new ArrayList<>();
@@ -52,12 +52,12 @@ public class KorisnikRestController {
     }
     @RequestMapping(method = RequestMethod.GET, value = "api/korisnici")
     @ResponseBody
-    public List<KorisnikDto> search(@RequestParam(value = "search") String search, HttpSession session) {
-        /*Boolean provera = sessionService.validateRole(session, "Admin");
+    public ResponseEntity<List<KorisnikDto>> search(@RequestParam(value = "search") String search, HttpSession session) {
+        Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }*/
+            return new ResponseEntity(null,HttpStatus.BAD_REQUEST);
+        }
         System.out.println(search);
         List<SearchCriteria> params = new ArrayList<SearchCriteria>();
         if (search != null) {
@@ -67,7 +67,7 @@ public class KorisnikRestController {
                 params.add(new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3)));
             }
         }
-        return service.search(params);
+        return new ResponseEntity<>(service.search(params), HttpStatus.OK);
     }
 
     @GetMapping("/api/korisnici/ulogovanKorisnik")
