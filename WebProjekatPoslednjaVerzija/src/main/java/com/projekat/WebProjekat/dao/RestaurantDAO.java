@@ -32,7 +32,7 @@ public class RestaurantDAO implements IRestaurantDAO{
         final Root r = query.from(Restoran.class);
 
         Predicate predicate = builder.conjunction();
-        RestoranSearchQueryCriteriaConsumer searchConsumer = new RestoranSearchQueryCriteriaConsumer(predicate, builder, r);
+        RestaurantSearchQueryCriteriaConsumer searchConsumer = new RestaurantSearchQueryCriteriaConsumer(predicate, builder, r);
         params.stream().forEach(searchConsumer);
         predicate = searchConsumer.getPredicate();
         query.where(predicate);

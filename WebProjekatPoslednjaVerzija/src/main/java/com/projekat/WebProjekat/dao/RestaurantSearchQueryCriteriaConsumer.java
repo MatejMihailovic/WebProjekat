@@ -7,12 +7,12 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.function.Consumer;
 
-public class RestoranSearchQueryCriteriaConsumer implements Consumer<SearchCriteria> {
+public class RestaurantSearchQueryCriteriaConsumer implements Consumer<SearchCriteria> {
     private Predicate predicate;
     private CriteriaBuilder builder;
     private Root r;
 
-    public RestoranSearchQueryCriteriaConsumer(Predicate predicate, CriteriaBuilder builder, Root r) {
+    public RestaurantSearchQueryCriteriaConsumer(Predicate predicate, CriteriaBuilder builder, Root r) {
         super();
         this.predicate = predicate;
         this.builder = builder;
