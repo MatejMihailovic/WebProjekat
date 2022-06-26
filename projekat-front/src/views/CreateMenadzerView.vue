@@ -17,9 +17,12 @@
   </div>
   <br />
   <label for="datumRodjenja">Datum rodjenja:</label>
-  <input type="text" v-model="menadzer.datumRodjenja" placeholder="dd/mm/yyyy" pattern="[0-9/]{10}" required/><br />
-  <label for="nazivRestorana">Naziv restorana:</label>
-  <input v-model="menadzer.nazivRestorana" /><br />
+  <input type="text" v-model="menadzer.datumRodjenja" placeholder="dd/mm/yyyy" pattern="[0-9/]{10}" required maxlength="10"/><br />
+  <div>Restoran: 
+  <select v-model="menadzer.nazivRestorana"  >
+    <option v-for="restoran in restorani" :key="restoran.id" value = {{restoran.naziv}}>{{restoran.naziv}}</option>
+  </select>
+  </div>
   <button v-on:click="submit()">submit</button>
   </form>
 </template>
@@ -39,13 +42,24 @@ export default {
         datumRodjenja : "",
         nazivRestorana : ""
       },
+      restorani : []
     };
   },
+   mounted: function () {
+    axios
+      .get("http://localhost:8080/api/svi-restorani")
+      .then((res) => {
+        this.restorani = res.data
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
+   },
   methods: {
     submit: function () {
 
       axios
-        .post("http://localhost:8083/api/admin/create-menadzer", this.menadzer, {withCredentials: true})
+        .post("http://localhost:8080/api/admin/create-menadzer", this.menadzer, {withCredentials: true})
         .then((res) => {
           console.log(res);
           this.$router.push("/admin");

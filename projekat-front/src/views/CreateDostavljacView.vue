@@ -42,7 +42,7 @@ export default {
     submit: function () {
 
       axios
-        .post("http://localhost:8083/api/admin/create-dostavljac", this.dostavljac, {withCredentials: true})
+        .post("http://localhost:8080/api/admin/create-dostavljac", this.dostavljac, {withCredentials: true})
         .then((res) => {
           console.log(res);
           this.$router.push("/admin");
