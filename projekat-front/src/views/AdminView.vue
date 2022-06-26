@@ -52,7 +52,7 @@ export default {
   },
    mounted: function () {
     axios
-      .get("http://localhost:8080/api/svi-korisnici")
+      .get("http://localhost:8080/api/svi-korisnici", {withCredentials:true})
       .then((res) => {
         this.users = res.data
       })
