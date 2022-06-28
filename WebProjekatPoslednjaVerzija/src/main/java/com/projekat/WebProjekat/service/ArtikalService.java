@@ -3,9 +3,11 @@ package main.java.com.projekat.WebProjekat.service;
 import main.java.com.projekat.WebProjekat.dto.ArtikalDto.ArtikalDto;
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
+import main.java.com.projekat.WebProjekat.entity.Porudzbina;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.repository.ArtikalRepository;
 import main.java.com.projekat.WebProjekat.repository.MenadzerRepository;
+import main.java.com.projekat.WebProjekat.repository.PorudzbinaRepository;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,10 @@ public class ArtikalService {
 
     @Autowired
     private ArtikalRepository artikalRepository;
+
+    @Autowired
+    private PorudzbinaRepository porudzbinaRepository;
+
 
     @Autowired
     private RestoranRepository restoranRepository;
@@ -86,6 +92,13 @@ public class ArtikalService {
     }
 
     public void delete(Long id, Restoran restoran) {
+        List<Porudzbina> porudzbine = porudzbinaRepository.findAll();
+
+        for(Porudzbina p : porudzbine){
+            if(p.getPoruceniArtikli().contains(id)){
+                p.getPoruceniArtikli().remove(id);
+            }
+        }
         for (Artikal artikal : restoran.getArtikliUPonudi()) {
             if (artikal.getId().equals(id)) {
                 restoran.getArtikliUPonudi().remove(artikal);

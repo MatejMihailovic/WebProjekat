@@ -3,6 +3,8 @@ package main.java.com.projekat.WebProjekat.dto;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Pol;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RegisterDto {
@@ -11,7 +13,7 @@ public class RegisterDto {
     private String ime;
     private String prezime;
     private Pol pol;
-    private Date datumRodjenja;
+    private String datumRodjenja;
 
     public RegisterDto(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datumRodjenja) {
         this.korisnickoIme = korisnickoIme;
@@ -19,7 +21,8 @@ public class RegisterDto {
         this.ime = ime;
         this.prezime = prezime;
         this.pol = pol;
-        this.datumRodjenja = datumRodjenja;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.datumRodjenja = dateFormat.format(datumRodjenja);
     }
 
     public String getKorisnickoIme() {
@@ -62,15 +65,16 @@ public class RegisterDto {
         this.pol = pol;
     }
 
-    public Date getDatumRodjenja() {
+    public String getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(String datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 
-    public Korisnik ToKorisnik(){
-        return new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
+    public Korisnik ToKorisnik() throws ParseException {
+        Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(datumRodjenja);
+        return new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, date1);
     }
 }

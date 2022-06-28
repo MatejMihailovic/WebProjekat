@@ -54,7 +54,7 @@ public class RestoranRestController {
     }
     @RequestMapping(method = RequestMethod.GET, value = "api/restorani")
     @ResponseBody
-    public List<RestoranPrikazDto> search(@RequestParam(value = "search") String search) {
+    public ResponseEntity<List<RestoranPrikazDto>> search(@RequestParam(value = "search") String search) {
         List<SearchCriteria> params = new ArrayList<SearchCriteria>();
         if (search != null) {
             Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
@@ -63,7 +63,7 @@ public class RestoranRestController {
                 params.add(new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3)));
             }
         }
-        return service.search(params);
+        return new ResponseEntity<>(service.search(params), HttpStatus.OK);
     }
 
     @GetMapping("/api/restorani/{id}")

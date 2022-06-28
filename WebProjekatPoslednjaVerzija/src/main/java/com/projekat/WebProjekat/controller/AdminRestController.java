@@ -67,7 +67,10 @@ public class AdminRestController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PostMapping("/api/admin/create-dostavljac")
+    @PostMapping(
+            value = "/api/admin/create-dostavljac",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createDostavljac(@RequestBody NoviDostavljacDto dto, HttpSession session) throws ParseException {
         Boolean provera = sessionService.validateRole(session, "Admin");
 
@@ -87,7 +90,10 @@ public class AdminRestController {
         return new ResponseEntity("Uspesno dodat dostavljac!" , HttpStatus.OK);
     }
 
-    @PostMapping("/api/admin/create-restoran")
+    @PostMapping(
+            value = "/api/admin/create-restoran",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createRestoran(@RequestBody KreirajRestoranDto dto, HttpSession session){
         Boolean provera = sessionService.validateRole(session, "Admin");
 

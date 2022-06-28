@@ -28,9 +28,9 @@ public class ArtikalRestController {
 
     @PostMapping("/api/artikli/addArtikal")
     public ResponseEntity<Artikal> addArtikal(@RequestParam("image") MultipartFile multipartFile, @RequestParam("json") String jsonData, HttpSession session) throws JsonProcessingException {
-        Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
+        String role = sessionService.getRole(session);
 
-        if(!proveraSesije){
+        if(!role.equals("Menadzer") && !role.equals("Admin")){
             return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
         }
 
@@ -49,9 +49,9 @@ public class ArtikalRestController {
 
     @PutMapping("/api/artikli/updateArtikal/{id}")
     public ResponseEntity updateArtikal(@PathVariable(name = "id") Long id, @RequestBody ArtikalDto artikalDto, HttpSession session){
-        Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
+        String role = sessionService.getRole(session);
 
-        if(!proveraSesije){
+        if(!role.equals("Menadzer") && !role.equals("Admin")){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 
@@ -64,9 +64,10 @@ public class ArtikalRestController {
 
     @DeleteMapping("/api/artikli/deleteArtikal/{id}")
     public ResponseEntity deleteArtikal(@PathVariable(name = "id") Long id, HttpSession session){
-        Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
+        String role = sessionService.getRole(session);
 
-        if(!proveraSesije){
+
+        if(!role.equals("Menadzer") && !role.equals("Admin")){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 
