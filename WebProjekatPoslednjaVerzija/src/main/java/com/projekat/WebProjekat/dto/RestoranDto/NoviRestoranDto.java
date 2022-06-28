@@ -7,15 +7,43 @@ public class NoviRestoranDto {
 
     private String tipRestorana;
 
-    private Lokacija lokacija;
+    //private Lokacija lokacija;
+    private double geografskaDuzina;
 
-    private String korisnickoImeMenadzera;
+    private double geografskaSirina;
 
-    public NoviRestoranDto(String naziv, String tipRestorana, Lokacija lokacija, String korisnickoImeMenadzera) {
+    private String adresa;
+
+    public NoviRestoranDto(String naziv, String tipRestorana, double geografskaDuzina, double geografskaSirina, String adresa) {
         this.naziv = naziv;
         this.tipRestorana = tipRestorana;
-        this.lokacija = lokacija;
-        this.korisnickoImeMenadzera = korisnickoImeMenadzera;
+        this.geografskaDuzina = geografskaDuzina;
+        this.geografskaSirina = geografskaSirina;
+        this.adresa = adresa;
+    }
+
+    public double getGeografskaDuzina() {
+        return geografskaDuzina;
+    }
+
+    public void setGeografskaDuzina(double geografskaDuzina) {
+        this.geografskaDuzina = geografskaDuzina;
+    }
+
+    public double getGeografskaSirina() {
+        return geografskaSirina;
+    }
+
+    public void setGeografskaSirina(double geografskaSirina) {
+        this.geografskaSirina = geografskaSirina;
+    }
+
+    public String getAdresa() {
+        return adresa;
+    }
+
+    public void setAdresa(String adresa) {
+        this.adresa = adresa;
     }
 
     public String getNaziv() {
@@ -34,19 +62,4 @@ public class NoviRestoranDto {
         this.tipRestorana = tipRestorana;
     }
 
-    public Lokacija getLokacija() {
-        return lokacija;
-    }
-
-    public void setLokacija(Lokacija lokacija) {
-        this.lokacija = lokacija;
-    }
-
-    public String getKorisnickoImeMenadzera() {
-        return korisnickoImeMenadzera;
-    }
-
-    public void setKorisnickoImeMenadzera(String korisnickoImeMenadzera) {
-        this.korisnickoImeMenadzera = korisnickoImeMenadzera;
-    }
 }

@@ -63,6 +63,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.$router.push("/admin");
+          alert("Success!");
         })
         .catch((error) => {
          console.log(error.response)
