@@ -1,5 +1,4 @@
 <template>
-  <form>
     <h1>Prijava</h1>
     <div>
       <label for="inputEmail4" class="form-label">Korisničko ime</label>
@@ -14,7 +13,6 @@
     <div class="col-12">
       <button v-on:click="prijaviSe()" class="btn btn-primary">Prijava</button>
     </div>
-  </form>
 </template>
 
 <script>
@@ -32,7 +30,7 @@ export default {
   },
   methods: {
     prijaviSe: function() {
-      axios
+       axios
         .post("http://localhost:8080/api/login", this.korisnik, {
           withCredentials: true
         })
@@ -44,7 +42,28 @@ export default {
         .catch(error => {
           console.log(error.response);
           alert("Neuspesno");
-        });
+        }); 
+         /*  fetch("http://localhost:8080/api/login", {
+            method: "POST",
+            credentials: 'include',
+            headers: {
+              Accept: "application/json",
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(this.korisnik),
+            })
+            .then((response) => response.json)
+            .then((data) => {
+              console.log("Success : " + data.toString());
+             
+              
+                  this.$router.push("/admin");
+
+            })
+            .catch((err) => {
+              console.log("Error : " + err);
+              alert(err);
+            }); */
     }
   }
 };
