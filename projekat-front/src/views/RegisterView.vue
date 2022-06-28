@@ -24,7 +24,8 @@
         type="radio"
         name="inlineRadioOptions"
         id="inlineRadio1"
-        value="option1"
+        value=0
+        v-model="korisnik.pol"
       />
       <label class="form-check-label" for="inlineRadio1">Muški</label>
     </div>
@@ -34,13 +35,14 @@
         type="radio"
         name="inlineRadioOptions"
         id="inlineRadio2"
-        value="option2"
+        value=1
+        v-model = "korisnik.pol"
       />
       <label class="form-check-label" for="inlineRadio2">Ženski</label>
     </div>
     <br>
     <label>Datum rodjenja:</label> <br>
-    <input type="date" />
+    <input  v-model = "korisnik.datumRodjenja" type="date" />
     <div class="col-12">
       <button v-on:click="registrujSe()" class="btn btn-primary">
         Prijava
@@ -59,7 +61,9 @@ export default {
         ime: "",
         prezime: "",
         korisnickoIme: "",
-        lozinka: ""
+        lozinka: "",
+        pol : null,
+        datumRodjenja : "" 
       }
     };
   },
@@ -72,7 +76,7 @@ export default {
         .then(res => {
           console.log(res);
 
-          this.$router.push("/register");
+          this.$router.push("/login");
           alert("Uspesno");
         })
         .catch(error => {

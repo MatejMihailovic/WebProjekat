@@ -16,7 +16,7 @@
   </div>
   <br />
   <label for="datumRodjenja">Datum rodjenja:</label>
-  <input type="text" v-model="dostavljac.datumRodjenja" placeholder="dd/mm/yyyy" pattern="[0-9/]{10}" required/><br />
+  <input type="date" v-model="dostavljac.datumRodjenja" placeholder="dd/mm/yyyy"/><br />
   <button v-on:click="submit()" class="btn btn-primary">submit</button>
 </template>
 

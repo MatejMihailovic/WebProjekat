@@ -16,7 +16,7 @@
   </div>
   <br />
   <label for="datumRodjenja">Datum rodjenja:</label>
-  <input type="text" v-model="menadzer.datumRodjenja" placeholder="dd/mm/yyyy" pattern="[0-9/]{10}" required maxlength="10"/><br />
+  <input type="date" v-model="menadzer.datumRodjenja" placeholder="dd/mm/yyyy"/><br />
   <div>Restoran: 
   <select v-model="menadzer.nazivRestorana"  >
     <option v-for="restoran in restorani" :key="restoran.id" value = {{restoran.naziv}}>{{restoran.naziv}}</option>
