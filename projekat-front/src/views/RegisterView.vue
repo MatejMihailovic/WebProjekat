@@ -1,5 +1,4 @@
 <template>
-  <form>
     <h1>Registracija</h1>
     <div>
       <label for="inputEmail4" class="form-label">Ime</label>
@@ -47,7 +46,6 @@
         Prijava
       </button>
     </div>
-  </form>
 </template>
 
 <script>

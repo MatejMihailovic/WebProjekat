@@ -12,7 +12,7 @@
 
     <div class="col-12">
       <button v-on:click="prijaviSe()" class="btn btn-primary">Prijava</button>
-    </div>
+    </div> 
 </template>
 
 <script>
@@ -43,27 +43,6 @@ export default {
           console.log(error.response);
           alert("Neuspesno");
         }); 
-         /*  fetch("http://localhost:8080/api/login", {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-              Accept: "application/json",
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify(this.korisnik),
-            })
-            .then((response) => response.json)
-            .then((data) => {
-              console.log("Success : " + data.toString());
-             
-              
-                  this.$router.push("/admin");
-
-            })
-            .catch((err) => {
-              console.log("Error : " + err);
-              alert(err);
-            }); */
     }
   }
 };
@@ -74,7 +53,7 @@ h1 {
   color: cornflowerblue;
   margin-top: 10%;
 }
-form {
+body {
   margin: auto;
 }
 input {
