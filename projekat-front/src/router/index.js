@@ -5,6 +5,7 @@ import AdminView from '../views/AdminView.vue'
 import CreateMenadzerView from '../views/CreateMenadzerView.vue'
 import CreateDostavljacView from '../views/CreateDostavljacView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import CreateRestoranView from '../views/CreateRestoranView.vue'
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/create-dostavljac',
     name: 'create-dostavljac',
     component: CreateDostavljacView
+  },
+  {
+    path: '/create-restoran',
+    name: 'create-restoran',
+    component: CreateRestoranView
   }
 ]
 

@@ -38,9 +38,8 @@ export default {
         })
         .then(res => {
           console.log(res);
-
-          this.$router.push("/login");
           alert("Uspesno");
+          this.$router.push("/admin");
         })
         .catch(error => {
           console.log(error.response);
