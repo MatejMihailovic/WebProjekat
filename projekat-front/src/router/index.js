@@ -6,6 +6,7 @@ import CreateMenadzerView from '../views/CreateMenadzerView.vue'
 import CreateDostavljacView from '../views/CreateDostavljacView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import KupacView from '../views/KupacView.vue'
+import MenadzerView from '../views/MenadzerView.vue'
 const routes = [
   {
     path: '/',
@@ -41,6 +42,11 @@ const routes = [
     path: '/kupac',
     name: 'kupac',
     component: KupacView
+  },
+  {
+    path: '/menadzer',
+    name: 'menadzer',
+    component: MenadzerView
   }
 ]
 
