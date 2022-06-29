@@ -5,6 +5,7 @@ import main.java.com.projekat.WebProjekat.dto.*;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.entity.Uloga;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
 import main.java.com.projekat.WebProjekat.util.SearchCriteria;
@@ -86,6 +87,17 @@ public class KorisnikRestController {
         return ResponseEntity.ok(korisnikdto);
     }
 
+    @GetMapping(value = "/api/korisnici/role",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Uloga> getRole(HttpSession session){
+        Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
+
+        if(ulogovanKorisnik == null){
+            return new ResponseEntity("invalid", HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(ulogovanKorisnik.getUloga(), HttpStatus.OK);
+    }
     @PutMapping("/api/korisnici/ulogovanKorisnik/update")
     public ResponseEntity updateProfile(HttpSession session,@RequestBody UpdateDto updateDto){
         Korisnik korisnik = (Korisnik) session.getAttribute("user");

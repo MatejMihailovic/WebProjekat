@@ -11,7 +11,7 @@
     </div>
 
     <div class="col-12">
-      <button v-on:click="prijaviSe()" class="btn btn-primary">Prijava</button>
+      <button v-on:click="combination()" class="btn btn-primary">Prijava</button>
     </div> 
 </template>
 
@@ -25,7 +25,8 @@ export default {
       korisnik: {
         korisnickoIme: "",
         lozinka: ""
-      }
+      },
+      uloga: ""
     };
   },
   methods: {
@@ -37,13 +38,35 @@ export default {
         .then(res => {
           console.log(res);
           alert("Uspesno");
-          this.$router.push("/admin");
         })
         .catch(error => {
           console.log(error.response);
           alert("Neuspesno");
         }); 
-    }
+    },
+    getRole: function(){
+     axios
+      .get("http://localhost:8080/api/korisnici/role", {withCredentials:true})
+      .then((res) => {
+        this.uloga = res.data
+         if(this.uloga == "Admin"){
+          this.$router.push("/admin");
+          }else if(this.uloga == "Dostavljac"){
+          //this.$router.push("/dostavljac");
+          }else if(this.uloga == "Menadzer"){
+          //this.$router.push("/menadzer");
+          }else{
+          //this.$router.push("/kupac");
+          }
+      })
+      .catch((err) =>{
+        console.log(err)
+      });
+  },
+  combination: function(){
+    this.prijaviSe()
+    this.getRole()
+  }
   }
 };
 </script>
