@@ -30,7 +30,7 @@ public class ArtikalRestController {
     public ResponseEntity<Artikal> addArtikal(@RequestParam("image") MultipartFile multipartFile, @RequestParam("json") String jsonData, HttpSession session) throws JsonProcessingException {
         String role = sessionService.getRole(session);
 
-        if(!role.equals("Menadzer") && !role.equals("Admin")){
+        if(!role.equals("Menadzer")){
             return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
         }
 
@@ -51,7 +51,7 @@ public class ArtikalRestController {
     public ResponseEntity updateArtikal(@PathVariable(name = "id") Long id, @RequestBody ArtikalDto artikalDto, HttpSession session){
         String role = sessionService.getRole(session);
 
-        if(!role.equals("Menadzer") && !role.equals("Admin")){
+        if(!role.equals("Menadzer")){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 
@@ -67,7 +67,7 @@ public class ArtikalRestController {
         String role = sessionService.getRole(session);
 
 
-        if(!role.equals("Menadzer") && !role.equals("Admin")){
+        if(!role.equals("Menadzer")){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 

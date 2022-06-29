@@ -49,12 +49,14 @@ export default {
       .get("http://localhost:8080/api/korisnici/role", {withCredentials:true})
       .then((res) => {
         this.uloga = res.data
+        console.log(this.uloga)
          if(this.uloga == "Admin"){
           this.$router.push("/admin");
           }else if(this.uloga == "Dostavljac"){
           //this.$router.push("/dostavljac");
           }else if(this.uloga == "Menadzer"){
-          //this.$router.push("/menadzer");
+          console.log(this.uloga)
+          this.$router.push("/menadzer");
           }else{
           //this.$router.push("/kupac");
           }

@@ -71,13 +71,7 @@ public class RestoranRestController {
         }
         List<Komentar> listaKomentara = komentarService.findAll(restoran);
 
-        List<Komentar> komentari = new ArrayList<>();
-
-        for(Komentar komentar : listaKomentara){
-            komentari.add(komentar);
-        }
-
-        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran, komentari);
+        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran, listaKomentara);
 
         return ResponseEntity.ok(prikazDto);
     }

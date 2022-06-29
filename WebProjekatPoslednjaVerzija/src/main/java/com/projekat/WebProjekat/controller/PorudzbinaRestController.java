@@ -56,28 +56,7 @@ public class PorudzbinaRestController {
 
     }
 
-    @GetMapping("api/porudzbine-menadzer")
-    public ResponseEntity<List<PorudzbinaDto>> getPorudzbineMenadzer(HttpSession session){
-        Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 
-        if(!proveraSesije){
-            return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
-        }
-        Menadzer menadzer = (Menadzer) session.getAttribute("user");
-        Restoran restoran = menadzer.getRestoran();
-        List<Porudzbina> porudzbine = this.porudzbinaService.findAll();
-        List<PorudzbinaDto> dtos = new ArrayList<>();
-
-        for(Porudzbina p : porudzbine){
-            if(p.getRestoran().getId().equals(restoran.getId())){
-                PorudzbinaDto dto = new PorudzbinaDto(p);
-                dtos.add(dto);
-            }
-        }
-
-
-        return ResponseEntity.ok(dtos);
-    }
 
 
     @GetMapping("api/porudzbine-cekaDostavljaca")
