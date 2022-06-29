@@ -1,10 +1,8 @@
 package main.java.com.projekat.WebProjekat.controller;
 
-import main.java.com.projekat.WebProjekat.dto.RestoranDto.KreirajRestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranPrikazDto;
 import main.java.com.projekat.WebProjekat.entity.Komentar;
-import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.service.*;
 import main.java.com.projekat.WebProjekat.dao.IRestaurantDAO;
@@ -14,11 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -76,13 +71,7 @@ public class RestoranRestController {
         }
         List<Komentar> listaKomentara = komentarService.findAll(restoran);
 
-        List<Komentar> komentari = new ArrayList<>();
-
-        for(Komentar komentar : listaKomentara){
-            komentari.add(komentar);
-        }
-
-        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran, komentari);
+        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran, listaKomentara);
 
         return ResponseEntity.ok(prikazDto);
     }

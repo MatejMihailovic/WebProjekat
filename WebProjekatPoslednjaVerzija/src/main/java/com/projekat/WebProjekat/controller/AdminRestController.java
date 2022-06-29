@@ -2,14 +2,12 @@ package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.MenadzerDto.NoviMenadzerDto;
 import main.java.com.projekat.WebProjekat.dto.NoviDostavljacDto;
-import main.java.com.projekat.WebProjekat.dto.RestoranDto.KreirajRestoranDto;
+import main.java.com.projekat.WebProjekat.dto.RestoranDto.NoviRestoranDto;
 import main.java.com.projekat.WebProjekat.entity.Dostavljac;
+import main.java.com.projekat.WebProjekat.entity.Lokacija;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
-import main.java.com.projekat.WebProjekat.service.KomentarService;
-import main.java.com.projekat.WebProjekat.service.KorisnikService;
-import main.java.com.projekat.WebProjekat.service.RestoranService;
-import main.java.com.projekat.WebProjekat.service.SessionService;
+import main.java.com.projekat.WebProjekat.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,6 +30,9 @@ public class AdminRestController {
 
     @Autowired
     private KomentarService komentarService;
+
+    @Autowired
+    private LokacijaService lokacijaService;
 
     @Autowired
     private SessionService sessionService;
@@ -92,24 +93,22 @@ public class AdminRestController {
 
     @PostMapping(
             value = "/api/admin/create-restoran",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createRestoran(@RequestBody KreirajRestoranDto dto, HttpSession session){
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createRestoran(@RequestBody NoviRestoranDto dto, HttpSession session){
         Boolean provera = sessionService.validateRole(session, "Admin");
 
         if(!provera){
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 
-        if(dto.getNaziv().isEmpty() || dto.getTipRestorana().isEmpty() || dto.getLokacija() == null || dto.getkImeMenadzera().isEmpty()){
+        if(dto.getNaziv().isEmpty() || dto.getTipRestorana().isEmpty() || dto.getAdresa().isEmpty()){
             return new ResponseEntity("Ova polja ne smeju biti prazna!",HttpStatus.BAD_REQUEST);
         }
-        Restoran novi = new Restoran(dto.getNaziv(), dto.getTipRestorana(), dto.getLokacija());
-        Menadzer menadzer = (Menadzer) korisnikService.findOne(dto.getkImeMenadzera());
+        Lokacija lokacija = new Lokacija(dto.getGeografskaDuzina(), dto.getGeografskaSirina(), dto.getAdresa());
+        lokacijaService.save(lokacija);
 
-        menadzer.setRestoran(novi);
+        Restoran novi = new Restoran(dto.getNaziv(), dto.getTipRestorana(), lokacija);
         restoranService.save(novi);
-        korisnikService.save(menadzer, menadzer.getUloga());
 
         return ResponseEntity.ok("Uspesno kreiran restoran.");
     }

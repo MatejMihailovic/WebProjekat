@@ -1,5 +1,4 @@
 <template>
-  <form>
     <h1>Prijava</h1>
     <div>
       <label for="inputEmail4" class="form-label">Korisničko ime</label>
@@ -12,9 +11,8 @@
     </div>
 
     <div class="col-12">
-      <button v-on:click="prijaviSe()" class="btn btn-primary">Prijava</button>
-    </div>
-  </form>
+      <button v-on:click="combination()" class="btn btn-primary">Prijava</button>
+    </div> 
 </template>
 
 <script>
@@ -27,26 +25,50 @@ export default {
       korisnik: {
         korisnickoIme: "",
         lozinka: ""
-      }
+      },
+      uloga: ""
     };
   },
   methods: {
     prijaviSe: function() {
-      axios
+       axios
         .post("http://localhost:8080/api/login", this.korisnik, {
           withCredentials: true
         })
         .then(res => {
           console.log(res);
-
-          this.$router.push("/login");
           alert("Uspesno");
         })
         .catch(error => {
           console.log(error.response);
           alert("Neuspesno");
-        });
-    }
+        }); 
+    },
+    getRole: function(){
+     axios
+      .get("http://localhost:8080/api/korisnici/role", {withCredentials:true})
+      .then((res) => {
+        this.uloga = res.data
+        console.log(this.uloga)
+         if(this.uloga == "Admin"){
+          this.$router.push("/admin");
+          }else if(this.uloga == "Dostavljac"){
+          //this.$router.push("/dostavljac");
+          }else if(this.uloga == "Menadzer"){
+          console.log(this.uloga)
+          this.$router.push("/menadzer");
+          }else{
+          //this.$router.push("/kupac");
+          }
+      })
+      .catch((err) =>{
+        console.log(err)
+      });
+  },
+  combination: function(){
+    this.prijaviSe()
+    this.getRole()
+  }
   }
 };
 </script>
@@ -56,7 +78,7 @@ h1 {
   color: cornflowerblue;
   margin-top: 10%;
 }
-form {
+body {
   margin: auto;
 }
 input {

@@ -5,11 +5,13 @@ import main.java.com.projekat.WebProjekat.dto.*;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.entity.Uloga;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
 import main.java.com.projekat.WebProjekat.util.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +35,9 @@ public class KorisnikRestController {
     @Autowired
     private SessionService sessionService;
 
-    @GetMapping("/api/svi-korisnici")
+    @GetMapping(
+            value = "/api/svi-korisnici",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession session){
         Boolean provera = sessionService.validateRole(session, "Admin");
 
@@ -83,6 +87,17 @@ public class KorisnikRestController {
         return ResponseEntity.ok(korisnikdto);
     }
 
+    @GetMapping(value = "/api/korisnici/role",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Uloga> getRole(HttpSession session){
+        Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
+
+        if(ulogovanKorisnik == null){
+            return new ResponseEntity("invalid", HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(ulogovanKorisnik.getUloga(), HttpStatus.OK);
+    }
     @PutMapping("/api/korisnici/ulogovanKorisnik/update")
     public ResponseEntity updateProfile(HttpSession session,@RequestBody UpdateDto updateDto){
         Korisnik korisnik = (Korisnik) session.getAttribute("user");
@@ -102,20 +117,5 @@ public class KorisnikRestController {
 
         return new ResponseEntity(korisnikService.save(korisnik, korisnik.getUloga()), HttpStatus.OK);
     }
-
-    @GetMapping("/api/korisnici/menadzer")
-    public ResponseEntity<Restoran> pregledRestorana(HttpSession session){
-        Boolean provera = sessionService.validateRole(session, "Menadzer");
-
-        if(!provera){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
-
-        Menadzer menadzer = (Menadzer) session.getAttribute("user");
-
-        return ResponseEntity.ok(menadzer.getRestoran());
-    }
-
-
 
 }

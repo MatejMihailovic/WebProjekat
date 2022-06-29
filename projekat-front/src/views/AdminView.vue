@@ -2,10 +2,11 @@
     <a type="button" href="/create-menadzer" class="btn btn-primary">Kreiraj Menadžera</a>
     <a type="button" href="/create-dostavljac" class="btn btn-primary">Kreiraj Dostavljača</a>
     <a type="button" href="/create-restoran" class="btn btn-primary">Kreiraj Restoran</a>
+    <a type="button" v-on:click="logout()" class="btn btn-primary">Izloguj se</a>
 
     <div class="input-group">
         <select v-model="filter" class="form-select" aria-label="Default select example">
-        <option selected>Choose</option>
+        <option disabled selected>Choose</option>
         <option value="korisnickoIme">By Username</option>
         <option value="ime">By First Name</option>
         <option value="prezime">By Second Name</option>
@@ -70,10 +71,21 @@ export default {
       .catch((err) =>{
         console.log(err)
       })
+    },
+    logout : function(){
+      axios
+      .post("http://localhost:8080/api/logout", {withCredentials:true})
+      .then(res => {
+          this.$router.push("/login");
+        })
+      .catch((err) =>{
+        console.log(err)
+      })
     }
     },
 };
 </script>
 
 <style scoped>
+
 </style>
