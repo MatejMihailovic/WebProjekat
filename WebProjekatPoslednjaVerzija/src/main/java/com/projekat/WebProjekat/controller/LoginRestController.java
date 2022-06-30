@@ -6,6 +6,7 @@ import main.java.com.projekat.WebProjekat.service.LoginService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,9 @@ public class LoginRestController {
     @Autowired
     private SessionService sessionService;
 
-    @PostMapping("api/login")
+    @PostMapping(
+            value = "api/login",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity login(@RequestBody LoginDto loginDto, HttpSession session){
 
         Hashtable<String,String> errorDic = new Hashtable<>();
@@ -60,7 +63,7 @@ public class LoginRestController {
     }
 
     @PostMapping("api/logout")
-    public ResponseEntity Logout(HttpSession session){
+    public ResponseEntity<String> logout(HttpSession session){
 
         Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
 

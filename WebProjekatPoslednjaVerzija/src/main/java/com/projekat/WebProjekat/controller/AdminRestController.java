@@ -35,6 +35,9 @@ public class AdminRestController {
     private LokacijaService lokacijaService;
 
     @Autowired
+    private ArtikalService artikalService;
+
+    @Autowired
     private SessionService sessionService;
 
     @PostMapping(
@@ -121,6 +124,7 @@ public class AdminRestController {
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 
+        artikalService.deleteArtikalRestoran(id);
         korisnikService.deleteMenadzerRestoran(id);
         komentarService.deleteKomentarRestoran(id);
         restoranService.deleteRestoran(id);
