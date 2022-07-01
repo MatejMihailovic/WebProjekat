@@ -2,12 +2,7 @@
     <a type="button" href="/create-menadzer" class="btn btn-primary">Kreiraj Menadžera</a>
     <a type="button" href="/create-dostavljac" class="btn btn-primary">Kreiraj Dostavljača</a>
     <a type="button" href="/create-restoran" class="btn btn-primary">Kreiraj Restoran</a>
-<<<<<<< Updated upstream
-    <a type="button" v-on:click="logout()" class="btn btn-primary">Izloguj se</a>
-=======
-    <a type="button" href="/profile" class="btn btn-primary">Moj profil</a>
     <a type="button" v-on:click="logout()"  class="btn btn-primary">Izloguj se</a>
->>>>>>> Stashed changes
 
     <div class="input-group">
         <select v-model="filter" class="form-select" aria-label="Default select example">
@@ -48,7 +43,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "AdminVue",
+  name: "Admin Vue",
   data: function () {
     return {
       users: [],

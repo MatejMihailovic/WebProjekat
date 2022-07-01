@@ -118,19 +118,4 @@ public class KorisnikRestController {
         return new ResponseEntity(korisnikService.save(korisnik, korisnik.getUloga()), HttpStatus.OK);
     }
 
-    @GetMapping("/api/korisnici/menadzer")
-    public ResponseEntity<Restoran> pregledRestorana(HttpSession session){
-        Boolean provera = sessionService.validateRole(session, "Menadzer");
-
-        if(!provera){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
-
-        Menadzer menadzer = (Menadzer) session.getAttribute("user");
-
-        return ResponseEntity.ok(menadzer.getRestoran());
-    }
-
-
-
 }

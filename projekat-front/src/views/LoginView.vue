@@ -49,15 +49,20 @@ export default {
       .get("http://localhost:8080/api/korisnici/role", {withCredentials:true})
       .then((res) => {
         this.uloga = res.data
-         if(this.uloga == "Admin"){
+         if(this.uloga == "Admin"){ 
+          this.uloga = ""
           this.$router.push("/admin");
           }else if(this.uloga == "Dostavljac"){
+          this.uloga = ""  
           //this.$router.push("/dostavljac");
           }else if(this.uloga == "Menadzer"){
-          //this.$router.push("/menadzer");
+          this.uloga = ""
+          this.$router.push("/menadzer");
           }else{
+          this.uloga = ""  
           //this.$router.push("/kupac");
           }
+       
       })
       .catch((err) =>{
         console.log(err)

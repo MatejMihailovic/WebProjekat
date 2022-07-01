@@ -108,4 +108,15 @@ public class ArtikalService {
             }
         }
     }
+
+    public void deleteArtikalRestoran(Long id) {
+        List<Artikal> listaArtikala = this.findAll();
+
+        for(Artikal a : listaArtikala){
+            if(a.getRestoran().equals(restoranRepository.findById(id))){
+                a.setRestoran(null);
+                artikalRepository.save(a);
+            }
+        }
+    }
 }
