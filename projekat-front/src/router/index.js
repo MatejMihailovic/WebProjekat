@@ -6,6 +6,11 @@ import CreateMenadzerView from '../views/CreateMenadzerView.vue'
 import CreateDostavljacView from '../views/CreateDostavljacView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import CreateRestoranView from '../views/CreateRestoranView.vue'
+<<<<<<< Updated upstream
+=======
+import MenadzerView from '../views/MenadzerView.vue'
+import UserProfileView from '../views/UserProfileView.vue'
+>>>>>>> Stashed changes
 
 const routes = [
   {
@@ -42,6 +47,19 @@ const routes = [
     path: '/create-restoran',
     name: 'create-restoran',
     component: CreateRestoranView
+<<<<<<< Updated upstream
+=======
+  },
+  {
+    path: '/menadzer',
+    name: 'menadzer',
+    component: MenadzerView
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: UserProfileView
+>>>>>>> Stashed changes
   }
 ]
 

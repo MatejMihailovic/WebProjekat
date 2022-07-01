@@ -74,8 +74,10 @@ public class KorisnikRestController {
         return new ResponseEntity<>(service.search(params), HttpStatus.OK);
     }
 
-    @GetMapping("/api/korisnici/ulogovanKorisnik")
-    public ResponseEntity getUlogovan(HttpSession session){
+    @GetMapping(
+            value ="/api/korisnici/ulogovanKorisnik",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<KorisnikDto> getUlogovan(HttpSession session){
         Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
 
         if(ulogovanKorisnik == null){
@@ -110,8 +112,6 @@ public class KorisnikRestController {
             korisnik.setIme(updateDto.getIme());
         if(updateDto.getPrezime() != null)
             korisnik.setPrezime(updateDto.getPrezime());
-        if(updateDto.getPol() != null)
-            korisnik.setPol(updateDto.getPol());
         if(updateDto.getDatumRodjenja() != null)
             korisnik.setDatumRodjenja(updateDto.getDatumRodjenja());
 
