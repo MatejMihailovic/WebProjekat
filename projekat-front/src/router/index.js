@@ -5,9 +5,8 @@ import AdminView from '../views/AdminView.vue'
 import CreateMenadzerView from '../views/CreateMenadzerView.vue'
 import CreateDostavljacView from '../views/CreateDostavljacView.vue'
 import RegisterView from '../views/RegisterView.vue'
-import CreateRestoranView from '../views/CreateRestoranView.vue'
+import KupacView from '../views/KupacView.vue'
 import MenadzerView from '../views/MenadzerView.vue'
-
 const routes = [
   {
     path: '/',
@@ -40,9 +39,9 @@ const routes = [
     component: CreateDostavljacView
   },
   {
-    path: '/create-restoran',
-    name: 'create-restoran',
-    component: CreateRestoranView
+    path: '/kupac',
+    name: 'kupac',
+    component: KupacView
   },
   {
     path: '/menadzer',
