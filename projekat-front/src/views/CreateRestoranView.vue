@@ -1,5 +1,4 @@
 <template>
-<form>
   <label for="naziv">Naziv restorana:</label>
   <input v-model="restoran.naziv" type = "text"/><br />
   <label for="tipRestorana">Tip restorana:</label>
@@ -12,8 +11,7 @@
   <label for="adresa">Adresa:</label>
   <input v-model="restoran.adresa" type = "text"/><br />
 
-  <button v-on:click="submit()">submit</button>
-  </form>
+  <button v-on:click="submit()" class="btn btn-primary">submit</button>
 </template>
 
 <script>
@@ -42,7 +40,6 @@ export default {
         .then((res) => {
           console.log(res);
           this.$router.push("/admin");
-          alert("Success!");
         })
         .catch((error) => {
          console.log(error.response)

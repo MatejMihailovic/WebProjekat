@@ -13,8 +13,17 @@ import java.util.Set;
 
 public class RestoranPrikazDto {
     enum Status{
-        RADI,
-        NE_RADI;
+        RADI("Radi"),
+        NE_RADI("Ne radi");
+
+        private final String status;
+
+        private Status(String status){
+            this.status = status;
+        }
+        public String getStatus() {
+            return status;
+        }
     }
     private String naziv;
 
@@ -22,7 +31,7 @@ public class RestoranPrikazDto {
 
     private Set<ArtikalPrikazDto> artikliUPonudi = new HashSet<>();
 
-    private Lokacija lokacija;
+    private String lokacija;
 
     private Status status;
 
@@ -40,7 +49,7 @@ public class RestoranPrikazDto {
             ArtikalPrikazDto prikazDto = new ArtikalPrikazDto(artikal);
             artikliUPonudi.add(prikazDto);
         }
-        this.lokacija = restoran.getLokacija();
+        this.lokacija = restoran.getLokacija().getAdresa();
         this.status = Status.RADI;
         double prosek = 0;
         for(Komentar k : komentari){
@@ -74,11 +83,11 @@ public class RestoranPrikazDto {
         this.artikliUPonudi = artikliUPonudi;
     }
 
-    public Lokacija getLokacija() {
+    public String getLokacija() {
         return lokacija;
     }
 
-    public void setLokacija(Lokacija lokacija) {
+    public void setLokacija(String lokacija) {
         this.lokacija = lokacija;
     }
 

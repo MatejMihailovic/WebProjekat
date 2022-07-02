@@ -10,15 +10,13 @@ public class UpdateDto {
     String ime;
     String prezime;
     String lozinka;
-    Pol pol;
     Date datumRodjenja;
 
-    public UpdateDto(String korisnickoIme, String ime, String prezime, String lozinka, Pol pol, Date datumRodjenja) {
+    public UpdateDto(String korisnickoIme, String ime, String prezime, String lozinka, Date datumRodjenja) {
         this.korisnickoIme = korisnickoIme;
         this.ime = ime;
         this.prezime = prezime;
         this.lozinka = lozinka;
-        this.pol = pol;
         this.datumRodjenja = datumRodjenja;
     }
 
@@ -52,14 +50,6 @@ public class UpdateDto {
 
     public void setLozinka(String lozinka) {
         this.lozinka = lozinka;
-    }
-
-    public Pol getPol() {
-        return pol;
-    }
-
-    public void setPol(Pol pol) {
-        this.pol = pol;
     }
 
     public Date getDatumRodjenja() {

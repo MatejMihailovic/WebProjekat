@@ -5,6 +5,7 @@ import main.java.com.projekat.WebProjekat.dto.*;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
 import main.java.com.projekat.WebProjekat.entity.Menadzer;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
+import main.java.com.projekat.WebProjekat.entity.Uloga;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
 import main.java.com.projekat.WebProjekat.util.SearchCriteria;
@@ -73,8 +74,10 @@ public class KorisnikRestController {
         return new ResponseEntity<>(service.search(params), HttpStatus.OK);
     }
 
-    @GetMapping("/api/korisnici/ulogovanKorisnik")
-    public ResponseEntity getUlogovan(HttpSession session){
+    @GetMapping(
+            value ="/api/korisnici/ulogovanKorisnik",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<KorisnikDto> getUlogovan(HttpSession session){
         Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
 
         if(ulogovanKorisnik == null){
@@ -86,6 +89,17 @@ public class KorisnikRestController {
         return ResponseEntity.ok(korisnikdto);
     }
 
+    @GetMapping(value = "/api/korisnici/role",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Uloga> getRole(HttpSession session){
+        Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
+
+        if(ulogovanKorisnik == null){
+            return new ResponseEntity("invalid", HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(ulogovanKorisnik.getUloga(), HttpStatus.OK);
+    }
     @PutMapping("/api/korisnici/ulogovanKorisnik/update")
     public ResponseEntity updateProfile(HttpSession session,@RequestBody UpdateDto updateDto){
         Korisnik korisnik = (Korisnik) session.getAttribute("user");
@@ -98,27 +112,10 @@ public class KorisnikRestController {
             korisnik.setIme(updateDto.getIme());
         if(updateDto.getPrezime() != null)
             korisnik.setPrezime(updateDto.getPrezime());
-        if(updateDto.getPol() != null)
-            korisnik.setPol(updateDto.getPol());
         if(updateDto.getDatumRodjenja() != null)
             korisnik.setDatumRodjenja(updateDto.getDatumRodjenja());
 
         return new ResponseEntity(korisnikService.save(korisnik, korisnik.getUloga()), HttpStatus.OK);
     }
-
-    @GetMapping("/api/korisnici/menadzer")
-    public ResponseEntity<Restoran> pregledRestorana(HttpSession session){
-        Boolean provera = sessionService.validateRole(session, "Menadzer");
-
-        if(!provera){
-            return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
-        }
-
-        Menadzer menadzer = (Menadzer) session.getAttribute("user");
-
-        return ResponseEntity.ok(menadzer.getRestoran());
-    }
-
-
 
 }

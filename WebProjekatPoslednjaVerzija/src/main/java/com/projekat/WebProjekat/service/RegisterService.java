@@ -17,6 +17,7 @@ public class RegisterService {
         }
 
         if(uloga.equals(Uloga.Kupac)) {
+            korisnik.setUloga(uloga);
             return kupacRepository.save(korisnik);
         }
 

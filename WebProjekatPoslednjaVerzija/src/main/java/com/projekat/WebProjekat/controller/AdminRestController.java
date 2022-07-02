@@ -35,6 +35,9 @@ public class AdminRestController {
     private LokacijaService lokacijaService;
 
     @Autowired
+    private ArtikalService artikalService;
+
+    @Autowired
     private SessionService sessionService;
 
     @PostMapping(
@@ -70,8 +73,7 @@ public class AdminRestController {
 
     @PostMapping(
             value = "/api/admin/create-dostavljac",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createDostavljac(@RequestBody NoviDostavljacDto dto, HttpSession session) throws ParseException {
         Boolean provera = sessionService.validateRole(session, "Admin");
 
@@ -121,6 +123,7 @@ public class AdminRestController {
             return new ResponseEntity("Nemate potrebne privilegije!",HttpStatus.BAD_REQUEST);
         }
 
+        artikalService.deleteArtikalRestoran(id);
         korisnikService.deleteMenadzerRestoran(id);
         komentarService.deleteKomentarRestoran(id);
         restoranService.deleteRestoran(id);
