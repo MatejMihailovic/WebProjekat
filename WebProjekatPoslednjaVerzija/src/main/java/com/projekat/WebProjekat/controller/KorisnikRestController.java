@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,8 +75,10 @@ public class KorisnikRestController {
         return new ResponseEntity<>(service.search(params), HttpStatus.OK);
     }
 
-    @GetMapping("/api/korisnici/ulogovanKorisnik")
-    public ResponseEntity getUlogovan(HttpSession session){
+    @GetMapping(
+            value ="/api/korisnici/ulogovanKorisnik",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<KorisnikDto> getUlogovan(HttpSession session){
         Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
 
         if(ulogovanKorisnik == null){
@@ -87,10 +90,9 @@ public class KorisnikRestController {
         return ResponseEntity.ok(korisnikdto);
     }
 
-    @GetMapping(value = "/api/korisnici/role",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Uloga> getRole(HttpSession session){
-        Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
+    @GetMapping(value = "/api/korisnici/role")
+    public ResponseEntity<Uloga> getRole(@RequestParam(value = "korisnickoIme") String korisnickoIme, HttpSession session){
+        Korisnik ulogovanKorisnik = korisnikService.findOne(korisnickoIme);
 
         if(ulogovanKorisnik == null){
             return new ResponseEntity("invalid", HttpStatus.FORBIDDEN);
@@ -98,23 +100,22 @@ public class KorisnikRestController {
 
         return new ResponseEntity<>(ulogovanKorisnik.getUloga(), HttpStatus.OK);
     }
-    @PutMapping("/api/korisnici/ulogovanKorisnik/update")
-    public ResponseEntity updateProfile(HttpSession session,@RequestBody UpdateDto updateDto){
+    @PutMapping(
+            value = "/api/korisnici/ulogovanKorisnik/update",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateProfile(@RequestBody UpdateDto updateDto, HttpSession session) throws ParseException {
         Korisnik korisnik = (Korisnik) session.getAttribute("user");
 
-        if(updateDto.getKorisnickoIme() != null)
+        if(!updateDto.getKorisnickoIme().isEmpty())
             korisnik.setKorisnickoIme(updateDto.getKorisnickoIme());
-        if(updateDto.getLozinka() != null)
+        if(!updateDto.getLozinka().isEmpty())
             korisnik.setLozinka(updateDto.getLozinka());
-        if(updateDto.getIme() != null)
+        if(!updateDto.getIme().isEmpty())
             korisnik.setIme(updateDto.getIme());
-        if(updateDto.getPrezime() != null)
+        if(!updateDto.getPrezime().isEmpty())
             korisnik.setPrezime(updateDto.getPrezime());
-        if(updateDto.getPol() != null)
-            korisnik.setPol(updateDto.getPol());
-        if(updateDto.getDatumRodjenja() != null)
-            korisnik.setDatumRodjenja(updateDto.getDatumRodjenja());
 
+        System.out.println(korisnik);
         return new ResponseEntity(korisnikService.save(korisnik, korisnik.getUloga()), HttpStatus.OK);
     }
 

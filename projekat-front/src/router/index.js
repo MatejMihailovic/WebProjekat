@@ -5,8 +5,10 @@ import AdminView from '../views/AdminView.vue'
 import CreateMenadzerView from '../views/CreateMenadzerView.vue'
 import CreateDostavljacView from '../views/CreateDostavljacView.vue'
 import RegisterView from '../views/RegisterView.vue'
-import KupacView from '../views/KupacView.vue'
-import MenadzerView from '../views/MenadzerView.vue'
+import CreateRestoranView from '../views/CreateRestoranView.vue'
+import UserProfileView from '../views/UserProfileView.vue'
+import UpdateUserProfileView from '../views/UpdateUserProfileView.vue'
+
 const routes = [
   {
     path: '/',
@@ -39,14 +41,19 @@ const routes = [
     component: CreateDostavljacView
   },
   {
-    path: '/kupac',
-    name: 'kupac',
-    component: KupacView
+    path: '/create-restoran',
+    name: 'create-restoran',
+    component: CreateRestoranView
   },
   {
-    path: '/menadzer',
-    name: 'menadzer',
-    component: MenadzerView
+    path: '/profile',
+    name: 'profile-view',
+    component: UserProfileView
+  },
+  {
+    path: '/profile-update',
+    name: 'profile-update',
+    component: UpdateUserProfileView
   }
 ]
 

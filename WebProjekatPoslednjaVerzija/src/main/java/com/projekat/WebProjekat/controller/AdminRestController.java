@@ -73,8 +73,7 @@ public class AdminRestController {
 
     @PostMapping(
             value = "/api/admin/create-dostavljac",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createDostavljac(@RequestBody NoviDostavljacDto dto, HttpSession session) throws ParseException {
         Boolean provera = sessionService.validateRole(session, "Admin");
 
