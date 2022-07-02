@@ -50,36 +50,53 @@
     </tr>
     <tr>
       <td><a type="button" v-on:click="prikaziPorudzbine()"  class="btn btn-primary">Prikaži porudžbine</a></td>
-      <td><a type="button" v-on:click="dodajArtikal()"  class="btn btn-primary">Dodaj artikal</a></td>
+      <td><button class="open-button" v-on:click="openForm()">Dodaj artikal</button></td>
     </tr>
     <tr v-for="porudzbina in porudzbine" :key="porudzbina.id">
-      <td>{{porudzbina.restoran}}</td> 
-      <td>{{porudzbina.datumIVreme}}</td>
+     <td>{{porudzbina.restoran}}</td> 
+    <td>{{porudzbina.datumIVreme}}</td> 
       <td>{{porudzbina.cena}}</td>
       <td>{{porudzbina.status}}</td>
     </tr>
   </tbody>
 </table>
-<div class="form-popup" id="myForm">
+
+<!-- Dodavanje artikla, ne znam kako da dodam sliku -->
+<!-- <div class="form-popup" id="myForm">
   <form action="/action_page.php" class="form-container">
-    <h1>Dodaj artikal</h1>
+    <h3>Dodaj artikal</h3>
 
     <label for="naziv"><b>Naziv</b></label>
-    <input type="text" placeholder="Naziv" name="naziv" required>
+    <input type="text" v-model="artikal.naziv" placeholder="Naziv" name="naziv" required><br />
 
     <label for="cena"><b>Cena</b></label>
-    <input type="number" placeholder="Cena" name="cena" required>
+    <input type="number"  v-model="artikal.cena" placeholder="Cena" name="cena" required><br />
 
-    <label for="kolicina"><b>Kolicina</b></label>
-    <input type="text" placeholder="Kolicina" name="kolicina" required>
+    <div>Tip: 
+     <select v-model="artikal.tip">
+    <option disabled>Odaberite tip</option>
+    <option value = 0>Jelo</option>
+    <option value = 1>Piće</option>
+     </select>
+    </div><br />
+
+    <label for="kolicina"><b>Količina</b></label>
+    <input type="text" v-model="artikal.kolicina" placeholder="Kolicina" name="kolicina" required><br />
 
     <label for="opis"><b>Opis</b></label>
-    <input type="text" placeholder="Opis" name="opis" required>
+    <input type="text"  v-model="artikal.opis" placeholder="Opis" name="opis" required><br />
 
-    <button type="submit" class="btn">Login</button>
+    <div class="image-class">
+     
+    <label>Photo: </label>
+    <input type="file" name="image" accept="image/png, image/jpeg" />
+     
+    </div>
+
+    <button type="button" class="btn" v-on:click="dodajArtikal()">Dodaj</button><br />
     <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-  </form>
-</div>
+    </form>
+</div> -->
 </template>
 
 <script>
@@ -93,7 +110,11 @@ export default {
       porudzbine : [],
       image: null,
       artikal:{
-
+        naziv: "",
+        cena: null,
+        tip: null,
+        kolicina: null,
+        opis: ""
       }
     };
   },
@@ -120,21 +141,27 @@ export default {
     },
     dodajArtikal : function(){
       axios
-      .post("http://localhost:8080/api/artikli/addArtikal", {withCredentials:true})
+      .post("http://localhost:8080/api/artikli/addArtikal", image, artikal, {withCredentials:true})
       .then((res) => {
-        this.porudzbine = res.data
+        console.log(res)
       })
       .catch((err) =>{
         console.log(err)
       })
+    },
+    openForm : function() {
+      document.getElementById("myForm").style.display = "block";
+    },
+    closeForm: function () {
+      document.getElementById("myForm").style.display = "none"; 
     }
-  },
+  }
 };
 </script>
 
 <style>
-{box-sizing: border-box;}
-
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
 /* Button used to open the contact form - fixed at the bottom of the page */
 .open-button {
   background-color: #555;
@@ -154,7 +181,7 @@ export default {
   display: none;
   position: fixed;
   bottom: 0;
-  right: 15px;
+  right: 30px;
   border: 3px solid #f1f1f1;
   z-index: 9;
 }

@@ -50,8 +50,9 @@ public class MenadzerRestController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("api/menadzer-porudzbine")
-    public ResponseEntity<List<PorudzbinaDto>> getPorudzbineMenadzer(HttpSession session){
+    @GetMapping(value = "api/menadzer-porudzbine",
+                produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Porudzbina>> getPorudzbineMenadzer(HttpSession session){
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 
         if(!proveraSesije){
@@ -59,7 +60,7 @@ public class MenadzerRestController {
         }
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
 
-        List<PorudzbinaDto> dtos = menadzerService.returnPorudzbine(menadzer);
+        List<Porudzbina> dtos = menadzerService.returnPorudzbine(menadzer);
 
         return ResponseEntity.ok(dtos);
     }

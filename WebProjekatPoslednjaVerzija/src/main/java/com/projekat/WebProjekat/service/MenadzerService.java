@@ -22,15 +22,15 @@ public class MenadzerService {
     @Autowired
     private PorudzbinaRepository porudzbinaRepository;
 
-    public List<PorudzbinaDto> returnPorudzbine(Menadzer menadzer){
+    public List<Porudzbina> returnPorudzbine(Menadzer menadzer){
         Restoran restoran = menadzer.getRestoran();
         List<Porudzbina> porudzbine = this.porudzbinaRepository.findAll();
-        List<PorudzbinaDto> dtos = new ArrayList<>();
+       List<Porudzbina> dtos = new ArrayList<>();
 
         for(Porudzbina p : porudzbine){
             if(p.getRestoran().getId().equals(restoran.getId())){
-                PorudzbinaDto dto = new PorudzbinaDto(p);
-                dtos.add(dto);
+               // PorudzbinaDto dto = new PorudzbinaDto(p);
+                dtos.add(p);
             }
         }
         return dtos;
