@@ -52,7 +52,8 @@
       <td><a type="button" v-on:click="prikaziPorudzbine()"  class="btn btn-primary">Prikaži porudžbine</a></td>
     </tr>
     <tr v-for="porudzbina in porudzbine" :key="porudzbina.id">
-      <!-- <td>{{porudzbina.restoran}}</td> -->
+      <td>{{porudzbina.restoran}}</td> 
+      <td>{{porudzbina.datumIVreme}}</td>
       <td>{{porudzbina.cena}}</td>
       <td>{{porudzbina.status}}</td>
     </tr>
