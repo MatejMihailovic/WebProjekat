@@ -5,7 +5,7 @@
     <h6 class="card-subtitle mb-2 text-muted"> {{restoran.tipRestorana}} </h6>
     <h6 class="card-subtitle mb-2 text-muted"> {{restoran.lokacija}} </h6>
 
-    <button class="btn btn-primary">Vidi restoran</button>
+    <button class="btn btn-primary" v-on:click="vidiRestoran">Vidi restoran</button>
   </div>
 </div>
 </template>
@@ -13,8 +13,14 @@
 <script>
 export default {
     name: "RestoranComp",
-    props: ["restoran"]
-}
+    props: ["restoran"],
+    methods: {
+      vidiRestoran: function(){
+        
+        this.$router.push("/restorani/"+this.restoran.id);
+      },
+    },
+};
 </script>
 
 <style>

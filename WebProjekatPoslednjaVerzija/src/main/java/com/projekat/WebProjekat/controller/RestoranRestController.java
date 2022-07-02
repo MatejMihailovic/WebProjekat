@@ -9,6 +9,7 @@ import main.java.com.projekat.WebProjekat.dao.IRestaurantDAO;
 import main.java.com.projekat.WebProjekat.util.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,9 @@ public class RestoranRestController {
     @Autowired
     private SessionService sessionService;
 
-    @GetMapping("api/svi-restorani")
+    @GetMapping(
+            value = "/api/svi-restorani",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RestoranDto>> getRestorani(){
         List<Restoran> restorani = this.restoranService.findAll();
 
@@ -61,7 +64,9 @@ public class RestoranRestController {
         return new ResponseEntity<>(service.search(params), HttpStatus.OK);
     }
 
-    @GetMapping("/api/restorani/{id}")
+    @GetMapping(
+                value = "/api/restorani/{id}",
+                produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity izborRestorana(@PathVariable(name = "id") Long id){
 
         Restoran restoran = restoranService.findOne(id);
