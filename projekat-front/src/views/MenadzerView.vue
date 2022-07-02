@@ -20,10 +20,10 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">Profil</a>
+            <a class="nav-link" href="/profile">Profil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../views/LoginView.vue">Odjavi se</a>
+            <a class="nav-link" href="/login">Odjavi se</a>
           </li>
         </ul>
       </div>
@@ -61,8 +61,7 @@
   </tbody>
 </table>
 
-<!-- Dodavanje artikla, ne znam kako da dodam sliku -->
-<!-- <div class="form-popup" id="myForm">
+<div class="form-popup" id="myForm">
   <form action="/action_page.php" class="form-container">
     <h3>Dodaj artikal</h3>
 
@@ -96,7 +95,7 @@
     <button type="button" class="btn" v-on:click="dodajArtikal()">Dodaj</button><br />
     <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
     </form>
-</div> -->
+</div>
 </template>
 
 <script>
