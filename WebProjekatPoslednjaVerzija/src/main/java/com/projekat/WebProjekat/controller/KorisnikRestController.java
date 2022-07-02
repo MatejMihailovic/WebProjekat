@@ -90,10 +90,9 @@ public class KorisnikRestController {
         return ResponseEntity.ok(korisnikdto);
     }
 
-    @GetMapping(value = "/api/korisnici/role",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Uloga> getRole(HttpSession session){
-        Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
+    @GetMapping(value = "/api/korisnici/role")
+    public ResponseEntity<Uloga> getRole(@RequestParam(value = "korisnickoIme") String korisnickoIme, HttpSession session){
+        Korisnik ulogovanKorisnik = korisnikService.findOne(korisnickoIme);
 
         if(ulogovanKorisnik == null){
             return new ResponseEntity("invalid", HttpStatus.FORBIDDEN);

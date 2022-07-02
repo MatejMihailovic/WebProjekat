@@ -36,8 +36,17 @@ export default {
           withCredentials: true
         })
         .then(res => {
-          console.log(res);
+          console.log(this.uloga);
           alert("Uspesno");
+          if(this.uloga == "Admin"){ 
+          this.$router.push("/admin");
+          }else if(this.uloga == "Dostavljac"){
+          //this.$router.push("/dostavljac");
+          }else if(this.uloga == "Menadzer"){
+          this.$router.push("/menadzer");
+          }else{
+          //this.$router.push("/kupac");
+          }
         })
         .catch(error => {
           console.log(error.response);
@@ -46,31 +55,17 @@ export default {
     },
     getRole: function(){
      axios
-      .get("http://localhost:8080/api/korisnici/role", {withCredentials:true})
+      .get("http://localhost:8080/api/korisnici/role?korisnickoIme=" + this.korisnik.korisnickoIme, {withCredentials:true})
       .then((res) => {
         this.uloga = res.data
-         if(this.uloga == "Admin"){ 
-          this.uloga = ""
-          this.$router.push("/admin");
-          }else if(this.uloga == "Dostavljac"){
-          this.uloga = ""  
-          //this.$router.push("/dostavljac");
-          }else if(this.uloga == "Menadzer"){
-          this.uloga = ""
-          this.$router.push("/menadzer");
-          }else{
-          this.uloga = ""  
-          //this.$router.push("/kupac");
-          }
-       
       })
       .catch((err) =>{
         console.log(err)
       });
   },
   combination: function(){
-    this.prijaviSe()
     this.getRole()
+    this.prijaviSe()
   }
   }
 };
