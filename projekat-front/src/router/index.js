@@ -8,6 +8,7 @@ import RegisterView from '../views/RegisterView.vue'
 import CreateRestoranView from '../views/CreateRestoranView.vue'
 import UserProfileView from '../views/UserProfileView.vue'
 import UpdateUserProfileView from '../views/UpdateUserProfileView.vue'
+import MenadzerView from '../views/MenadzerView.vue'
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     path: '/profile-update',
     name: 'profile-update',
     component: UpdateUserProfileView
+  },
+  {
+    path: '/menadzer',
+    name: 'menadzer',
+    component: MenadzerView
   }
 ]
 

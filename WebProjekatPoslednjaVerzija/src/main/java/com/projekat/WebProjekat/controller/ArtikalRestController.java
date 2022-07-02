@@ -59,7 +59,7 @@ public class ArtikalRestController {
 
         artikalService.update(id, artikalDto, menadzer);
 
-        return ResponseEntity.ok("Uspesno updated!");
+        return ResponseEntity.ok("Successfuly updated!");
     }
 
     @DeleteMapping("/api/artikli/deleteArtikal/{id}")

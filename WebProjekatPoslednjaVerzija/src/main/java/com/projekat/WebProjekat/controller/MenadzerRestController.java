@@ -32,7 +32,7 @@ public class MenadzerRestController {
     @Autowired
     private SessionService sessionService;
 
-    @GetMapping(value = "api/menadzer/restoran",
+    @GetMapping(value = "api/menadzer-restoran",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RestoranPrikazDto> pregledRestorana(HttpSession session){
         Boolean provera = sessionService.validateRole(session, "Menadzer");
@@ -50,7 +50,7 @@ public class MenadzerRestController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("api/menadzer/porudzbine")
+    @GetMapping("api/menadzer-porudzbine")
     public ResponseEntity<List<PorudzbinaDto>> getPorudzbineMenadzer(HttpSession session){
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 

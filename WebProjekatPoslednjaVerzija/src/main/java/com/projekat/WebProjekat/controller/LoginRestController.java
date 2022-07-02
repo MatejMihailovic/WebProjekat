@@ -2,6 +2,7 @@ package main.java.com.projekat.WebProjekat.controller;
 
 import main.java.com.projekat.WebProjekat.dto.LoginDto;
 import main.java.com.projekat.WebProjekat.entity.Korisnik;
+import main.java.com.projekat.WebProjekat.entity.Uloga;
 import main.java.com.projekat.WebProjekat.service.LoginService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class LoginRestController {
     @PostMapping(
             value = "api/login",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity login(@RequestBody LoginDto loginDto, HttpSession session){
+    public ResponseEntity<Uloga> login(@RequestBody LoginDto loginDto, HttpSession session){
 
         Hashtable<String,String> errorDic = new Hashtable<>();
 
@@ -57,7 +58,7 @@ public class LoginRestController {
         session.setAttribute("role",korisnik.getUloga());
         session.setAttribute("user", korisnik);
 
-        return new ResponseEntity("Successfully login!",HttpStatus.OK);
+        return new ResponseEntity(korisnik.getUloga(),HttpStatus.OK);
 
 
     }

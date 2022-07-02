@@ -3,7 +3,7 @@
     <a type="button" href="/create-dostavljac" class="btn btn-primary">Kreiraj Dostavljača</a>
     <a type="button" href="/create-restoran" class="btn btn-primary">Kreiraj Restoran</a>
     <a type="button" href="/profile" class="btn btn-primary">Moj profil</a>
-    <a type="button" v-on:click="logout()"  class="btn btn-primary">Izloguj se</a>
+    <a type="button" href="/login"  class="btn btn-primary">Izloguj se</a>
 
     <div class="input-group">
         <select v-model="filter" class="form-select" aria-label="Default select example">
