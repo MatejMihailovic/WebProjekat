@@ -1,13 +1,10 @@
 <template>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<!------ Include the above in your HEAD tag ---------->
-
 <div class="container emp-profile">
             <form method="post">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img src="https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile.png" alt=""/>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEidraPhmCDVkOsdFzkhtvO8TXj2_1ukhLZw&usqp=CAU" alt=""/>
                         </div>
                     </div>
                     </div>
@@ -22,7 +19,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                        <a type="button" href="/profile-update"  class="profile-edit-btn">Update</a>
                     </div>
                     <div class="col-md-8">
                         <div class="tab-content profile-tab" id="myTabContent">
@@ -75,8 +72,6 @@
 </template>
 
 <script>
-//import '//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js'
-//import '//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'
 import axios from "axios";
 export default {
   name: "UserProfileView",
@@ -142,10 +137,13 @@ body{
     color: #0062cc;
 }
 .profile-edit-btn{
-    border: none;
-    border-radius: 1.5rem;
-    width: 70%;
-    padding: 2%;
+    margin: 0;
+    position: absolute;
+    top: 25%;
+    left: 45%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 10%;
     font-weight: 600;
     color: #6c757d;
     cursor: pointer;

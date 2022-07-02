@@ -2,6 +2,7 @@ package main.java.com.projekat.WebProjekat.dto;
 
 import main.java.com.projekat.WebProjekat.entity.Pol;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class UpdateDto {
@@ -10,14 +11,12 @@ public class UpdateDto {
     String ime;
     String prezime;
     String lozinka;
-    Date datumRodjenja;
 
     public UpdateDto(String korisnickoIme, String ime, String prezime, String lozinka, Date datumRodjenja) {
         this.korisnickoIme = korisnickoIme;
         this.ime = ime;
         this.prezime = prezime;
         this.lozinka = lozinka;
-        this.datumRodjenja = datumRodjenja;
     }
 
     public String getKorisnickoIme() {
@@ -52,11 +51,4 @@ public class UpdateDto {
         this.lozinka = lozinka;
     }
 
-    public Date getDatumRodjenja() {
-        return datumRodjenja;
-    }
-
-    public void setDatumRodjenja(Date datumRodjenja) {
-        this.datumRodjenja = datumRodjenja;
-    }
 }
