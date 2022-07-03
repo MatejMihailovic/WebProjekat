@@ -61,6 +61,12 @@
   </tbody>
 </table>
 
+<!-- <artikal-comp
+      v-for="artikal in artikli"
+      :key="artikal.id"
+      :artikal="artikal"
+    >
+    </restoran-comp> -->
 <div class="form-popup" id="myForm">
   <form action="/action_page.php" class="form-container">
     <h3>Dodaj artikal</h3>
@@ -80,7 +86,7 @@
     </div><br />
 
     <label for="kolicina"><b>Količina</b></label>
-    <input type="text" v-model="artikal.kolicina" placeholder="Kolicina" name="kolicina" required><br />
+    <input type="number" v-model="artikal.kolicina" placeholder="Kolicina" name="kolicina" required><br />
 
     <label for="opis"><b>Opis</b></label>
     <input type="text"  v-model="artikal.opis" placeholder="Opis" name="opis" required><br />
@@ -88,12 +94,12 @@
     <div class="image-class">
      
     <label>Photo: </label>
-    <input type="file" name="image" accept="image/png, image/jpeg" />
+    <input type="file" ref="uploadImage" v-on:change="onImageUpload()" name="image" accept="image/png, image/jpeg" />
      
     </div>
 
     <button type="button" class="btn" v-on:click="dodajArtikal()">Dodaj</button><br />
-    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    <button type="button" class="btn cancel" v-on:click="closeForm()">Close</button>
     </form>
 </div>
 </template>
@@ -114,7 +120,9 @@ export default {
         tip: null,
         kolicina: null,
         opis: ""
-      }
+      },
+      artikli: [],
+      formData: null
     };
   },
   mounted: function () {
@@ -138,11 +146,18 @@ export default {
         console.log(err)
       })
     },
+    onImageUpload(){
+        let file = this.$refs.uploadImage.files[0];
+        this.formData = new FormData();
+        this.formData.append("file",file);
+        let json =  JSON.stringify(this.artikal);
+        this.formData.append("json", json);
+    },
     dodajArtikal : function(){
       axios
-      .post("http://localhost:8080/api/artikli/addArtikal", image, artikal, {withCredentials:true})
+      .post("http://localhost:8080/api/artikli/addArtikal", this.formData, {withCredentials:true})
       .then((res) => {
-        console.log(res)
+        console.log(res.data)
       })
       .catch((err) =>{
         console.log(err)

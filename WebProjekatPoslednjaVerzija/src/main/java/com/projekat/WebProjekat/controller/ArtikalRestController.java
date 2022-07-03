@@ -27,7 +27,7 @@ public class ArtikalRestController {
     private SessionService sessionService;
 
     @PostMapping("/api/artikli/addArtikal")
-    public ResponseEntity<Artikal> addArtikal(@RequestParam("image") MultipartFile multipartFile, @RequestParam("json") String jsonData, HttpSession session) throws JsonProcessingException {
+    public ResponseEntity<Artikal> addArtikal(@RequestParam("file") MultipartFile multipartFile, @RequestParam("json") String jsonData, HttpSession session) throws JsonProcessingException {
         String role = sessionService.getRole(session);
 
         if(!role.equals("Menadzer")){
