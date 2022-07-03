@@ -23,7 +23,7 @@
             <a class="nav-link" href="#">Profil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Korpa</a>
+            <a class="nav-link" href="/korpa">Korpa</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Odjavi se</a>
@@ -32,6 +32,17 @@
       </div>
     </div>
   </nav>
+
+  <div class="input-group">
+        <select v-model="filter" class="form-select" aria-label="Default select example">
+        <option selected>Choose</option>
+        <option value="naziv">Pretrazi po nazivu</option>
+        <option value="tipRestorana">Pretrazi po tipu restorana</option>
+        <option value="lokacija">Pretrazi po lokaciji</option>
+        </select>
+        <input v-model="value" type="search" v-on:keyup="search(filter, value)" id="myInput" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+    </div>
+
   <section id="restorani">
     <div class="container-fluid">
         <div class="row">
@@ -59,6 +70,9 @@ export default {
   data: function() {
     return {
       restorani: [],
+     
+      filter : "",
+      value : "",
     };
   },
   mounted: function() {
@@ -70,7 +84,19 @@ export default {
       .catch(error => {
         console.log(error);
       });
-  }
+  },
+     methods: {
+    search : function(filter, value){
+      axios
+      .get("http://localhost:8080/api/restorani?search=" + filter + ":" + value, {withCredentials:true})
+      .then((res) => {
+        this.restorani = res.data
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
+    }
+    },
 
 };
 </script>

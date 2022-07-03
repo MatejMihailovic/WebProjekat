@@ -25,15 +25,14 @@ public class MenadzerService {
     public List<Porudzbina> returnPorudzbine(Menadzer menadzer){
         Restoran restoran = menadzer.getRestoran();
         List<Porudzbina> porudzbine = this.porudzbinaRepository.findAll();
-        List<Porudzbina> porudzbinaList = new ArrayList<>();
-       // List<PorudzbinaDto> dtos = new ArrayList<>();
+       List<Porudzbina> dtos = new ArrayList<>();
 
-       for(Porudzbina p : porudzbine){
+        for(Porudzbina p : porudzbine){
             if(p.getRestoran().getId().equals(restoran.getId())){
-                //PorudzbinaDto dto = new PorudzbinaDto(p);
-                porudzbinaList.add(p);
+               // PorudzbinaDto dto = new PorudzbinaDto(p);
+                dtos.add(p);
             }
         }
-        return porudzbine;
+        return dtos;
     }
 }

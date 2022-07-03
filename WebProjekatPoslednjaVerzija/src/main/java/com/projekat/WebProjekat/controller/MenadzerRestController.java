@@ -50,7 +50,8 @@ public class MenadzerRestController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("api/menadzer-porudzbine")
+    @GetMapping(value = "api/menadzer-porudzbine",
+                produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Porudzbina>> getPorudzbineMenadzer(HttpSession session){
         Boolean proveraSesije = sessionService.validateRole(session, "Menadzer");
 

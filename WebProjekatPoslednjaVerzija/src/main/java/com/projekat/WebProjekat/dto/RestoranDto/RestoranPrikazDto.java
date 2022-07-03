@@ -37,7 +37,7 @@ public class RestoranPrikazDto {
 
     private double prosek;
 
-    private List<Komentar> komentari = new ArrayList<>();
+    private List<String> komentari = new ArrayList<>();
 
     public RestoranPrikazDto() {
     }
@@ -54,9 +54,9 @@ public class RestoranPrikazDto {
         double prosek = 0;
         for(Komentar k : komentari){
             prosek += k.getOcena();
+            this.komentari.add(k.getTekstKomentara());
         }
         this.prosek = prosek / komentari.size();
-        this.komentari = komentari;
     }
 
     public String getNaziv() {
@@ -107,11 +107,11 @@ public class RestoranPrikazDto {
         this.prosek = prosek;
     }
 
-    public List<Komentar> getKomentari() {
+    public List<String> getKomentari() {
         return komentari;
     }
 
-    public void setKomentari(List<Komentar> komentari) {
+    public void setKomentari(List<String> komentari) {
         this.komentari = komentari;
     }
 }

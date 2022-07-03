@@ -1,5 +1,6 @@
 package main.java.com.projekat.WebProjekat.dao;
 
+import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranDto;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.util.SearchCriteria;
 import org.springframework.data.jpa.domain.Specification;
@@ -9,7 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-public class RestaurantSpecification implements Specification<Restoran> {
+public class RestaurantSpecification implements Specification<RestoranDto> {
     private SearchCriteria criteria;
 
     public RestaurantSpecification(SearchCriteria criteria) {
@@ -18,7 +19,7 @@ public class RestaurantSpecification implements Specification<Restoran> {
 
     @Override
     public Predicate toPredicate
-            (Root<Restoran> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+            (Root<RestoranDto> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
         if (criteria.getOperation().equalsIgnoreCase(">")) {
             return builder.greaterThanOrEqualTo(

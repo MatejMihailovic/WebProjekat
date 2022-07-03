@@ -3,8 +3,9 @@
     <a type="button" href="/create-dostavljac" class="btn btn-primary">Kreiraj Dostavljača</a>
     <a type="button" href="/create-restoran" class="btn btn-primary">Kreiraj Restoran</a>
     <a type="button" href="/profile" class="btn btn-primary">Moj profil</a>
-    <a type="button" v-on:click="logout()"  class="btn btn-primary">Izloguj se</a>
-
+    <a type="button" href="/login"  class="btn btn-primary">Izloguj se</a>
+<section id="korisnici">
+  <h2>Pregled korisnika</h2>
     <div class="input-group">
         <select v-model="filter" class="form-select" aria-label="Default select example">
         <option selected>Choose</option>
@@ -39,17 +40,53 @@
     </tr>
   </tbody>
 </table>
+</section>
+<section id="restorani">
+    <h2>Pregled restorana</h2>
+
+    <div class="input-group">
+        <select v-model="filter1" class="form-select" aria-label="Default select example">
+        <option selected>Choose</option>
+        <option value="naziv">By Name</option>
+        <option value="tipRestorana">By Type</option>
+        <option value="lokacija">By Location</option>
+        </select>
+        <input v-model="value1" type="search" v-on:keyup="search1(filter1, value1)" id="myInput" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+    </div>
+
+    <section id="restorani">
+    <div class="container-fluid">
+        <div class="row">
+            
+    <restoran-comp
+      v-for="restoran in restorani"
+      :key="restoran.id"
+      :restoran="restoran"
+    >
+    </restoran-comp>
+        </div>
+
+    </div>
+  </section>
+
+  </section>
 </template>
 
 <script>
 import axios from "axios";
+import RestoranComp from "../components/RestoranComp.vue";
+
 export default {
   name: "Admin Vue",
+  components: { RestoranComp },
   data: function () {
     return {
       users: [],
       filter : "",
-      value : ""
+      value : "",
+      filter1 : "",
+      value1 : "",
+      restorani: [],
     };
   },
    mounted: function () {
@@ -60,8 +97,17 @@ export default {
       })
       .catch((err) =>{
         console.log(err)
+      }),
+          axios
+      .get("http://localhost:8080/api/svi-restorani",{withCredentials: true})
+      .then(res => {
+        this.restorani = res.data;
       })
+      .catch(error => {
+        console.log(error);
+      });
    },
+
    methods: {
     search : function(filter, value){
       axios
@@ -72,10 +118,23 @@ export default {
       .catch((err) =>{
         console.log(err)
       })
-    }
     },
+     search1 : function(filter1, value1){
+      axios
+      .get("http://localhost:8080/api/restorani?search=" + filter1 + ":" + value1, {withCredentials:true})
+      .then((res) => {
+        this.restorani = res.data
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
+    }
+   }
 };
 </script>
 
 <style scoped>
+#korisnici{
+  margin-top: 20px
+}
 </style>

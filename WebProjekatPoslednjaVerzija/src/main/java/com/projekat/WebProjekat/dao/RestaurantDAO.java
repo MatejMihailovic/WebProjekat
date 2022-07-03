@@ -1,9 +1,11 @@
 package main.java.com.projekat.WebProjekat.dao;
 
+import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranDto;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranPrikazDto;
 import main.java.com.projekat.WebProjekat.entity.Komentar;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.repository.KomentarRepository;
+import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import main.java.com.projekat.WebProjekat.util.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,6 +27,9 @@ public class RestaurantDAO implements IRestaurantDAO{
     @Autowired
     private KomentarRepository komentarRepository;
 
+    @Autowired
+    private RestoranRepository restoranRepository;
+
     @Override
     public List<RestoranPrikazDto> search(final List<SearchCriteria> params) {
         final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -39,7 +44,7 @@ public class RestaurantDAO implements IRestaurantDAO{
 
         List<RestoranPrikazDto> list = new ArrayList<>();
 
-        List<Komentar> komentari = new ArrayList<>();
+        List<Komentar> komentari;
 
         for(Restoran restoran : entityManager.createQuery(query).getResultList()){
             komentari = komentarRepository.getByRestoranKomentar(restoran).get();
@@ -50,7 +55,7 @@ public class RestaurantDAO implements IRestaurantDAO{
     }
 
     @Override
-    public void save(final Restoran entity) {
+    public void save(final RestoranDto entity) {
         entityManager.persist(entity);
     }
 }

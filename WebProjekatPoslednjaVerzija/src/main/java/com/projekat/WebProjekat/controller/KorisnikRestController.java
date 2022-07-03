@@ -91,8 +91,8 @@ public class KorisnikRestController {
     }
 
     @GetMapping(value = "/api/korisnici/role")
-    public ResponseEntity<Uloga> getRole(@RequestParam(value = "korisnickoIme") String korisnickoIme, HttpSession session){
-        Korisnik ulogovanKorisnik = korisnikService.findOne(korisnickoIme);
+    public ResponseEntity<Uloga> getRole(HttpSession session){
+        Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
 
         if(ulogovanKorisnik == null){
             return new ResponseEntity("invalid", HttpStatus.FORBIDDEN);

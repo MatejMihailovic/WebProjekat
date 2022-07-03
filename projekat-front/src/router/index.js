@@ -8,6 +8,10 @@ import RegisterView from '../views/RegisterView.vue'
 import CreateRestoranView from '../views/CreateRestoranView.vue'
 import UserProfileView from '../views/UserProfileView.vue'
 import UpdateUserProfileView from '../views/UpdateUserProfileView.vue'
+import MenadzerView from '../views/MenadzerView.vue'
+import KupacView from '../views/KupacView.vue'
+import RestoranView from '../views/RestoranView.vue'
+import KorpaView from '../views/KorpaView.vue'
 
 const routes = [
   {
@@ -54,6 +58,26 @@ const routes = [
     path: '/profile-update',
     name: 'profile-update',
     component: UpdateUserProfileView
+  },
+  {
+    path: '/menadzer',
+    name: 'menadzer',
+    component: MenadzerView
+  },
+  {
+    path: '/restorani/:id',
+    name: 'restoran',
+    component: RestoranView
+  },
+  {
+    path: '/kupac',
+    name: 'kupac',
+    component: KupacView
+  },
+  {
+    path: '/korpa',
+    name: 'korpa',
+    component: KorpaView
   }
 ]
 

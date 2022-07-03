@@ -74,16 +74,23 @@ public class DatabaseConfiguration {
         Artikal artikal1 = new Artikal("Coca-cola", 70, Tip.pice, 20, "gazirani sok", restoran1);
         artikalRepository.save(artikal1);
 
+        Artikal artikal2 = new Artikal("Burger", 200, Tip.jelo, 20, "burger od govedine", restoran1);
+        artikalRepository.save(artikal2);
+
+        Artikal artikal3 = new Artikal("Pileci burger", 150, Tip.jelo, 20, "burger od piletine", restoran2);
+        artikalRepository.save(artikal3);
+
         Menadzer menadzer1 = new Menadzer("milena123", "1111", "Milena", "Milenovic", Pol.Zenski, new Date(93, Calendar.FEBRUARY, 16), restoran1);
         menadzerRepository.save(menadzer1);
 
+        Menadzer menadzer2 = new Menadzer("aleksa", "1111", "Aleksa", "Paovic", Pol.Musko, new Date(00, Calendar.FEBRUARY, 16), restoran2);
+        menadzerRepository.save(menadzer2);
 
         Komentar komentar1 = new Komentar(restoran1, kupac1, "Odlicna hrana!", 10);
         komentarRepository.save(komentar1);
 
         Komentar komentar2 = new Komentar(restoran1, kupac2, "Odlicna usluga!", 9);
         komentarRepository.save(komentar2);
-
 
         Komentar komentar3 = new Komentar(restoran2, kupac1, "Fuj!", 3);
         komentarRepository.save(komentar3);

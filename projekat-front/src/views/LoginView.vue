@@ -11,7 +11,7 @@
     </div>
 
     <div class="col-12">
-      <button v-on:click="combination()" class="btn btn-primary">Prijava</button>
+      <button v-on:click="prijaviSe()" class="btn btn-primary">Prijava</button>
     </div> 
 </template>
 
@@ -35,38 +35,23 @@ export default {
         .post("http://localhost:8080/api/login", this.korisnik, {
           withCredentials: true
         })
-        .then(res => {
-          console.log(this.uloga);
-          alert("Uspesno");
-          if(this.uloga == "Admin"){ 
+        .then(res =>{
+          if(res.data == "Admin"){ 
           this.$router.push("/admin");
-          }else if(this.uloga == "Dostavljac"){
+          }else if(res.data == "Dostavljac"){
           //this.$router.push("/dostavljac");
-          }else if(this.uloga == "Menadzer"){
+          }else if(res.data == "Menadzer"){
           this.$router.push("/menadzer");
           }else{
-          //this.$router.push("/kupac");
+          this.$router.push("/kupac");
           }
         })
         .catch(error => {
           console.log(error.response);
           alert("Neuspesno");
         }); 
-    },
-    getRole: function(){
-     axios
-      .get("http://localhost:8080/api/korisnici/role?korisnickoIme=" + this.korisnik.korisnickoIme, {withCredentials:true})
-      .then((res) => {
-        this.uloga = res.data
-      })
-      .catch((err) =>{
-        console.log(err)
-      });
-  },
-  combination: function(){
-    this.getRole()
-    this.prijaviSe()
-  }
+    }
+      
   }
 };
 </script>
