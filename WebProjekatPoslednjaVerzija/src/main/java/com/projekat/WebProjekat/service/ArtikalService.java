@@ -104,7 +104,7 @@ public class ArtikalService {
                 restoran.getArtikliUPonudi().remove(artikal);
                 artikal.setRestoran(null);
                 artikalRepository.delete(artikal);
-                this.saveRestoran(restoran);
+                break;
             }
         }
     }
