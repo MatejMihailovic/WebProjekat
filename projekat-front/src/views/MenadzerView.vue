@@ -40,13 +40,11 @@
       <td>{{restoran.lokacija}}</td>
       <td>{{restoran.prosek}}</td>
     </tr>
-    <tr>
-      <td><a type="button" v-on:click="prikaziPorudzbine()"  class="btn btn-primary">Prikaži porudžbine</a></td>
-      <td><button class="open-button" v-on:click="openForm()">Dodaj artikal</button></td>
-    </tr>
   </tbody>
 </table>
 
+  <a type="button" v-on:click="prikaziPorudzbine()"  class="btn btn-primary">Prikaži porudžbine</a>
+  
   <section id="artikli">
     <div class="container-fluid">
         <div class="row">
@@ -56,7 +54,7 @@
  </div>
  </section>
 
-<div class="form-popup" id="myForm">
+  <div class="form-popup" id="myForm">
   <form action="/action_page.php" class="form-container">
     <h3>Dodaj artikal</h3>
 
@@ -87,10 +85,11 @@
      
     </div>
 
+    </form>
     <button type="button" class="btn" v-on:click="dodajArtikal()">Dodaj</button><br />
     <button type="button" class="btn cancel" v-on:click="closeForm()">Close</button>
-    </form>
 </div>
+    <button class="open-button" v-on:click="openForm()">Dodaj artikal</button>
 </template>
 
 <script>

@@ -16,10 +16,40 @@
             <button class="btn btn-primary" v-if="role=='Menadzer'" v-on:click="obrisiArtikal">
               Obriši artikal
             </button>
+            <button class="btn btn-primary" v-if="role=='Menadzer'" v-on:click="openForm1">
+             Izmeni artikal
+            </button>
           </div>
-   
 
   </div>
+  <div class="form-popup" id="myForm1">
+  <form action="/action_page.php" class="form-container">
+    <h3>Izmeni artikal</h3>
+
+    <label for="naziv"><b>Naziv</b></label>
+    <input type="text" v-model="temp.naziv" placeholder="Naziv" name="naziv" required><br />
+
+    <label for="cena"><b>Cena</b></label>
+    <input type="number"  v-model="temp.cena" placeholder="Cena" name="cena" required><br />
+
+    <div>Tip: 
+     <select v-model="artikal.tip">
+    <option disabled>Odaberite tip</option>
+    <option value = 0>Jelo</option>
+    <option value = 1>Piće</option>
+     </select>
+    </div><br />
+
+    <label for="kolicina"><b>Količina</b></label>
+    <input type="number" v-model="temp.kolicina" placeholder="Kolicina" name="kolicina" required><br />
+
+    <label for="opis"><b>Opis</b></label>
+    <input type="text"  v-model="temp.opis" placeholder="Opis" name="opis" required><br />
+
+    <button type="button" class="btn" v-on:click="izmeniArtikal()">Izmeni</button><br />
+    <button type="button" class="btn cancel" v-on:click="closeForm1()">Close</button>
+    </form>
+</div>
 </template>
 
 <script>
@@ -32,7 +62,14 @@ export default {
 
   data: function () {
      return {
-      role: ""
+      role: "",
+      temp:{
+        naziv: "",
+        cena: null,
+        tip: null,
+        kolicina: null,
+        opis: ""
+      }
     };
   },
     mounted: function(){
@@ -59,12 +96,35 @@ export default {
       .catch((err) =>{
         console.log(err)
       })
+    },
+    openForm1 : function() {
+      document.getElementById("myForm1").style.display = "block";
+    },
+    closeForm1: function () {
+      document.getElementById("myForm1").style.display = "none"; 
+    },
+    izmeniArtikal : function(){
+      axios
+      .put("http://localhost:8080/api/artikli/updateArtikal/" + this.artikal.id, this.temp, {withCredentials:true})
+      .then(res => {
+        window.location.reload();
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
     }
   }
 };
 </script>
 
 <style scoped>
+
+#myForm1{
+  margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+}
 img {
   width: 60px;
 }

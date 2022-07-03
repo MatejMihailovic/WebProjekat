@@ -64,8 +64,6 @@ public class ArtikalService {
     public void update(Long id, ArtikalDto artikalDto, Menadzer menadzer){
         Artikal artikal = this.findOne(id);
 
-        menadzer.getRestoran().getArtikliUPonudi().remove(artikal);
-
         if(!artikalDto.getNaziv().isEmpty()){
             artikal.setNaziv(artikalDto.getNaziv());
         }
@@ -84,11 +82,11 @@ public class ArtikalService {
 
         this.save(artikal);
 
-        menadzer.getRestoran().getArtikliUPonudi().add(artikal);
+        //menadzer.getRestoran().getArtikliUPonudi().add(artikal);
 
-        restoranRepository.save(menadzer.getRestoran());
+        //restoranRepository.save(menadzer.getRestoran());
 
-        menadzerRepository.save(menadzer);
+       // menadzerRepository.save(menadzer);
     }
 
     public void delete(Long id, Restoran restoran) {
