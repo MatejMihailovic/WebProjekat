@@ -74,6 +74,12 @@ public class DatabaseConfiguration {
         Artikal artikal1 = new Artikal("Coca-cola", 70, Tip.pice, 20, "gazirani sok", restoran1);
         artikalRepository.save(artikal1);
 
+        Artikal artikal2 = new Artikal("Burger", 200, Tip.jelo, 20, "burger od govedine", restoran1);
+        artikalRepository.save(artikal2);
+
+        Artikal artikal3 = new Artikal("Pileci burger", 150, Tip.jelo, 20, "burger od piletine", restoran2);
+        artikalRepository.save(artikal3);
+
         Menadzer menadzer1 = new Menadzer("milena123", "1111", "Milena", "Milenovic", Pol.Zenski, new Date(93, Calendar.FEBRUARY, 16), restoran1);
         menadzerRepository.save(menadzer1);
 

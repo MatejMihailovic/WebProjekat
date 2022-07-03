@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light">
+  <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"
         ><div class="logoMali">
@@ -33,43 +33,57 @@
     </div>
   </nav>
   <section>
-      <h2> {{ restoran.naziv }} </h2>
-      <h5>Tip restorana: {{ restoran.tipRestorana }}</h5>
-      <h5>Lokacija: {{ restoran.lokacija }}</h5>
-      <h5>Status: {{restoran.status}}</h5>
-      <h5>Prosek ocena: {{restoran.prosek}}</h5>
-      <h5>Komentari: {{restoran.komentari}}</h5>
+    <h2>{{ restoran.naziv }}</h2>
+    <h5>Tip restorana: {{ restoran.tipRestorana }}</h5>
+    <h5>Lokacija: {{ restoran.lokacija }}</h5>
+    <h5>Status: {{ restoran.status }}</h5>
+    <h5>Prosek ocena: {{ restoran.prosek }}</h5>
+    <h5>Komentari: {{ restoran.komentari }}</h5>
   </section>
-  <section>
+  <section id="artikliUPonudi">
     <h2>Artikli u ponudi</h2>
+
+    <div class="container-fluid">
+      <div class="row">
+      
+          <artikal-comp
+            v-for="artikal in restoran.artikliUPonudi"
+            :key="artikal.id"
+            :artikal="artikal"
+          >
+          </artikal-comp>
+        
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
 import axios from "axios";
+import ArtikalComp from "../components/ArtikalComp.vue";
+
 export default {
-    name: "RestoranView",
-    data: function(){
-        return{
-            restoran : {},
-        }
-    },
-    mounted: function(){
+  name: "RestoranView",
+  components: { ArtikalComp },
+  data: function() {
+    return {
+      restoran: {}
+    };
+  },
+  mounted: function() {
     axios
-      .get("http://localhost:8080/api/restorani/"+this.$route.params.id, {withCredentials:true})
-      .then((res) => {
-        
+      .get("http://localhost:8080/api/restorani/" + this.$route.params.id, {
+        withCredentials: true
+      })
+      .then(res => {
         this.restoran = res.data;
       })
-      .catch((err) =>{
-        console.log(err)
-      })
-   }
-    };
-
+      .catch(err => {
+        console.log(err);
+      });
+  }
+};
 </script>
 
-
 <style>
-
 </style>
