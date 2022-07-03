@@ -2,6 +2,7 @@ package main.java.com.projekat.WebProjekat.service;
 
 import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranDto;
 import main.java.com.projekat.WebProjekat.entity.*;
+import main.java.com.projekat.WebProjekat.repository.LokacijaRepository;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,6 +16,9 @@ import java.util.Optional;
 public class RestoranService {
     @Autowired
     private RestoranRepository restoranRepository;;
+
+    @Autowired
+    private LokacijaRepository lokacijaRepository;;
 
     public Restoran save(Restoran restoran) { return restoranRepository.save(restoran); }
 
@@ -48,32 +52,7 @@ public class RestoranService {
 
         return restoranidto;
     }
-    public List<RestoranDto> getRestorani(RestoranDto dto){
-        List<RestoranDto> restorani = new ArrayList<>();
-        if(!dto.getNaziv().isEmpty()) {
-            restorani.add(new RestoranDto(this.findOneByNaziv(dto.getNaziv())));
-        }
 
-        if(dto.getLokacija() != null) {
-            restorani.add(new RestoranDto(this.findOneByLokacija(dto.getLokacija())));
-        }
-
-        if(!dto.getTipRestorana().isEmpty()) {
-            for (RestoranDto rdto : (this.findByTipRestorana(dto.getTipRestorana()))) {
-                restorani.add(rdto);
-            }
-        }
-        //Uklanjamo duplikate
-        for(int i = 0; i < restorani.size(); i++){
-            for(int j = i + 1; j < restorani.size(); j++){
-                if(restorani.get(i).getNaziv().equals(restorani.get(j).getNaziv()) || restorani.get(i).getLokacija() == restorani.get(j).getLokacija()){
-                    restorani.remove(j);
-                    j--;
-                }
-            }
-        }
-        return restorani;
-    }
     public Restoran findOneByNaziv(String naziv){
         Optional<Restoran> pronadjenRestoran = restoranRepository.findByNaziv(naziv);
 

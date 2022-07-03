@@ -4,7 +4,8 @@
     <a type="button" href="/create-restoran" class="btn btn-primary">Kreiraj Restoran</a>
     <a type="button" href="/profile" class="btn btn-primary">Moj profil</a>
     <a type="button" href="/login"  class="btn btn-primary">Izloguj se</a>
-
+<section id="korisnici">
+  <h2>Pregled korisnika</h2>
     <div class="input-group">
         <select v-model="filter" class="form-select" aria-label="Default select example">
         <option selected>Choose</option>
@@ -39,9 +40,19 @@
     </tr>
   </tbody>
 </table>
-
-  <section id="restorani">
+</section>
+<section id="restorani">
     <h2>Pregled restorana</h2>
+
+    <div class="input-group">
+        <select v-model="filter1" class="form-select" aria-label="Default select example">
+        <option selected>Choose</option>
+        <option value="naziv">By Name</option>
+        <option value="tipRestorana">By Type</option>
+        <option value="lokacija">By Location</option>
+        </select>
+        <input v-model="value1" type="search" v-on:keyup="search1(filter1, value1)" id="myInput" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+    </div>
 
     <section id="restorani">
     <div class="container-fluid">
@@ -53,7 +64,6 @@
       :restoran="restoran"
     >
     </restoran-comp>
-            
 
         </div>
 
@@ -75,6 +85,8 @@ export default {
       users: [],
       filter : "",
       value : "",
+      filter1 : "",
+      value1 : "",
       restorani: [],
     };
   },
@@ -107,8 +119,28 @@ export default {
       .catch((err) =>{
         console.log(err)
       })
-    }
     },
+     search1 : function(filter1, value1){
+      axios
+      .get("http://localhost:8080/api/restorani?search=" + filter1 + ":" + value1, {withCredentials:true})
+      .then((res) => {
+        this.restorani = res.data
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
+    },
+    deleteRestoran: function() {
+       axios
+      .get("http://localhost:8080/api/admin/delete-restoran/" + this.restorani.id, {withCredentials:true})
+      .then((res) => {
+        this.restorani = res.data
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
+    }
+   }
 };
 </script>
 

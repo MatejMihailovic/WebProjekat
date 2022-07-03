@@ -19,5 +19,8 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0"
-  }
+  },
+  "overrides": {
+    "autoprefixer": "10.4.5"
+}
 }
