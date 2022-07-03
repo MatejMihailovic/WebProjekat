@@ -23,7 +23,7 @@
             <a class="nav-link" href="#">Profil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Korpa</a>
+            <a class="nav-link" href="/korpa">Korpa</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Odjavi se</a>

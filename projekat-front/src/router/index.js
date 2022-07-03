@@ -11,6 +11,7 @@ import UpdateUserProfileView from '../views/UpdateUserProfileView.vue'
 import MenadzerView from '../views/MenadzerView.vue'
 import KupacView from '../views/KupacView.vue'
 import RestoranView from '../views/RestoranView.vue'
+import KorpaView from '../views/KorpaView.vue'
 
 const routes = [
   {
@@ -72,6 +73,11 @@ const routes = [
     path: '/kupac',
     name: 'kupac',
     component: KupacView
+  },
+  {
+    path: '/korpa',
+    name: 'korpa',
+    component: KorpaView
   }
 ]
 
