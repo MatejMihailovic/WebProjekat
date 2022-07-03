@@ -68,7 +68,8 @@ export default {
   data: function() {
     return {
       restoran: {},
-
+      filter : "",
+      value : "",
     };
   },
   mounted: function() {
