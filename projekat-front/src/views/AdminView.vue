@@ -64,7 +64,6 @@
       :restoran="restoran"
     >
     </restoran-comp>
-
         </div>
 
     </div>
@@ -129,20 +128,13 @@ export default {
       .catch((err) =>{
         console.log(err)
       })
-    },
-    deleteRestoran: function() {
-       axios
-      .get("http://localhost:8080/api/admin/delete-restoran/" + this.restorani.id, {withCredentials:true})
-      .then((res) => {
-        this.restorani = res.data
-      })
-      .catch((err) =>{
-        console.log(err)
-      })
     }
    }
 };
 </script>
 
 <style scoped>
+#korisnici{
+  margin-top: 20px
+}
 </style>

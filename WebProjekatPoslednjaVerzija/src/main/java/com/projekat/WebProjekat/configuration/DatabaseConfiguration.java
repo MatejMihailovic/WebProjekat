@@ -83,6 +83,9 @@ public class DatabaseConfiguration {
         Menadzer menadzer1 = new Menadzer("milena123", "1111", "Milena", "Milenovic", Pol.Zenski, new Date(93, Calendar.FEBRUARY, 16), restoran1);
         menadzerRepository.save(menadzer1);
 
+        Menadzer menadzer2 = new Menadzer("aleksa", "1111", "Aleksa", "Paovic", Pol.Musko, new Date(00, Calendar.FEBRUARY, 16), restoran2);
+        menadzerRepository.save(menadzer2);
+
         Komentar komentar1 = new Komentar(restoran1, kupac1, "Odlicna hrana!", 10);
         komentarRepository.save(komentar1);
 

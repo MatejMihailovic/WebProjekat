@@ -113,7 +113,7 @@ public class ArtikalService {
         List<Artikal> listaArtikala = this.findAll();
 
         for(Artikal a : listaArtikala){
-            if(a.getRestoran().equals(restoranRepository.findById(id))){
+            if(a.getRestoran() == restoranRepository.findById(id).get()){
                 a.setRestoran(null);
                 artikalRepository.save(a);
             }

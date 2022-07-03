@@ -6,7 +6,7 @@
     <h6 class="card-subtitle mb-2 text-muted"> {{restoran.lokacija}} </h6>
 
     <button class="btn btn-primary" v-on:click="vidiRestoran">Vidi restoran</button>
-    <button class="delete" v-if="role=='Admin'" v-on:click="deleteRestoran">Delete</button>
+    <button class="btn btn-primary" v-if="role=='Admin'" v-on:click="deleteRestoran()">Delete</button>
   </div>
 </div>
 </template>
@@ -39,7 +39,7 @@ export default {
       },
       deleteRestoran: function(){
       axios
-        .delete("http://localhost:8080/api/admin/delete-restoran/"+ this.restoran.id,  {withCredentials:true})
+        .delete("http://localhost:8080/api/admin/delete-restoran/" + this.restoran.id,  {withCredentials:true})
         .then(res => {
           window.location.reload();
       })
