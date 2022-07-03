@@ -63,6 +63,15 @@ public class ArtikalService {
 
     public void update(Long id, ArtikalDto artikalDto, Menadzer menadzer){
         Artikal artikal = this.findOne(id);
+        Restoran restoran = menadzer.getRestoran();
+
+        for(Artikal a : restoran.getArtikliUPonudi()){
+            if(a.getId().equals(id)){
+                restoran.getArtikliUPonudi().remove(a);
+                restoranRepository.save(restoran);
+                break;
+            }
+        }
 
         if(!artikalDto.getNaziv().isEmpty()){
             artikal.setNaziv(artikalDto.getNaziv());
@@ -82,9 +91,10 @@ public class ArtikalService {
 
         this.save(artikal);
 
-        //menadzer.getRestoran().getArtikliUPonudi().add(artikal);
+        restoran.getArtikliUPonudi().add(artikal);
 
-        //restoranRepository.save(menadzer.getRestoran());
+
+        restoranRepository.save(restoran);
 
        // menadzerRepository.save(menadzer);
     }

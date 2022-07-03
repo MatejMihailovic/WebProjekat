@@ -147,6 +147,7 @@ export default {
       .post("http://localhost:8080/api/artikli/addArtikal", this.formData, {withCredentials:true})
       .then((res) => {
         console.log(res.data)
+        window.location.reload();
       })
       .catch((err) =>{
         console.log(err)
@@ -188,7 +189,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
   border: 3px solid #f1f1f1;
   z-index: 9;
 }
-
+#myForm{
+  margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+}
 /* Add styles to the form container */
 .form-container {
   max-width: 300px;

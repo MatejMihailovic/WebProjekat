@@ -9,7 +9,6 @@
             <!--<img :src="../assets/ + '.png'" width="50">-->
             <img v-bind:src="require(`../assets/${artikal.id}.png`)" />
             <br />
-
             <button class="btn btn-primary" v-if="role=='Kupac'" v-on:click="dodajUKorpu">
               Dodaj u korpu
             </button>
@@ -98,6 +97,7 @@ export default {
       })
     },
     openForm1 : function() {
+      // var id = this.artikal.id;
       document.getElementById("myForm1").style.display = "block";
     },
     closeForm1: function () {
@@ -105,7 +105,7 @@ export default {
     },
     izmeniArtikal : function(){
       axios
-      .put("http://localhost:8080/api/artikli/updateArtikal/" + this.artikal.id, this.temp, {withCredentials:true})
+      .put("http://localhost:8080/api/artikli/updateArtikal/" + id, this.temp, {withCredentials:true})
       .then(res => {
         window.location.reload();
       })
