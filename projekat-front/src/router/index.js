@@ -9,6 +9,8 @@ import CreateRestoranView from '../views/CreateRestoranView.vue'
 import UserProfileView from '../views/UserProfileView.vue'
 import UpdateUserProfileView from '../views/UpdateUserProfileView.vue'
 import MenadzerView from '../views/MenadzerView.vue'
+import KupacView from '../views/KupacView.vue'
+import RestoranView from '../views/RestoranView.vue'
 
 const routes = [
   {
@@ -60,6 +62,16 @@ const routes = [
     path: '/menadzer',
     name: 'menadzer',
     component: MenadzerView
+  },
+  {
+    path: '/restorani/:id',
+    name: 'restoran',
+    component: RestoranView
+  },
+  {
+    path: '/kupac',
+    name: 'kupac',
+    component: KupacView
   }
 ]
 

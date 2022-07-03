@@ -67,7 +67,8 @@ export default {
   components: { ArtikalComp },
   data: function() {
     return {
-      restoran: {}
+      restoran: {},
+
     };
   },
   mounted: function() {
@@ -81,6 +82,7 @@ export default {
       .catch(err => {
         console.log(err);
       });
+
   }
 };
 </script>

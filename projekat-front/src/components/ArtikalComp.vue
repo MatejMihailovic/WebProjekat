@@ -20,9 +20,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "ArtikalComp",
+
   props: ["artikal"],
+
+
 
   methods: {
     dodajUKorpu: function() {

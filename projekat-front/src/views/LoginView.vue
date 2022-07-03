@@ -44,7 +44,7 @@ export default {
           }else if(res.data == "Menadzer"){
           this.$router.push("/menadzer");
           }else{
-          //this.$router.push("/kupac");
+          this.$router.push("/kupac");
           }
         })
         .catch(error => {

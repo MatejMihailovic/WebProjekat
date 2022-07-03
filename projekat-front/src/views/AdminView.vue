@@ -39,17 +39,43 @@
     </tr>
   </tbody>
 </table>
+
+  <section id="restorani">
+    <h2>Pregled restorana</h2>
+
+    <section id="restorani">
+    <div class="container-fluid">
+        <div class="row">
+            
+    <restoran-comp
+      v-for="restoran in restorani"
+      :key="restoran.id"
+      :restoran="restoran"
+    >
+    </restoran-comp>
+            
+
+        </div>
+
+    </div>
+  </section>
+
+  </section>
 </template>
 
 <script>
 import axios from "axios";
+import RestoranComp from "../components/RestoranComp.vue";
+
 export default {
   name: "Admin Vue",
+  components: { RestoranComp },
   data: function () {
     return {
       users: [],
       filter : "",
-      value : ""
+      value : "",
+      restorani: [],
     };
   },
    mounted: function () {
@@ -60,8 +86,17 @@ export default {
       })
       .catch((err) =>{
         console.log(err)
+      }),
+          axios
+      .get("http://localhost:8080/api/svi-restorani",{withCredentials: true})
+      .then(res => {
+        this.restorani = res.data;
       })
+      .catch(error => {
+        console.log(error);
+      });
    },
+
    methods: {
     search : function(filter, value){
       axios
