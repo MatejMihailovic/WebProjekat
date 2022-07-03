@@ -10,11 +10,10 @@
             <img v-bind:src="require(`../assets/${artikal.id}.png`)" />
             <br />
 
-            <button class="btn btn-primary" v-on:click="dodajUKorpu">
+            <button class="btn btn-primary" v-on:click="dodajUKorpu()">
               Dodaj u korpu
             </button>
           </div>
-   
 
   </div>
 </template>
@@ -31,7 +30,16 @@ export default {
 
   methods: {
     dodajUKorpu: function() {
-      alert("dodato u korpu");
+      axios
+      .post("http://localhost:8080/api/porudzbine-dodajArtikal/"+ this.artikal.id, {withCredentials: true})
+      .then((res) => {
+          alert("Dodato u korpu");
+          
+        })
+        .catch((error) => {
+         console.log(error.response)
+          alert("Something went wrong!");
+          });
     }
   }
 };

@@ -29,6 +29,7 @@
             <a class="nav-link" href="#">Odjavi se</a>
           </li>
         </ul>
+      
       </div>
     </div>
   </nav>
@@ -70,7 +71,6 @@ export default {
   data: function() {
     return {
       restorani: [],
-     
       filter : "",
       value : "",
     };
@@ -84,6 +84,7 @@ export default {
       .catch(error => {
         console.log(error);
       });
+      
   },
      methods: {
     search : function(filter, value){

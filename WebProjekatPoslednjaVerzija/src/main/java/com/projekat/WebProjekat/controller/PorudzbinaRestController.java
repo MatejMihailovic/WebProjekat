@@ -10,6 +10,7 @@ import main.java.com.projekat.WebProjekat.service.PorudzbinaService;
 import main.java.com.projekat.WebProjekat.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,11 +35,11 @@ public class PorudzbinaRestController {
 
     @GetMapping("api/porudzbine-kupac")
     public ResponseEntity<List<PorudzbinaDto>> getPorudzbineKupac(HttpSession session){
-        Boolean proveraSesije = sessionService.validateRole(session, "Kupac");
+        //Boolean proveraSesije = sessionService.validateRole(session, "Kupac");
 
-        if(!proveraSesije){
+        /*if(!proveraSesije){
             return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
-        }
+        }*/
 
         Kupac kupac = (Kupac) session.getAttribute("user");
         List<Porudzbina> porudzbine = this.porudzbinaService.findAll();
@@ -96,13 +97,14 @@ public class PorudzbinaRestController {
 
     }
 
-    @PostMapping("/api/porudzbine-dodajArtikal/{id}")
-    public ResponseEntity dodajUKorpu(@PathVariable Long id, HttpSession session){
-        Boolean proveraSesije = sessionService.validateRole(session,"Kupac");
+    @PostMapping("/api/porudzbine-dodajArtikal/{id}/{korisnickoIme}")
 
-        if(!proveraSesije){
+    public ResponseEntity dodajUKorpu(@PathVariable Long id, HttpSession session){
+        //Boolean proveraSesije = sessionService.validateRole(session,"Kupac");
+
+        /*if(!proveraSesije){
             return  new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
-        }
+        }*/
 
         Artikal artikal = artikalService.findOne(id);
 
@@ -110,18 +112,23 @@ public class PorudzbinaRestController {
 
         Kupac kupac = (Kupac) session.getAttribute("user");
 
-        Porudzbina porudzbina = porudzbinaService.findByStatus(kupac, Status.u_korpi);
 
-        porudzbina.setKorisnickoIme(kupac.getKorisnickoIme());
-        porudzbina.setCena(artikal.getCena() + porudzbina.getCena());
-        porudzbina.setDatum(new Date(101, Calendar.AUGUST, 21));
-        porudzbina.setStatus(Status.u_korpi);
-        porudzbina.getPoruceniArtikli().add(artikal);
-        porudzbina.setRestoran(restoran);
+        if(porudzbinaService.findByStatus(kupac,Status.u_korpi)==null){
+            Porudzbina porudzbina = new Porudzbina();
+            porudzbina.setKorisnickoIme(kupac.getKorisnickoIme());
+            porudzbina.setCena(artikal.getCena() + porudzbina.getCena());
+            porudzbina.setDatum(new Date(101, Calendar.AUGUST, 21));
+            porudzbina.setStatus(Status.u_korpi);
+            porudzbina.getPoruceniArtikli().add(artikal);
+            porudzbina.setRestoran(restoran);
+            kupac.getPorudzbine().add(porudzbina);
+            porudzbinaService.save(porudzbina);
+        } else {
+            Porudzbina porudzbina = porudzbinaService.findByStatus(kupac, Status.u_korpi);
+            porudzbina.getPoruceniArtikli().add(artikal);
+            porudzbinaService.save(porudzbina);
+        }
 
-        kupac.getPorudzbine().add(porudzbina);
-
-        porudzbinaService.save(porudzbina);
         korisnikService.save(kupac,Uloga.Kupac);
         return new ResponseEntity("Dodat artikal", HttpStatus.OK);
     }
