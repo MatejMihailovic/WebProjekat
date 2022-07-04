@@ -29,7 +29,6 @@
             <a class="nav-link" href="#">Odjavi se</a>
           </li>
         </ul>
-      
       </div>
     </div>
   </nav>

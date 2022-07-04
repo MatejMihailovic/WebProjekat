@@ -3,6 +3,7 @@ package main.java.com.projekat.WebProjekat.controller;
 import main.java.com.projekat.WebProjekat.dto.PorudzbinaDto.PorudzbinaDto;
 import main.java.com.projekat.WebProjekat.dto.PorudzbinaDto.PorudzbinaKorpaDto;
 import main.java.com.projekat.WebProjekat.entity.*;
+import main.java.com.projekat.WebProjekat.repository.KupacRepository;
 import main.java.com.projekat.WebProjekat.repository.PorudzbinaRepository;
 import main.java.com.projekat.WebProjekat.service.ArtikalService;
 import main.java.com.projekat.WebProjekat.service.KorisnikService;
@@ -28,10 +29,15 @@ public class PorudzbinaRestController {
     @Autowired
     private KorisnikService korisnikService;
 
-    @Autowired PorudzbinaRepository porudzbinaRepository;
+
+    @Autowired
+    PorudzbinaRepository porudzbinaRepository;
 
     @Autowired
     private PorudzbinaService porudzbinaService;
+
+    @Autowired
+    private KupacRepository kupacRepository;
 
     @GetMapping("api/porudzbine-kupac")
     public ResponseEntity<List<PorudzbinaDto>> getPorudzbineKupac(HttpSession session){
@@ -97,7 +103,7 @@ public class PorudzbinaRestController {
 
     }
 
-    @PostMapping("/api/porudzbine-dodajArtikal/{id}/{korisnickoIme}")
+    @PostMapping("/api/porudzbine-dodajArtikal/{id}")
 
     public ResponseEntity dodajUKorpu(@PathVariable Long id, HttpSession session){
         //Boolean proveraSesije = sessionService.validateRole(session,"Kupac");
@@ -110,8 +116,9 @@ public class PorudzbinaRestController {
 
         Restoran restoran = artikal.getRestoran();
 
-        Kupac kupac = (Kupac) session.getAttribute("user");
+        Korisnik korisnik = (Korisnik) session.getAttribute("user");
 
+        Kupac kupac = kupacRepository.findByKorisnickoIme(korisnik.getKorisnickoIme());
 
         if(porudzbinaService.findByStatus(kupac,Status.u_korpi)==null){
             Porudzbina porudzbina = new Porudzbina();

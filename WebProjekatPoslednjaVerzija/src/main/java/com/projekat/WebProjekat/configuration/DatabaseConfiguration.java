@@ -77,8 +77,8 @@ public class DatabaseConfiguration {
         Artikal artikal2 = new Artikal("Burger", 200, Tip.jelo, 20, "burger od govedine", restoran1);
         artikalRepository.save(artikal2);
 
-        Porudzbina porudzbina1 = new Porudzbina(restoran1,new Date(101, Calendar.JULY, 4),270,Status.u_korpi, kupac1.getKorisnickoIme());
-        porudzbinaRepository.save(porudzbina1);
+        //Porudzbina porudzbina1 = new Porudzbina(restoran1,new Date(101, Calendar.JULY, 4),270,Status.u_korpi, kupac1.getKorisnickoIme());
+        //porudzbinaRepository.save(porudzbina1);
 
         Artikal artikal3 = new Artikal("Pileci burger", 150, Tip.jelo, 20, "burger od piletine", restoran2);
         artikalRepository.save(artikal3);
