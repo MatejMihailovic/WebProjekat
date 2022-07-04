@@ -9,7 +9,7 @@
             <!--<img :src="../assets/ + '.png'" width="50">-->
             <img v-bind:src="require(`../assets/${artikal.id}.png`)" />
             <br />
-            <button class="btn btn-primary" v-if="role=='Kupac'" v-on:click="dodajUKorpu">
+            <button class="btn btn-primary" v-if="role=='Kupac'" v-on:click="dodajUKorpu(this.username)">
               Dodaj u korpu
             </button>
             <button class="btn btn-primary" v-if="role=='Menadzer'" v-on:click="obrisiArtikal">
@@ -61,6 +61,7 @@ export default {
 
   data: function () {
      return {
+      username: "",
       role: "",
       temp:{
         naziv: "",
@@ -80,11 +81,28 @@ export default {
       })
       .catch((err) =>{
         console.log(err)
+      }),
+       axios
+        .get("http://localhost:8080/api/korisnici/username", {withCredentials:true})
+        .then((res) => {
+        console.log(res.data)
+        this.username = res.data
+      })
+      .catch((err) =>{
+        console.log(err)
       })
     },
   methods: {
     dodajUKorpu: function() {
-      alert("dodato u korpu");
+      console.log(this.username)
+      axios
+      .post("http://localhost:8080/api/porudzbine-dodajArtikal/" + this.artikal.id, this.username, {withCredentials:true})
+      .then(res => {
+         this.$router.push("/korpa");
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
     },
     obrisiArtikal: function(){
       axios

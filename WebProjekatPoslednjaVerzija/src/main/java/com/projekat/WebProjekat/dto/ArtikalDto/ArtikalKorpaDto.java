@@ -3,6 +3,7 @@ package main.java.com.projekat.WebProjekat.dto.ArtikalDto;
 import main.java.com.projekat.WebProjekat.entity.Artikal;
 
 public class ArtikalKorpaDto {
+    Long id;
     private String naziv;
 
     private double kolicina;
@@ -16,6 +17,7 @@ public class ArtikalKorpaDto {
     }
 
     public ArtikalKorpaDto(Artikal artikal) {
+        this.id = artikal.getId();
         this.naziv = artikal.getNaziv();
         this.kolicina = artikal.getKolicina();
         this.cena = artikal.getCena();

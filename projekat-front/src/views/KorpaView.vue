@@ -45,11 +45,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="artikal in artikli" :key="artikal.id" :artikal="artikal">
+    <tr v-for="artikal in porudzbina.artikalKorpaDto" :key="artikal.id">
       <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+      <td><img v-bind:src="require(`../assets/${artikal.id}.png`)" /></td>
+      <td>{{this.artikal.naziv}}</td>
+      <td>{{this.artikal.cena}}</td>
+      <td><input type="number" id="quantity" name="quantity" min="1" max="5"></td>
     </tr>
   </tbody>
 </table>
