@@ -45,15 +45,7 @@
 
     <div class="container-fluid">
       <div class="row">
-          <div class="card-body" v-for="artikal in restoran.artikliUPonudi" :key="artikal.id">
-            <p>{{ artikal.naziv }}</p>
-            <p>{{ artikal.cena }} dinara</p>
-            <p>{{ artikal.opis }}</p>
-            <p>{{ artikal.kolicina }}</p>
-            <button class="btn btn-primary" v-on:click="dodajUKorpu(artikal.id)">
-              Dodaj u korpu
-            </button>
-            </div>
+            <artikal-comp v-for="artikal in restoran.artikliUPonudi" :key="artikal.id" :artikal="artikal"></artikal-comp>
       </div>
     </div>
   </section>
@@ -87,16 +79,6 @@ export default {
 
   },
   methods: {
-    dodajUKorpu: function(id) {
-      axios
-      .post("http://localhost:8080/api/porudzbine-dodajArtikal/" + id, {withCredentials:true})
-      .then(res => {
-         this.$router.push("/korpa");
-      })
-      .catch((err) =>{
-        console.log(err)
-      })
-    }
   }
 };
 </script>

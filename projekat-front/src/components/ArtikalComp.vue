@@ -9,7 +9,7 @@
             <!--<img :src="../assets/ + '.png'" width="50">-->
             <img v-bind:src="require(`../assets/${artikal.id}.png`)" />
             <br />
-            <button class="btn btn-primary" v-if="role=='Kupac'" v-on:click="dodajUKorpu(this.username)">
+            <button class="btn btn-primary" v-if="role=='Kupac'" v-on:click="dodajUKorpu">
               Dodaj u korpu
             </button>
             <button class="btn btn-primary" v-if="role=='Menadzer'" v-on:click="obrisiArtikal">
@@ -92,6 +92,8 @@ export default {
     },
   methods: {
     dodajUKorpu: function() {
+      console.log(typeof(this.username));
+      console.log(this.username);
       axios
       .post("http://localhost:8080/api/porudzbine-dodajArtikal/" + this.artikal.id, this.username, {withCredentials:true})
       .then(res => {
