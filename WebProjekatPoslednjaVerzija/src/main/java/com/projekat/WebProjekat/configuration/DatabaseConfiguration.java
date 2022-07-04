@@ -98,6 +98,7 @@ public class DatabaseConfiguration {
         Komentar komentar4 = new Komentar(restoran2, kupac2, "Neadekvatna higijena!", 1);
         komentarRepository.save(komentar4);
 
+        //Porudzbina porudzbina = new Porudzbina()
         return true;
     }
 }

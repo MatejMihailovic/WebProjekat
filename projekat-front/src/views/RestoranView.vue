@@ -20,13 +20,13 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">Profil</a>
+            <a class="nav-link" href="/profile">Profil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Korpa</a>
+            <a class="nav-link" href="/korpa">Korpa</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Odjavi se</a>
+            <a class="nav-link" href="/login">Odjavi se</a>
           </li>
         </ul>
       </div>
@@ -45,14 +45,15 @@
 
     <div class="container-fluid">
       <div class="row">
-      
-          <artikal-comp
-            v-for="artikal in restoran.artikliUPonudi"
-            :key="artikal.id"
-            :artikal="artikal"
-          >
-          </artikal-comp>
-        
+          <div class="card-body" v-for="artikal in restoran.artikliUPonudi" :key="artikal.id">
+            <p>{{ artikal.naziv }}</p>
+            <p>{{ artikal.cena }} dinara</p>
+            <p>{{ artikal.opis }}</p>
+            <p>{{ artikal.kolicina }}</p>
+            <button class="btn btn-primary" v-on:click="dodajUKorpu(artikal.id)">
+              Dodaj u korpu
+            </button>
+            </div>
       </div>
     </div>
   </section>
@@ -84,6 +85,18 @@ export default {
         console.log(err);
       });
 
+  },
+  methods: {
+    dodajUKorpu: function(id) {
+      axios
+      .post("http://localhost:8080/api/porudzbine-dodajArtikal/" + id, {withCredentials:true})
+      .then(res => {
+         this.$router.push("/korpa");
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
+    }
   }
 };
 </script>

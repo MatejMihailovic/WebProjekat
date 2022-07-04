@@ -3,6 +3,7 @@ package main.java.com.projekat.WebProjekat.service;
 import main.java.com.projekat.WebProjekat.dto.RestoranDto.RestoranDto;
 import main.java.com.projekat.WebProjekat.entity.*;
 import main.java.com.projekat.WebProjekat.repository.LokacijaRepository;
+import main.java.com.projekat.WebProjekat.repository.PorudzbinaRepository;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,7 +19,7 @@ public class RestoranService {
     private RestoranRepository restoranRepository;;
 
     @Autowired
-    private LokacijaRepository lokacijaRepository;;
+    private PorudzbinaRepository porudzbinaRepository;;
 
     public Restoran save(Restoran restoran) { return restoranRepository.save(restoran); }
 
@@ -63,6 +64,10 @@ public class RestoranService {
 
     public void deleteRestoran(Long id){
         Restoran restoran = this.findOne(id);
+
+        List<Porudzbina> porudzbine = this.porudzbinaRepository.findAll();
+
+        
 
         restoranRepository.delete(restoran);
 
