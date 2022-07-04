@@ -120,6 +120,7 @@ export default {
     closeForm1: function () {
       this.id = id;
       document.getElementById("myForm1").style.display = "none"; 
+      window.location.reload();
     },
     izmeniArtikal : function(){
       console.log(this.id)
