@@ -23,7 +23,7 @@
             <a class="nav-link" href="#">Profil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/korpa">Korpa</a>
+            <a class="nav-link" href="/kupac">Početna</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Odjavi se</a>
@@ -32,9 +32,27 @@
       </div>
     </div>
   </nav>
-
+  <h3>Korpa</h3>
   <section id="porudzbina">
-      
+      <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ukloni</th>
+      <th scope="col">Slika</th>
+      <th scope="col">Naziv proizvoda</th>
+      <th scope="col">Cena</th>
+      <th scope="col">Količina</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="artikal in artikli" :key="artikal.id" :artikal="artikal">
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+  </tbody>
+</table>
 
   </section>
     
@@ -42,9 +60,10 @@
 
 <script>
 import axios from "axios";
+import ArtikalComp from "../components/ArtikalComp.vue";
 
 export default {
-    name: "KorpaComp",
+    name: "KorpaView",
       data: function () {
     return {
       porudzbina: {}
@@ -52,7 +71,7 @@ export default {
   },
    mounted: function () {
     axios
-      .get("http://localhost:8080/api/porudzbine-kupac", {withCredentials:true})
+      .get("http://localhost:8080/api/porudzbine-pregledKorpe", {withCredentials:true})
       .then((res) => {
         this.porudzbina = res.data
       })

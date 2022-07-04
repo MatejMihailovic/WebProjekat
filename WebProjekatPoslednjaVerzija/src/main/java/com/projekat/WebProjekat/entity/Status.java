@@ -7,6 +7,7 @@ public enum Status {
     ceka("Ceka"),
     transport("Transport"),
     dostavljeno("Dostavljeno"),
+
     otkazano("Otkazano");
 
     private final String status;

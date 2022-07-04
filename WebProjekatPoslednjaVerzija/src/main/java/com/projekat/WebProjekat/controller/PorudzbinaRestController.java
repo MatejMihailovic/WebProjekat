@@ -106,11 +106,11 @@ public class PorudzbinaRestController {
     @PostMapping("/api/porudzbine-dodajArtikal/{id}")
 
     public ResponseEntity dodajUKorpu(@PathVariable Long id, HttpSession session){
-        //Boolean proveraSesije = sessionService.validateRole(session,"Kupac");
+        Boolean proveraSesije = sessionService.validateRole(session,"Kupac");
 
-        /*if(!proveraSesije){
+        if(!proveraSesije){
             return  new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
-        }*/
+        }
 
         Artikal artikal = artikalService.findOne(id);
 
@@ -165,7 +165,9 @@ public class PorudzbinaRestController {
             return  new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
         }
 
-        Kupac kupac = (Kupac) session.getAttribute("user");
+        Korisnik korisnik = (Korisnik) session.getAttribute("user");
+
+        Kupac kupac = kupacRepository.findByKorisnickoIme(korisnik.getKorisnickoIme());
 
         Porudzbina porudzbina = porudzbinaService.findByStatus(kupac,Status.u_korpi);
 

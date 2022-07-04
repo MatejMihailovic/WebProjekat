@@ -36,7 +36,7 @@ public class PorudzbinaService {
                 return p;
             }
         }
-        return new Porudzbina();
+        return null;
     }
 
     public void ukloniArtikal(Porudzbina porudzbina, Kupac kupac, Long id){

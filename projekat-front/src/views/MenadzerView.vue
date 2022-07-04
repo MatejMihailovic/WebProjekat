@@ -100,6 +100,7 @@
 
 <script>
 import axios from "axios";
+import ArtikalComp from "../components/ArtikalComp.vue";
 
 export default {
   name: "MenadzerView",
