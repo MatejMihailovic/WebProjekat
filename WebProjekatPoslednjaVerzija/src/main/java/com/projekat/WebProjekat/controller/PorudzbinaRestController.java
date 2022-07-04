@@ -105,20 +105,20 @@ public class PorudzbinaRestController {
     }
 
     @PostMapping(value = "/api/porudzbine-dodajArtikal/{id}")
-    public ResponseEntity dodajUKorpu(@PathVariable(name = "id") Long id,@RequestParam String korisnickoIme, HttpSession session){
-        //Korisnik korisnik = (Korisnik) session.getAttribute("user");
+    public ResponseEntity dodajUKorpu(@PathVariable(name = "id") Long id, HttpSession session){
+        Korisnik korisnik = (Korisnik) session.getAttribute("user");
 
-       // System.out.println(korisnik);
-      /*  Boolean proveraSesije = sessionService.validateRole(session, "Kupac");
+        System.out.println(korisnik);
+       Boolean proveraSesije = sessionService.validateRole(session, "Kupac");
 
         if(!proveraSesije){
             return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
-        }*/
+        }
         Artikal artikal = artikalService.findOne(id);
 
         Restoran restoran = artikal.getRestoran();
 
-        Kupac kupac = kupacRepository.findByKorisnickoIme(korisnickoIme);
+        Kupac kupac = kupacRepository.findByKorisnickoIme(korisnik.getKorisnickoIme());
 
 
         if(porudzbinaService.findByStatus(kupac,Status.u_korpi)==null){
