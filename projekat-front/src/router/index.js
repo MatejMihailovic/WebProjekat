@@ -12,6 +12,7 @@ import MenadzerView from '../views/MenadzerView.vue'
 import KupacView from '../views/KupacView.vue'
 import RestoranView from '../views/RestoranView.vue'
 import KorpaView from '../views/KorpaView.vue'
+import DostavljacView from '../views/DostavljacView.vue'
 
 const routes = [
   {
@@ -78,6 +79,11 @@ const routes = [
     path: '/korpa',
     name: 'korpa',
     component: KorpaView
+  },
+  {
+    path:'/dostavljac',
+    name: 'dostavljac',
+    component: DostavljacView
   }
 ]
 

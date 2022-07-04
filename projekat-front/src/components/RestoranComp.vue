@@ -22,7 +22,7 @@ export default {
     };
   },
     mounted: function(){
-      axios
+      /*axios
         .get("http://localhost:8080/api/korisnici/role", {withCredentials:true})
         .then((res) => {
         console.log(res.data)
@@ -30,7 +30,7 @@ export default {
       })
       .catch((err) =>{
         console.log(err)
-      })
+      })*/
     },
     methods: {
       vidiRestoran: function(){

@@ -60,13 +60,14 @@ public class PorudzbinaRestController {
 
 
 
-    @GetMapping("api/porudzbine-cekaDostavljaca")
+    @GetMapping(value = "api/porudzbine-cekaDostavljaca",
+                produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PorudzbinaDto>> getPorudzbineCekaDostavljaca(HttpSession session){
-        Boolean proveraSesije = sessionService.validateRole(session, "Dostavljac");
+        /*Boolean proveraSesije = sessionService.validateRole(session, "Dostavljac");
 
         if(!proveraSesije){
             return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
-        }
+        }*/
 
 
         List<Porudzbina> porudzbine = this.porudzbinaService.findAll();
@@ -84,11 +85,11 @@ public class PorudzbinaRestController {
     }
     @GetMapping("api/porudzbine-dostavljac")
     public ResponseEntity<List<Porudzbina>> getPorudzbineDostavljac(HttpSession session){
-        Boolean proveraSesije = sessionService.validateRole(session, "Dostavljac");
+        /*Boolean proveraSesije = sessionService.validateRole(session, "Dostavljac");
 
         if(!proveraSesije){
             return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
-        }
+        }*/
         Dostavljac dostavljac = (Dostavljac) session.getAttribute("user");
 
         List<Porudzbina> njegovePorudzbine = this.porudzbinaService.findAllForDostavljac(dostavljac);

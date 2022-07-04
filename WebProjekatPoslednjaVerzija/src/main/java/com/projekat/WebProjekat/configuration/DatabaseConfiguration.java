@@ -80,6 +80,9 @@ public class DatabaseConfiguration {
         Porudzbina porudzbina1 = new Porudzbina(restoran1,new Date(101, Calendar.JULY, 4),270,Status.u_korpi, kupac1.getKorisnickoIme());
         porudzbinaRepository.save(porudzbina1);
 
+        Porudzbina porudzbina2 = new Porudzbina(restoran1,new Date(101, Calendar.JULY, 4),270,Status.ceka, kupac1.getKorisnickoIme());
+        porudzbinaRepository.save(porudzbina2);
+
         Artikal artikal3 = new Artikal("Pileci burger", 150, Tip.jelo, 20, "burger od piletine", restoran2);
         artikalRepository.save(artikal3);
 

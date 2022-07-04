@@ -4,7 +4,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEidraPhmCDVkOsdFzkhtvO8TXj2_1ukhLZw&usqp=CAU" alt=""/>
+                            <img :src="require('../assets/userProfile.png')" alt="" width="100"/>
                         </div>
                     </div>
                     </div>
@@ -107,29 +107,10 @@ body{
     border-radius: 0.5rem;
     background: #fff;
 }
-.profile-img{
+img{
     text-align: center;
 }
-.profile-img img{
-    width: 70%;
-    height: 100%;
-}
-.profile-img{
-    position: relative;
-    overflow: hidden;
-    margin-top: -20%;
-    width: 70%;
-    border: none;
-    border-radius: 0;
-    font-size: 15px;
-    background: #212529b8;
-}
-.profile-img{
-    position: absolute;
-    opacity: 0;
-    right: 0;
-    top: 0;
-}
+
 .profile-head h5{
     color: #333;
 }

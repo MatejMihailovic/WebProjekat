@@ -37,11 +37,11 @@ export default {
         })
         .then(res =>{
           if(res.data == "Admin"){ 
-          this.$router.push("/admin");
+            this.$router.push("/admin");
           }else if(res.data == "Dostavljac"){
-          //this.$router.push("/dostavljac");
+            this.$router.push("/dostavljac");
           }else if(res.data == "Menadzer"){
-          this.$router.push("/menadzer");
+            this.$router.push("/menadzer");
           }else{
             this.$router.push("/kupac");
           }
