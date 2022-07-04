@@ -9,9 +9,12 @@ import main.java.com.projekat.WebProjekat.repository.ArtikalRepository;
 import main.java.com.projekat.WebProjekat.repository.MenadzerRepository;
 import main.java.com.projekat.WebProjekat.repository.PorudzbinaRepository;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
+import main.java.com.projekat.WebProjekat.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +49,7 @@ public class ArtikalService {
         return restoranRepository.save(restoran);
     }
 
-    public Artikal addArtikal(ArtikalDto dto, Menadzer menadzer, String fileName){
+    public Artikal addArtikal(ArtikalDto dto, Menadzer menadzer, String fileName, MultipartFile multipartFile) throws IOException {
         Artikal artikal = new Artikal(dto.getNaziv(), dto.getCena(), dto.getTip(), dto.getKolicina(), dto.getOpis(), menadzer.getRestoran());
         artikal.setPhotos(fileName);
 
@@ -58,13 +61,26 @@ public class ArtikalService {
 
         menadzerRepository.save(menadzer);
 
+        String uploadDir = "../projekat-front/src/assets";
+
+        fileName = String.valueOf(artikal.getId()) + ".png";
+
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
         return artikal;
     }
 
     public void update(Long id, ArtikalDto artikalDto, Menadzer menadzer){
         Artikal artikal = this.findOne(id);
+        Restoran restoran = menadzer.getRestoran();
 
-        menadzer.getRestoran().getArtikliUPonudi().remove(artikal);
+        for(Artikal a : restoran.getArtikliUPonudi()){
+            if(a.getId().equals(id)){
+                restoran.getArtikliUPonudi().remove(a);
+                restoranRepository.save(restoran);
+                break;
+            }
+        }
 
         if(!artikalDto.getNaziv().isEmpty()){
             artikal.setNaziv(artikalDto.getNaziv());
@@ -84,11 +100,12 @@ public class ArtikalService {
 
         this.save(artikal);
 
-        menadzer.getRestoran().getArtikliUPonudi().add(artikal);
+        restoran.getArtikliUPonudi().add(artikal);
 
-        restoranRepository.save(menadzer.getRestoran());
 
-        menadzerRepository.save(menadzer);
+        restoranRepository.save(restoran);
+
+       // menadzerRepository.save(menadzer);
     }
 
     public void delete(Long id, Restoran restoran) {
@@ -104,7 +121,7 @@ public class ArtikalService {
                 restoran.getArtikliUPonudi().remove(artikal);
                 artikal.setRestoran(null);
                 artikalRepository.delete(artikal);
-                this.saveRestoran(restoran);
+                break;
             }
         }
     }

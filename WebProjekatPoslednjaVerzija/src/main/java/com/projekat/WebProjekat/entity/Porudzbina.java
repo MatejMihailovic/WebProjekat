@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Entity
@@ -40,9 +41,9 @@ public class Porudzbina implements Serializable{
     @Column
     private String korisnickoIme;
 
-    public Porudzbina(Restoran restoran, Date datum,double cena, Status status, String korisnickoIme) {
+    public Porudzbina(Restoran restoran, double cena, Status status, String korisnickoIme) {
         this.restoran = restoran;
-        this.datumIVreme = datum;
+        datumIVreme = new Date();
         this.cena = cena;
         this.status = status;
         this.korisnickoIme = korisnickoIme;

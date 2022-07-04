@@ -100,6 +100,17 @@ public class KorisnikRestController {
 
         return new ResponseEntity<>(ulogovanKorisnik.getUloga(), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/api/korisnici/username")
+    public ResponseEntity<String> getUsername(HttpSession session){
+        Korisnik ulogovanKorisnik = (Korisnik) session.getAttribute("user");
+
+        if(ulogovanKorisnik == null){
+            return new ResponseEntity("invalid", HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(ulogovanKorisnik.getKorisnickoIme(), HttpStatus.OK);
+    }
     @PutMapping(
             value = "/api/korisnici/ulogovanKorisnik/update",
             consumes = MediaType.APPLICATION_JSON_VALUE)

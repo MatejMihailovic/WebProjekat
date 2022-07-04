@@ -20,13 +20,13 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">Profil</a>
+            <a class="nav-link" href="/profile">Profil</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/korpa">Korpa</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Odjavi se</a>
+            <a class="nav-link" href="/login">Odjavi se</a>
           </li>
         </ul>
       

@@ -23,19 +23,37 @@
             <a class="nav-link" href="#">Profil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/korpa">Korpa</a>
+            <a class="nav-link" href="/kupac">Početna</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Odjavi se</a>
           </li>
         </ul>
-      
       </div>
     </div>
   </nav>
-
+  <h3>Korpa</h3>
   <section id="porudzbina">
-      
+      <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ukloni</th>
+      <th scope="col">Slika</th>
+      <th scope="col">Naziv proizvoda</th>
+      <th scope="col">Cena</th>
+      <th scope="col">Količina</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="artikal in porudzbina.artikalKorpaDto" :key="artikal.id">
+      <th scope="row">1</th>
+      <td><img v-bind:src="require(`../assets/${artikal.id}.png`)" /></td>
+      <td>{{this.artikal.naziv}}</td>
+      <td>{{this.artikal.cena}}</td>
+      <td><input type="number" id="quantity" name="quantity" min="1" max="5"></td>
+    </tr>
+  </tbody>
+</table>
 
   </section>
     
@@ -43,23 +61,24 @@
 
 <script>
 import axios from "axios";
+import ArtikalComp from "../components/ArtikalComp.vue";
 
 export default {
-    name: "KorpaComp",
+    name: "KorpaView",
       data: function () {
     return {
       porudzbina: {}
     };
   },
    mounted: function () {
-    /*axios
-      .get("http://localhost:8080/api/porudzbine-kupac", {withCredentials:true})
+    axios
+      .get("http://localhost:8080/api/porudzbine-pregledKorpe", {withCredentials:true})
       .then((res) => {
         this.porudzbina = res.data
       })
       .catch((err) =>{
         console.log(err)
-      })*/
+      })
    },
    methods: {
    }
