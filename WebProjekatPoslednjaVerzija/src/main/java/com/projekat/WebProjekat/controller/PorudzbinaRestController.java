@@ -35,18 +35,18 @@ public class PorudzbinaRestController {
 
     @GetMapping("api/porudzbine-kupac")
     public ResponseEntity<List<PorudzbinaDto>> getPorudzbineKupac(HttpSession session){
-        //Boolean proveraSesije = sessionService.validateRole(session, "Kupac");
-
-        /*if(!proveraSesije){
+        Boolean proveraSesije = sessionService.validateRole(session, "Kupac");
+        Korisnik korisnik = (Korisnik) session.getAttribute("user");
+        System.out.println(korisnik.getUloga());
+        if(!proveraSesije){
             return new ResponseEntity("Nemate potrebne privilegije!", HttpStatus.BAD_REQUEST);
-        }*/
+        }
 
-        Kupac kupac = (Kupac) session.getAttribute("user");
         List<Porudzbina> porudzbine = this.porudzbinaService.findAll();
         List<PorudzbinaDto> dtos = new ArrayList<>();
 
         for(Porudzbina p : porudzbine){
-            if(p.getKorisnickoIme().equals(kupac.getKorisnickoIme())){
+            if(p.getKorisnickoIme().equals(korisnik.getKorisnickoIme())){
                 PorudzbinaDto dto = new PorudzbinaDto(p);
                 dtos.add(dto);
             }

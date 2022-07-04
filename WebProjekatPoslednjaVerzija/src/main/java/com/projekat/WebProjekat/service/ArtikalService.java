@@ -9,9 +9,12 @@ import main.java.com.projekat.WebProjekat.repository.ArtikalRepository;
 import main.java.com.projekat.WebProjekat.repository.MenadzerRepository;
 import main.java.com.projekat.WebProjekat.repository.PorudzbinaRepository;
 import main.java.com.projekat.WebProjekat.repository.RestoranRepository;
+import main.java.com.projekat.WebProjekat.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +49,7 @@ public class ArtikalService {
         return restoranRepository.save(restoran);
     }
 
-    public Artikal addArtikal(ArtikalDto dto, Menadzer menadzer, String fileName){
+    public Artikal addArtikal(ArtikalDto dto, Menadzer menadzer, String fileName, MultipartFile multipartFile) throws IOException {
         Artikal artikal = new Artikal(dto.getNaziv(), dto.getCena(), dto.getTip(), dto.getKolicina(), dto.getOpis(), menadzer.getRestoran());
         artikal.setPhotos(fileName);
 
@@ -57,6 +60,12 @@ public class ArtikalService {
         restoranRepository.save(menadzer.getRestoran());
 
         menadzerRepository.save(menadzer);
+
+        String uploadDir = "../projekat-front/src/assets";
+
+        fileName = String.valueOf(artikal.getId()) + ".png";
+
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
         return artikal;
     }

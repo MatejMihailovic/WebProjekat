@@ -52,14 +52,14 @@ export default {
     };
   },
    mounted: function () {
-    /*axios
+    axios
       .get("http://localhost:8080/api/porudzbine-kupac", {withCredentials:true})
       .then((res) => {
         this.porudzbina = res.data
       })
       .catch((err) =>{
         console.log(err)
-      })*/
+      })
    },
    methods: {
    }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @RestController
 public class ArtikalRestController {
@@ -27,7 +28,7 @@ public class ArtikalRestController {
     private SessionService sessionService;
 
     @PostMapping("/api/artikli/addArtikal")
-    public ResponseEntity<Artikal> addArtikal(@RequestParam("image") MultipartFile multipartFile, @RequestParam("json") String jsonData, HttpSession session) throws JsonProcessingException {
+    public ResponseEntity<Artikal> addArtikal(@RequestParam("image") MultipartFile multipartFile, @RequestParam("json") String jsonData, HttpSession session) throws IOException {
         String role = sessionService.getRole(session);
 
         if(!role.equals("Menadzer")){
@@ -44,7 +45,7 @@ public class ArtikalRestController {
 
         Menadzer menadzer = (Menadzer) session.getAttribute("user");
 
-        return new ResponseEntity(artikalService.addArtikal(artikalDto, menadzer, fileName), HttpStatus.OK);
+        return new ResponseEntity(artikalService.addArtikal(artikalDto, menadzer, fileName, multipartFile), HttpStatus.OK);
     }
 
     @PutMapping("/api/artikli/updateArtikal/{id}")
