@@ -43,7 +43,7 @@
   </tbody>
 </table>
 
-  <a type="button" v-on:click="prikaziPorudzbine()"  class="btn btn-primary">Prikaži porudžbine</a>
+<h1>Porudžbine</h1>
   
   <section id="artikli">
     <div class="container-fluid">
@@ -122,10 +122,7 @@ export default {
       })
       .catch((err) =>{
         console.log(err)
-      })
-   },
-  methods: {
-    prikaziPorudzbine : function (){
+      }),
       axios
       .get("http://localhost:8080/api/menadzer-porudzbine", {withCredentials:true})
       .then((res) => {
@@ -134,7 +131,8 @@ export default {
       .catch((err) =>{
         console.log(err)
       })
-    },
+   },
+  methods: {
     onImageUpload(){
         let file = this.$refs.uploadImage.files[0];
         this.formData = new FormData();

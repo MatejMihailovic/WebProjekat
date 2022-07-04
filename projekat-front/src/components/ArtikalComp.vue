@@ -15,14 +15,12 @@
             <button class="btn btn-primary" v-if="role=='Menadzer'" v-on:click="obrisiArtikal">
               Obriši artikal
             </button>
-            <button class="btn btn-primary" v-if="role=='Menadzer'" v-on:click="openForm1">
+            <button class="btn btn-primary" v-if="role=='Menadzer'" v-on:click="openForm1(this.artikal.id)">
              Izmeni artikal
             </button>
           </div>
-
   </div>
   <div class="form-popup" id="myForm1">
-  <form action="/action_page.php" class="form-container">
     <h3>Izmeni artikal</h3>
 
     <label for="naziv"><b>Naziv</b></label>
@@ -47,7 +45,6 @@
 
     <button type="button" class="btn" v-on:click="izmeniArtikal()">Izmeni</button><br />
     <button type="button" class="btn cancel" v-on:click="closeForm1()">Close</button>
-    </form>
 </div>
 </template>
 
@@ -62,6 +59,7 @@ export default {
   data: function () {
      return {
       username: "",
+      id: null,
       role: "",
       temp:{
         naziv: "",
@@ -94,7 +92,6 @@ export default {
     },
   methods: {
     dodajUKorpu: function() {
-      console.log(this.username)
       axios
       .post("http://localhost:8080/api/porudzbine-dodajArtikal/" + this.artikal.id, this.username, {withCredentials:true})
       .then(res => {
@@ -114,15 +111,18 @@ export default {
         console.log(err)
       })
     },
-    openForm1 : function() {
+    openForm1 : function(id) {
+      this.id = id;
       document.getElementById("myForm1").style.display = "block";
     },
     closeForm1: function () {
+      this.id = id;
       document.getElementById("myForm1").style.display = "none"; 
     },
     izmeniArtikal : function(){
+      console.log(this.id)
       axios
-      .put("http://localhost:8080/api/artikli/updateArtikal/" + this.artikal.id, this.temp, {withCredentials:true})
+      .put("http://localhost:8080/api/artikli/updateArtikal/" + this.id, this.temp, {withCredentials:true})
       .then(res => {
         window.location.reload();
       })
