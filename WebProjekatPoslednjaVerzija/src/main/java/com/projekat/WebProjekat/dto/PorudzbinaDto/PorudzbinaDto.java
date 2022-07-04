@@ -5,22 +5,25 @@ import main.java.com.projekat.WebProjekat.entity.Porudzbina;
 import main.java.com.projekat.WebProjekat.entity.Restoran;
 import main.java.com.projekat.WebProjekat.entity.Status;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 public class PorudzbinaDto {
-    Set<Artikal> poruceniArtikli = new HashSet<>();
+    Set<Artikal> poruceniArtikli;
     Restoran restoran;
-    Date datumIVreme;
+    String datumIVreme;
     double cena;
     Status status;
     String korisnickoIme;
 
-    public PorudzbinaDto(Set<Artikal> poruceniArtikli, Restoran restoran, Date datumIVreme, double cena, Status status, String korisnickoIme) {
+    public PorudzbinaDto(Set<Artikal> poruceniArtikli, Restoran restoran, double cena, Status status, String korisnickoIme) {
         this.poruceniArtikli = poruceniArtikli;
         this.restoran = restoran;
-        this.datumIVreme = datumIVreme;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        this.datumIVreme = formatter.format(date);
         this.cena = cena;
         this.status = status;
         this.korisnickoIme = korisnickoIme;
@@ -29,7 +32,8 @@ public class PorudzbinaDto {
     public PorudzbinaDto(Porudzbina porudzbina){
         this.poruceniArtikli = porudzbina.getPoruceniArtikli();
         this.restoran = porudzbina.getRestoran();
-        this.datumIVreme = porudzbina.datumIVreme;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        this.datumIVreme = formatter.format(porudzbina.getDatum());
         this.cena = porudzbina.getCena();
         this.status = porudzbina.getStatus();
         this.korisnickoIme = porudzbina.getKorisnickoIme();
@@ -51,11 +55,11 @@ public class PorudzbinaDto {
         this.restoran = restoran;
     }
 
-    public Date getDatumIVreme() {
+    public String getDatumIVreme() {
         return datumIVreme;
     }
 
-    public void setDatumIVreme(Date datumIVreme) {
+    public void setDatumIVreme(String datumIVreme) {
         this.datumIVreme = datumIVreme;
     }
 

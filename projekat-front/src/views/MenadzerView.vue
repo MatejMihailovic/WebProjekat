@@ -6,15 +6,7 @@
           <p class="white-text">dostava<span class="orange-span">019</span></p>
         </div></a
       >
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -48,31 +40,32 @@
       <td>{{restoran.lokacija}}</td>
       <td>{{restoran.prosek}}</td>
     </tr>
-    <tr>
-      <td><a type="button" v-on:click="prikaziPorudzbine()"  class="btn btn-primary">Prikaži porudžbine</a></td>
-      <td><button class="open-button" v-on:click="openForm()">Dodaj artikal</button></td>
-    </tr>
-    <tr v-for="porudzbina in porudzbine" :key="porudzbina.id">
-     <td>{{porudzbina.restoran}}</td> 
-    <td>{{porudzbina.datumIVreme}}</td> 
-      <td>{{porudzbina.cena}}</td>
-      <td>{{porudzbina.status}}</td>
-    </tr>
   </tbody>
 </table>
 
-<div class="form-popup" id="myForm">
+  <a type="button" v-on:click="prikaziPorudzbine()"  class="btn btn-primary">Prikaži porudžbine</a>
+  
+  <section id="artikli">
+    <div class="container-fluid">
+        <div class="row">
+  <artikal-comp v-for="artikal in restoran.artikliUPonudi" :key="artikal.id" :artikal="artikal">
+  </artikal-comp>
+ </div>
+ </div>
+ </section>
+
+  <div class="form-popup" id="myForm">
   <form action="/action_page.php" class="form-container">
     <h3>Dodaj artikal</h3>
 
     <label for="naziv"><b>Naziv</b></label>
-    <input type="text" v-model="artikal.naziv" placeholder="Naziv" name="naziv" required><br />
+    <input type="text" v-model="artikal1.naziv" placeholder="Naziv" name="naziv" required><br />
 
     <label for="cena"><b>Cena</b></label>
-    <input type="number"  v-model="artikal.cena" placeholder="Cena" name="cena" required><br />
+    <input type="number"  v-model="artikal1.cena" placeholder="Cena" name="cena" required><br />
 
     <div>Tip: 
-     <select v-model="artikal.tip">
+     <select v-model="artikal1.tip">
     <option disabled>Odaberite tip</option>
     <option value = 0>Jelo</option>
     <option value = 1>Piće</option>
@@ -80,22 +73,23 @@
     </div><br />
 
     <label for="kolicina"><b>Količina</b></label>
-    <input type="text" v-model="artikal.kolicina" placeholder="Kolicina" name="kolicina" required><br />
+    <input type="number" v-model="artikal1.kolicina" placeholder="Kolicina" name="kolicina" required><br />
 
     <label for="opis"><b>Opis</b></label>
-    <input type="text"  v-model="artikal.opis" placeholder="Opis" name="opis" required><br />
+    <input type="text"  v-model="artikal1.opis" placeholder="Opis" name="opis" required><br />
 
     <div class="image-class">
      
     <label>Photo: </label>
-    <input type="file" name="image" accept="image/png, image/jpeg" />
+    <input type="file" ref="uploadImage" v-on:change="onImageUpload()" name="image" accept="image/png, image/jpeg" />
      
     </div>
 
-    <button type="button" class="btn" v-on:click="dodajArtikal()">Dodaj</button><br />
-    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
     </form>
+    <button type="button" class="btn" v-on:click="dodajArtikal()">Dodaj</button><br />
+    <button type="button" class="btn cancel" v-on:click="closeForm()">Close</button>
 </div>
+    <button class="open-button" v-on:click="openForm()">Dodaj artikal</button>
 </template>
 
 <script>
@@ -104,18 +98,20 @@ import ArtikalComp from "../components/ArtikalComp.vue";
 
 export default {
   name: "MenadzerView",
+  components: { ArtikalComp },
   data: function() {
     return {
       restoran: {},
       porudzbine : [],
       image: null,
-      artikal:{
+      artikal1:{
         naziv: "",
         cena: null,
         tip: null,
         kolicina: null,
         opis: ""
-      }
+      },
+      formData: null
     };
   },
   mounted: function () {
@@ -139,11 +135,19 @@ export default {
         console.log(err)
       })
     },
+    onImageUpload(){
+        let file = this.$refs.uploadImage.files[0];
+        this.formData = new FormData();
+        this.formData.append("file",file);
+        let json = JSON.stringify(this.artikal1);
+        this.formData.append("json", json);
+    },
     dodajArtikal : function(){
       axios
-      .post("http://localhost:8080/api/artikli/addArtikal", image, artikal, {withCredentials:true})
+      .post("http://localhost:8080/api/artikli/addArtikal", this.formData, {withCredentials:true})
       .then((res) => {
-        console.log(res)
+        console.log(res.data)
+        window.location.reload();
       })
       .catch((err) =>{
         console.log(err)
@@ -185,7 +189,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
   border: 3px solid #f1f1f1;
   z-index: 9;
 }
-
+#myForm{
+  margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+}
 /* Add styles to the form container */
 .form-container {
   max-width: 300px;
